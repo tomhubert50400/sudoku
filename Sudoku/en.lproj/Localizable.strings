@@ -210,3 +210,6 @@
 "hint.unit.column" = "column %d";
 "hint.unit.box" = "box %d-%d";
 "hint.unit.default" = "this unit";
+"review.thanks.title" = "Thanks for playing Kusodu";
+"review.thanks.body" = "Your feedback helps us improve the game, tune the puzzles, and make each update better.";
+"Continuer" = "Continue";

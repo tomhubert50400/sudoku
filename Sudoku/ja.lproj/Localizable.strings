@@ -206,3 +206,6 @@
 "hint.error.explanation" = "盤面にすでに間違った値があります。まずマークされたマスを修正してください。そうしないと、どの論理ヒントも誤った状態に基づいてしまいます。";
 "hint.no_pedagogical_step.title" = "論理ヒントなし";
 "hint.no_pedagogical_step.explanation" = "高度なチェーンや fish を含む対応済みの人間向けテクニックを試しました。この位置ではまだ説明できるテクニックがないため、試行で数字を置くことはしません。";
+"review.thanks.title" = "Kusoduを遊んでくれてありがとうございます";
+"review.thanks.body" = "みなさんの感想は、ゲームの改善、パズル調整、今後のアップデートに役立ちます。";
+"Continuer" = "続ける";

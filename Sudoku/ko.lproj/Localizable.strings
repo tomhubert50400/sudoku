@@ -206,3 +206,6 @@
 "hint.error.explanation" = "보드에 이미 잘못된 값이 있습니다. 먼저 표시된 칸을 고치세요. 그렇지 않으면 어떤 논리 힌트도 잘못된 상태에서 시작됩니다.";
 "hint.no_pedagogical_step.title" = "논리 힌트 없음";
 "hint.no_pedagogical_step.explanation" = "고급 체인과 fish를 포함해 지원되는 사람 풀이 기법을 시도했습니다. 아직 이 위치에 설명 가능한 기법이 없어, 시도로 숫자를 놓지 않겠습니다.";
+"review.thanks.title" = "Kusodu를 플레이해 주셔서 감사합니다";
+"review.thanks.body" = "여러분의 의견은 게임을 개선하고, 퍼즐을 조정하며, 더 나은 업데이트를 만드는 데 도움이 됩니다.";
+"Continuer" = "계속";

@@ -206,3 +206,6 @@
 "hint.error.explanation" = "Ya hay un valor incorrecto en la cuadrícula. Corrige primero la celda marcada; de lo contrario, cualquier pista lógica partiría de una posición falsa.";
 "hint.no_pedagogical_step.title" = "Sin pista lógica";
 "hint.no_pedagogical_step.explanation" = "He probado las técnicas humanas admitidas, incluidas cadenas y fish avanzados. Aún no tengo una técnica explicable para esta posición, así que no colocaré ningún número por ensayo.";
+"review.thanks.title" = "Gracias por jugar a Kusodu";
+"review.thanks.body" = "Tus comentarios nos ayudan a mejorar el juego, ajustar los puzzles y hacer que cada actualización sea mejor.";
+"Continuer" = "Continuar";

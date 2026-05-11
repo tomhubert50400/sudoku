@@ -206,3 +206,6 @@
 "hint.error.explanation" = "棋盘上已有错误数值。请先修正标记的格子，否则任何逻辑提示都会建立在错误局面上。";
 "hint.no_pedagogical_step.title" = "没有逻辑提示";
 "hint.no_pedagogical_step.explanation" = "我已尝试支持的人类解题技巧，包括高级链和 fish。目前还没有可解释的技巧适用于这个局面，因此不会通过试探填入数字。";
+"review.thanks.title" = "感谢你游玩 Kusodu";
+"review.thanks.body" = "你的反馈能帮助我们改进游戏、调整谜题，并让每次更新都更好。";
+"Continuer" = "继续";

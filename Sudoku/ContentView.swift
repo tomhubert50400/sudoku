@@ -1,3 +1,4 @@
+import StoreKit
 import SwiftUI
 import UIKit
 
@@ -1655,9 +1656,13 @@ private struct OverlayMetrics {
 }
 
 private struct GameView: View {
+    @Environment(\.requestReview) private var requestReview
     @ObservedObject var viewModel: GameViewModel
     @ObservedObject var settings: AppSettings
     @ObservedObject var unlimitedHintsStore: UnlimitedHintsStore
+    @AppStorage("review-thanks-shown-v1") private var hasShownReviewThanks = false
+    @AppStorage("review-request-attempted-v1") private var hasAttemptedReviewRequest = false
+    @State private var isReviewThanksPresented = false
     #if DEBUG
     @State private var hintCatalogIndex = HintCatalogFixtureFactory.catalogIndexFromLaunchArguments()
     #endif
@@ -1689,14 +1694,48 @@ private struct GameView: View {
                         }
                     )
                     .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                    .onAppear {
+                        presentReviewThanksIfNeeded(for: stats)
+                    }
                     .zIndex(4)
                 }
 
+                if isReviewThanksPresented {
+                    ReviewThanksView {
+                        dismissReviewThanks()
+                    }
+                    .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                    .zIndex(5)
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .animation(.easeInOut(duration: 0.18), value: viewModel.hintOverlay?.step)
         .animation(.easeInOut(duration: 0.18), value: viewModel.hintOverlay != nil)
+        .animation(.easeInOut(duration: 0.20), value: isReviewThanksPresented)
+    }
+
+    private func presentReviewThanksIfNeeded(for stats: GameCompletionStats) {
+        guard stats.outcome == .won,
+              viewModel.homeStats.gamesWon >= 3,
+              !hasShownReviewThanks,
+              !isReviewThanksPresented else {
+            return
+        }
+
+        hasShownReviewThanks = true
+        isReviewThanksPresented = true
+    }
+
+    private func dismissReviewThanks() {
+        isReviewThanksPresented = false
+
+        guard !hasAttemptedReviewRequest else { return }
+        hasAttemptedReviewRequest = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
+            requestReview()
+        }
     }
 
     #if DEBUG
@@ -2247,6 +2286,58 @@ private struct PauseDockView: View {
                 .stroke(PremiumPalette.hairline)
         )
         .shadow(color: PremiumPalette.shadow, radius: max(10, metrics.toolButtonHeight * 0.22), y: 8)
+    }
+}
+
+private struct ReviewThanksView: View {
+    let onContinue: () -> Void
+
+    var body: some View {
+        GeometryReader { proxy in
+            let shortSide = min(proxy.size.width, proxy.size.height)
+            let width = min(proxy.size.width - shortSide * 0.10, max(310, shortSide * 0.70))
+            let titleSize = max(24, shortSide * 0.046)
+            let bodySize = max(14, shortSide * 0.023)
+            let buttonHeight = max(50, shortSide * 0.064)
+
+            ZStack {
+                PremiumPalette.ink.opacity(0.26)
+                    .ignoresSafeArea()
+
+                VStack(spacing: max(16, shortSide * 0.024)) {
+                    Image(systemName: "heart.fill")
+                        .font(.system(size: max(30, shortSide * 0.060), weight: .semibold))
+                        .foregroundStyle(PremiumPalette.accent)
+
+                    VStack(spacing: max(8, shortSide * 0.012)) {
+                        Text(L10n.text("review.thanks.title"))
+                            .font(.system(size: titleSize, weight: .bold, design: .rounded))
+                            .foregroundStyle(PremiumPalette.ink)
+                            .multilineTextAlignment(.center)
+
+                        Text(L10n.text("review.thanks.body"))
+                            .font(.system(size: bodySize, weight: .medium, design: .rounded))
+                            .foregroundStyle(PremiumPalette.muted)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    Button(action: onContinue) {
+                        Text(L10n.text("Continuer"))
+                    }
+                    .buttonStyle(PrimaryButtonStyle(height: buttonHeight, fontSize: max(17, buttonHeight * 0.32)))
+                }
+                .padding(max(22, shortSide * 0.044))
+                .frame(width: width)
+                .background(PremiumPalette.surface)
+                .clipShape(RoundedRectangle(cornerRadius: max(16, shortSide * 0.030), style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: max(16, shortSide * 0.030), style: .continuous)
+                        .stroke(PremiumPalette.hairline)
+                )
+                .shadow(color: PremiumPalette.shadow.opacity(1.35), radius: max(22, shortSide * 0.035), y: 16)
+            }
+        }
     }
 }
 

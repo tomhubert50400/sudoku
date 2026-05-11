@@ -207,3 +207,6 @@
 " et les candidats grises." = " et les candidats grisés.";
 "J'ai pose " = "J'ai posé ";
 " car c'est le seul chiffre justifie par cet etat de la grille." = " car c'est le seul chiffre justifié par cet état de la grille.";
+"review.thanks.title" = "Merci de jouer à Kusodu";
+"review.thanks.body" = "Vos avis nous aident à améliorer le jeu, ajuster les puzzles et rendre chaque mise à jour meilleure.";
+"Continuer" = "Continuer";
