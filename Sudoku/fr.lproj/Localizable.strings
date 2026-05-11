@@ -23,7 +23,7 @@
 "Hint bloque" = "Hint bloqué";
 "Il y a deja une valeur incorrecte sur la grille. Corrige-la avant de demander un hint fiable." = "Il y a déjà une valeur incorrecte sur la grille. Corrige-la avant de demander un hint fiable.";
 "Pas de hint visible" = "Pas de hint visible";
-"Je ne revele rien: aucun single, locked candidate, naked set ou X-Wing n'est visible pour l'instant." = "Je ne révèle rien: aucun single, locked candidate, naked set ou X-Wing n'est visible pour l'instant.";
+"Je ne revele rien: aucun single, locked candidate, naked set ou X-Wing n'est visible pour l'instant." = "Je ne révèle rien : aucun single, locked candidate, naked set ou X-Wing n'est visible pour l'instant.";
 "Hints epuises" = "Hints épuisés";
 "Les 3 hints gratuits de cette partie ont deja ete utilises. Continue avec les notes ou lance une nouvelle partie." = "Les 3 hints gratuits de cette partie ont déjà été utilisés. Continue avec les notes ou lance une nouvelle partie.";
 "Les 3 hints gratuits de cette partie ont deja ete utilises. Debloque les hints illimites a vie ou continue avec les notes." = "Les 3 hints gratuits de cette partie ont déjà été utilisés. Débloque les hints illimités à vie ou continue avec les notes.";
@@ -43,7 +43,7 @@
 "stats.recent.subtitle" = "%@  |  %d/%d err.  |  %d hints";
 "end.errors_count" = "%d/%d erreurs";
 "end.score_breakdown" = "+%d temps, -%d hints, -%d erreurs";
-"hint.remove_candidates" = "Je ne pose pas de chiffre ici: le bon prochain pas est de retirer %@ des cases marquées.";
+"hint.remove_candidates" = "Je ne pose pas de chiffre ici : le bon prochain pas est de retirer %@ des cases marquées.";
 "hint.accessibility.remaining" = "Hint, %d restants";
 "hint.accessibility.unlimited" = "Hints illimités";
 "hint.step_format" = "Étape %d/%d";
@@ -88,7 +88,7 @@
 "Fish" = "Fish";
 "Cleanup" = "Cleanup";
 
-"hint.naked_single.explanation" = "%@ ne peut contenir que %d: la ligne, la colonne et le carré excluent tous les autres candidats.";
+"hint.naked_single.explanation" = "%@ ne peut contenir que %d : la ligne, la colonne et le carré excluent tous les autres candidats.";
 "hint.hidden_single.explanation" = "Dans %@, toutes les autres cases bloquent %d. Il ne reste que %@ pour le placer.";
 "hint.cleanup.invalid_notes" = "Avant de poser un chiffre, nettoie les notes impossibles marquées en gris. Elles sont déjà bloquées par la ligne, la colonne ou le carré.";
 "hint.cleanup.complete_notes" = "Aucune case n'est justifiable à 100% dans ta vision actuelle. Complète d'abord les notes des cases grisées, puis je pourrai proposer une élimination ou une pose sans deviner.";
@@ -103,24 +103,25 @@
 "hint.xwing.columns" = "Le %d forme un X-Wing sur les colonnes %d et %d, lignes %d et %d. On retire %d dans ces lignes.";
 "hint.skyscraper.rows" = "Le %d forme un Skyscraper sur les lignes %d et %d. Un des deux bouts libres doit contenir %d, donc on retire %d des cases qui voient les deux.";
 "hint.skyscraper.columns" = "Le %d forme un Skyscraper sur les colonnes %d et %d. Un des deux bouts libres doit contenir %d, donc on retire %d des cases qui voient les deux.";
-"hint.two_string_kite.explanation" = "Le %d forme un 2-String Kite: une liaison forte en ligne et une liaison forte en colonne se croisent par le même carré. On retire %d de %@.";
+"hint.two_string_kite.explanation" = "Le %d forme un 2-String Kite : une liaison forte en ligne et une liaison forte en colonne se croisent par le même carré. On retire %d de %@.";
 "hint.xy_wing.explanation" = "%@ est le pivot. Quel que soit son choix, l'une des deux pinces force %d. On retire %d des cases qui voient les deux pinces.";
 "hint.xyz_wing.explanation" = "%@ est le pivot XYZ. Les deux ailes couvrent les autres choix, donc tout ce qui voit le pivot et les deux ailes ne peut pas garder %d. On retire %d.";
 "hint.w_wing.explanation" = "%@ et %@ forment un W-Wing. La liaison forte sur %d force l'une des deux cases à prendre ce chiffre, donc l'autre candidat %d peut être retiré des cases qui voient les deux ailes.";
-"hint.simple_colors.wrap" = "Coloring sur le %d: deux candidats de la même couleur se voient, donc cette couleur est impossible. On retire %d de ces cases.";
-"hint.simple_colors.trap" = "Coloring sur le %d: %@ voit les deux couleurs. Une des deux couleurs sera vraie, donc %@ ne peut pas garder %d.";
+"hint.simple_colors.wrap" = "Coloring sur le %d : deux candidats de la même couleur se voient, donc cette couleur est impossible. On retire %d de ces cases.";
+"hint.simple_colors.trap" = "Coloring sur le %d : %@ voit les deux couleurs. Une des deux couleurs sera vraie, donc %@ ne peut pas garder %d.";
 "hint.xy_chain.explanation" = "XY-Chain %@. Les deux bouts ne peuvent pas tous les deux exclure %d, donc on retire %d des cases qui voient les deux bouts.";
 "hint.fish.explanation" = "Le %d forme un %@ avec %@, aligné sur %@. On retire %d des autres cases de ces zones.";
 "hint.finned_fish.explanation" = "Le %d forme un %@ sur %@, aligné sur %@, avec une ou plusieurs nageoires en %@. Toute case marquée qui voit ces nageoires ne peut pas garder %d.";
 "hint.unique_rectangle_type_1.explanation" = "Le rectangle %@ créerait deux solutions si %@ ne gardait que ces deux chiffres. On retire donc cette paire de la case.";
 "hint.bug_plus_one.explanation" = "Toutes les cases non résolues ont deux candidats sauf %@. Pour éviter le motif BUG, %@ doit prendre %d.";
-"hint.x_chain.explanation" = "X-Chain sur le %d: %@. Un des deux bouts de la chaîne doit être vrai, donc on retire %d des cases qui voient les deux bouts.";
+"hint.x_chain.explanation" = "X-Chain sur le %d : %@. Un des deux bouts de la chaîne doit être vrai, donc on retire %d des cases qui voient les deux bouts.";
 "hint.aic.explanation" = "AIC %@. Un des deux bouts de la chaîne alternée doit être vrai, donc on retire %d des cases qui voient les deux bouts.";
 "hint.error.title" = "Erreur à corriger";
 "hint.error.explanation" = "Il y a déjà une valeur incorrecte sur la grille. Corrige d'abord la case marquée, sinon aucun hint logique ne peut partir d'une position fiable.";
 "hint.no_pedagogical_step.title" = "Pas de hint logique";
 "hint.no_pedagogical_step.explanation" = "J'ai essayé les techniques humaines prises en charge, y compris les chaînes et fish avancés. Je n'ai pas encore de technique explicable pour cette position, donc je ne poserai pas de chiffre par essai.";
 "Aucune technique humaine claire ne s'applique ici. Je ne propose plus de cleanup, forcing ou contradiction comme hint." = "Aucune technique humaine claire ne s'applique ici. Je ne propose plus de cleanup, forcing ou contradiction comme hint.";
+"Catalogue de hints" = "Catalogue de hints";
 "hint.core.placement" = "%@ peut recevoir %d d'après la prochaine étape logique du moteur importé.";
 "hint.core.elimination" = "%@ retire le ou les candidats %@ des cases marquées.";
 "hint.unit.row" = "la ligne %d";
@@ -137,7 +138,7 @@
 "Meilleur temps" = "Meilleur temps";
 "Meilleur niveau" = "Meilleur niveau";
 "Score max" = "Score max";
-"Score annule: 3 erreurs." = "Score annulé: 3 erreurs.";
+"Score annule: 3 erreurs." = "Score annulé : 3 erreurs.";
 "Victoires" = "Victoires";
 "Continuer" = "Continuer";
 "Nouvelle partie" = "Nouvelle partie";
@@ -209,4 +210,3 @@
 " car c'est le seul chiffre justifie par cet etat de la grille." = " car c'est le seul chiffre justifié par cet état de la grille.";
 "review.thanks.title" = "Merci de jouer à Kusodu";
 "review.thanks.body" = "Vos avis nous aident à améliorer le jeu, ajuster les puzzles et rendre chaque mise à jour meilleure.";
-"Continuer" = "Continuer";
