@@ -899,75 +899,6 @@ final class GameViewModel: ObservableObject {
         }
     }
 
-    func hintVisualConnections() -> [HintVisualConnection] {
-        guard let hintOverlay, hintOverlay.hasAction, hintOverlay.step >= 1 else {
-            return []
-        }
-
-        let keys = hintOverlay.keyIndices.sorted()
-        let eliminations = Set(hintOverlay.eliminations.map(\.index))
-        var connections: [HintVisualConnection] = []
-
-        switch hintOverlay.title {
-        case "X-Wing", "Swordfish", "Jellyfish":
-            if hintOverlay.step >= 2 {
-                connections.append(contentsOf: fishFrameworkConnections(keys: keys))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                connections.append(contentsOf: eliminationConnections(from: keys, to: eliminations))
-            }
-        case "Skyscraper", "2-String Kite":
-            if hintOverlay.step >= 1 {
-                connections.append(contentsOf: strongAxisConnections(keys: keys))
-            }
-            if hintOverlay.step >= 2 {
-                connections.append(contentsOf: readableChainConnections(keys: keys, preferredPath: hintOverlay.visualPathIndices, kind: .weakLink))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                connections.append(contentsOf: eliminationConnections(from: keys, to: eliminations))
-            }
-        case "XY-Wing", "XYZ-Wing":
-            if hintOverlay.step >= 1 {
-                connections.append(contentsOf: wingPivotConnections(keys: keys))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                let wings = keys.filter { $0 != wingPivot(from: keys) }
-                connections.append(contentsOf: allEliminationConnections(from: wings, to: eliminations))
-            }
-        case "W-Wing":
-            if hintOverlay.step >= 1 {
-                connections.append(contentsOf: wWingConnections(keys: keys, preferredPath: hintOverlay.visualPathIndices))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                connections.append(contentsOf: allEliminationConnections(from: wWingWingIndices(keys: keys), to: eliminations))
-            }
-        case "XY-Chain", "Simple Colors":
-            if hintOverlay.step >= 1 {
-                connections.append(contentsOf: readableChainConnections(keys: keys, preferredPath: hintOverlay.visualPathIndices, kind: .strongLink))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                let sources = hintOverlay.title == "XY-Chain" ? chainEndpointIndices(keys: keys, preferredPath: hintOverlay.visualPathIndices) : keys
-                connections.append(contentsOf: allEliminationConnections(from: sources, to: eliminations))
-            }
-        case "Locked candidates":
-            if hintOverlay.step >= 2 {
-                connections.append(contentsOf: lockedAxisConnections(for: hintOverlay))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                connections.append(contentsOf: eliminationConnections(from: keys, to: eliminations))
-            }
-        default:
-            if hintOverlay.step >= 2 {
-                connections.append(contentsOf: readableChainConnections(keys: keys, preferredPath: hintOverlay.visualPathIndices, kind: .strongLink))
-            }
-            if hintOverlay.step >= hintOverlay.eliminationRevealStep {
-                connections.append(contentsOf: eliminationConnections(from: keys, to: eliminations))
-            }
-        }
-
-        return uniqueConnections(connections)
-    }
-
     func hintVisualBadges() -> [HintVisualBadge] {
         guard let hintOverlay, hintOverlay.hasAction else {
             return []
@@ -1009,39 +940,6 @@ final class GameViewModel: ObservableObject {
         return badges
     }
 
-    private func uniqueConnections(_ connections: [HintVisualConnection]) -> [HintVisualConnection] {
-        var seen = Set<HintVisualConnection>()
-        var result: [HintVisualConnection] = []
-        for connection in connections where seen.insert(connection).inserted {
-            result.append(connection)
-        }
-        return result
-    }
-
-    private func fishFrameworkConnections(keys: [Int]) -> [HintVisualConnection] {
-        var connections: [HintVisualConnection] = []
-        for pair in keyPairs(keys) where pair.0 / 9 == pair.1 / 9 || pair.0 % 9 == pair.1 % 9 {
-            connections.append(HintVisualConnection(from: pair.0, to: pair.1, kind: .framework))
-        }
-        return connections
-    }
-
-    private func strongAxisConnections(keys: [Int]) -> [HintVisualConnection] {
-        keyPairs(keys)
-            .filter { $0.0 / 9 == $0.1 / 9 || $0.0 % 9 == $0.1 % 9 || boxIndex($0.0) == boxIndex($0.1) }
-            .map { HintVisualConnection(from: $0.0, to: $0.1, kind: .strongLink) }
-    }
-
-    private func wingPivotConnections(keys: [Int]) -> [HintVisualConnection] {
-        guard let pivot = wingPivot(from: keys) else {
-            return readableChainConnections(keys: keys, kind: .strongLink)
-        }
-
-        return keys
-            .filter { $0 != pivot }
-            .map { HintVisualConnection(from: pivot, to: $0, kind: .strongLink) }
-    }
-
     private func wingPivot(from keys: [Int]) -> Int? {
         keys.max { lhs, rhs in
             let lhsPeers = keys.filter { $0 != lhs && canSee(lhs, $0) }.count
@@ -1049,30 +947,6 @@ final class GameViewModel: ObservableObject {
             if lhsPeers != rhsPeers { return lhsPeers < rhsPeers }
             return lhs > rhs
         }
-    }
-
-    private func wWingConnections(keys: [Int], preferredPath: [Int]) -> [HintVisualConnection] {
-        let path = preferredPath.filter { keys.contains($0) }
-        if path.count >= 4 {
-            return [
-                HintVisualConnection(from: path[0], to: path[1], kind: .weakLink),
-                HintVisualConnection(from: path[1], to: path[2], kind: .strongLink),
-                HintVisualConnection(from: path[2], to: path[3], kind: .weakLink)
-            ]
-        }
-
-        let wings = wWingWingIndices(keys: keys)
-        let links = keys.filter { !wings.contains($0) }
-        var connections: [HintVisualConnection] = []
-        if links.count == 2 {
-            connections.append(HintVisualConnection(from: links[0], to: links[1], kind: .strongLink))
-        }
-        for wing in wings {
-            if let link = links.filter({ canSee(wing, $0) }).min(by: { visualDistance(from: wing, to: $0) < visualDistance(from: wing, to: $1) }) {
-                connections.append(HintVisualConnection(from: wing, to: link, kind: .weakLink))
-            }
-        }
-        return connections
     }
 
     private func wWingWingIndices(keys: [Int]) -> [Int] {
@@ -1087,57 +961,6 @@ final class GameViewModel: ObservableObject {
         return keys
     }
 
-    private func readableChainConnections(keys: [Int], preferredPath: [Int] = [], kind: HintVisualConnection.Kind) -> [HintVisualConnection] {
-        guard keys.count >= 2 else { return [] }
-        let preferred = preferredPath.filter { keys.contains($0) }
-        let ordered = preferred.count >= 2 ? preferred : readablePath(from: keys)
-        return zip(ordered, ordered.dropFirst()).map { first, second in
-            HintVisualConnection(from: first, to: second, kind: kind)
-        }
-    }
-
-    private func readablePath(from keys: [Int]) -> [Int] {
-        guard let first = keys.first else { return [] }
-        var remaining = Set(keys.dropFirst())
-        var path = [first]
-
-        while let current = path.last, !remaining.isEmpty {
-            let next = remaining.min { lhs, rhs in
-                let lhsDistance = visualDistance(from: current, to: lhs)
-                let rhsDistance = visualDistance(from: current, to: rhs)
-                if lhsDistance != rhsDistance { return lhsDistance < rhsDistance }
-                return lhs < rhs
-            } ?? remaining.sorted()[0]
-
-            path.append(next)
-            remaining.remove(next)
-        }
-
-        return path
-    }
-
-    private func eliminationConnections(from keys: [Int], to targets: Set<Int>) -> [HintVisualConnection] {
-        targets.sorted().compactMap { target in
-            guard let source = keys
-                .filter({ canSee($0, target) })
-                .min(by: { visualDistance(from: $0, to: target) < visualDistance(from: $1, to: target) })
-                ?? keys.min(by: { visualDistance(from: $0, to: target) < visualDistance(from: $1, to: target) }) else {
-                return nil
-            }
-            return HintVisualConnection(from: source, to: target, kind: .elimination)
-        }
-    }
-
-    private func allEliminationConnections(from sources: [Int], to targets: Set<Int>) -> [HintVisualConnection] {
-        targets.sorted().flatMap { target in
-            let visibleSources = sources.filter { canSee($0, target) }
-            let connectedSources = visibleSources.isEmpty ? Array(sources.prefix(2)) : visibleSources
-            return connectedSources.map { source in
-                HintVisualConnection(from: source, to: target, kind: .elimination)
-            }
-        }
-    }
-
     private func chainEndpointIndices(keys: [Int], preferredPath: [Int]) -> [Int] {
         let path = preferredPath.filter { keys.contains($0) }
         if let first = path.first, let last = path.last, first != last {
@@ -1146,13 +969,6 @@ final class GameViewModel: ObservableObject {
 
         guard keys.count >= 2 else { return keys }
         return [keys[0], keys[keys.count - 1]]
-    }
-
-    private func lockedAxisConnections(for hintOverlay: HintOverlay) -> [HintVisualConnection] {
-        let keys = hintOverlay.keyIndices.sorted()
-        guard keys.count >= 2 else { return [] }
-        let kind: HintVisualConnection.Kind = .framework
-        return zip(keys, keys.dropFirst()).map { HintVisualConnection(from: $0, to: $1, kind: kind) }
     }
 
     private func keyPairs(_ keys: [Int]) -> [(Int, Int)] {
@@ -1164,10 +980,6 @@ final class GameViewModel: ObservableObject {
             }
         }
         return pairs
-    }
-
-    private func visualDistance(from first: Int, to second: Int) -> Int {
-        abs(first / 9 - second / 9) + abs(first % 9 - second % 9)
     }
 
     private func canSee(_ first: Int, _ second: Int) -> Bool {
@@ -2142,32 +1954,6 @@ struct HintOverlay: Identifiable {
         default:
             return 3
         }
-    }
-}
-
-struct HintVisualConnection: Hashable, Identifiable {
-    enum Kind: Hashable {
-        case framework
-        case strongLink
-        case weakLink
-        case elimination
-
-        var idText: String {
-            switch self {
-            case .framework: return "framework"
-            case .strongLink: return "strong"
-            case .weakLink: return "weak"
-            case .elimination: return "elimination"
-            }
-        }
-    }
-
-    let from: Int
-    let to: Int
-    let kind: Kind
-
-    var id: String {
-        "\(from)-\(to)-\(kind.idText)"
     }
 }
 

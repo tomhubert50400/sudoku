@@ -975,18 +975,20 @@ private struct SettingsView: View {
                                     isOn: $settings.hapticsEnabled
                                 )
 
-                                Button {
-                                    isPencilCalibrationPresented = true
-                                } label: {
-                                    SettingsActionRow(
-                                        title: L10n.text("Ecriture Pencil"),
-                                        subtitle: handwritingCalibrationSubtitle,
-                                        systemImage: "pencil.tip",
-                                        tint: handwritingProfile.isCalibrated ? PremiumPalette.success : PremiumPalette.accent,
-                                        metrics: metrics
-                                    )
+                                if metrics.isTabletCanvas {
+                                    Button {
+                                        isPencilCalibrationPresented = true
+                                    } label: {
+                                        SettingsActionRow(
+                                            title: L10n.text("Ecriture Pencil"),
+                                            subtitle: handwritingCalibrationSubtitle,
+                                            systemImage: "pencil.tip",
+                                            tint: handwritingProfile.isCalibrated ? PremiumPalette.success : PremiumPalette.accent,
+                                            metrics: metrics
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
                                 }
-                                .buttonStyle(.plain)
 
                                 Button {
                                     Task {
@@ -1935,7 +1937,7 @@ private struct OverlayMetrics {
             }
             return min(size.width - overlayHorizontalPadding * 2, 560)
         }
-        return min(size.width - overlayHorizontalPadding * 2, 430)
+        return min(size.width, 430)
     }
 
     var hintPanelMaxHeight: CGFloat {
@@ -1945,7 +1947,7 @@ private struct OverlayMetrics {
         if isTabletCanvas {
             return min(size.height, isWideCanvas ? 560 : 430)
         }
-        return min(size.height, 360)
+        return min(size.height, 380)
     }
 
     var hintMessageMaxHeight: CGFloat {
@@ -1959,26 +1961,26 @@ private struct OverlayMetrics {
     }
 
     var hintTitleSize: CGFloat {
-        max(22, min(shortSide * 0.027, longSide * 0.024))
+        max(20, min(shortSide * 0.025, longSide * 0.022))
     }
 
     var hintMessageSize: CGFloat {
         if !isTabletCanvas {
-            return max(15, min(17, hintTitleSize * 0.68))
+            return max(14, min(16, hintTitleSize * 0.66))
         }
         return max(17, hintTitleSize * 0.70)
     }
 
     var hintContentTopPadding: CGFloat {
-        max(18, longSide * 0.022)
+        max(14, longSide * 0.018)
     }
 
     var hintControlHorizontalPadding: CGFloat {
-        max(18, shortSide * 0.048)
+        max(16, shortSide * 0.040)
     }
 
     var hintNavButtonSize: CGFloat {
-        max(isTabletCanvas ? 48 : 44, min(shortSide * (isTabletCanvas ? 0.058 : 0.105), 60))
+        max(isTabletCanvas ? 48 : 40, min(shortSide * (isTabletCanvas ? 0.058 : 0.098), 60))
     }
 
     var hintNavIconSize: CGFloat {
@@ -2142,7 +2144,9 @@ private struct GameView: View {
 
     @ViewBuilder
     private func stackedLayout(metrics: GameLayoutMetrics) -> some View {
-        if metrics.usesBottomDock {
+        if viewModel.hintOverlay != nil && !viewModel.isPaused {
+            hintFocusedStackedLayout(metrics: metrics)
+        } else if metrics.usesBottomDock {
             VStack(spacing: 0) {
                 topBar(actionSize: metrics.actionSize)
                     .frame(maxWidth: metrics.maxContentWidth)
@@ -2179,6 +2183,29 @@ private struct GameView: View {
             .padding(.bottom, metrics.bottomDockPadding)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+
+    private func hintFocusedStackedLayout(metrics: GameLayoutMetrics) -> some View {
+        VStack(spacing: 0) {
+            topBar(actionSize: metrics.actionSize)
+                .frame(maxWidth: metrics.maxContentWidth)
+
+            Color.clear
+                .frame(height: metrics.topGap)
+
+            boardCluster(metrics: metrics)
+
+            Color.clear
+                .frame(height: metrics.controlsGap)
+
+            controlCluster(metrics: metrics)
+                .frame(maxWidth: .infinity)
+
+            Spacer(minLength: 0)
+        }
+        .padding(.top, metrics.topPadding)
+        .padding(.bottom, metrics.bottomDockPadding)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 
     private func boardCluster(metrics: GameLayoutMetrics) -> some View {
@@ -2510,6 +2537,27 @@ private struct GameLayoutMetrics {
         max(14, longSide * 0.020)
     }
 
+    var hintBoardRegionHeight: CGFloat {
+        let reservedHeight = actionSize
+            + topGap
+            + statusHeight
+            + boardStatusSpacing
+            + controlsGap
+            + hintPanelRegionHeight
+        return max(0, hintUsableHeight - reservedHeight)
+    }
+
+    var hintPanelRegionHeight: CGFloat {
+        if isTabletCanvas {
+            return max(220, min(320, hintUsableHeight * 0.30))
+        }
+        return max(170, min(210, longSide * 0.23))
+    }
+
+    private var hintUsableHeight: CGFloat {
+        size.height - topPadding - bottomDockPadding
+    }
+
     var bottomDockPadding: CGFloat {
         usesBottomDock ? max(8, safeAreaInsets.bottom + longSide * 0.006) : 6
     }
@@ -2585,6 +2633,9 @@ private struct GameLayoutMetrics {
         if usesSidePanel {
             widthLimit = size.width - horizontalPadding * 2 - sidePanelSpacing - sidePanelWidth
             heightLimit = size.height - topPadding - max(10, safeAreaInsets.bottom + longSide * 0.012) - actionSize - topGap - 38
+        } else if isHintPresented {
+            widthLimit = size.width - horizontalContentPadding * 2
+            heightLimit = hintBoardRegionHeight
         } else {
             widthLimit = size.width - horizontalContentPadding * 2
             let autoSolveHeight = isAutoSolvePresented ? autoSolveButtonGap + autoSolveButtonHeight : 0
@@ -2632,7 +2683,7 @@ private struct GameLayoutMetrics {
     var inlineHintMetrics: OverlayMetrics {
         let autoSolveHeight = isAutoSolvePresented ? autoSolveButtonGap + autoSolveButtonHeight : 0
         let inputHeight = numberPadHeight + numberPadBottomPadding + toolButtonHeight + autoSolveHeight
-        let compactHeight = isTabletCanvas ? max(560, inputHeight) : max(360, inputHeight)
+        let compactHeight = isTabletCanvas ? max(560, inputHeight) : max(hintPanelRegionHeight, inputHeight)
         return OverlayMetrics(size: CGSize(width: boardSide, height: compactHeight), safeAreaInsets: EdgeInsets())
     }
 
@@ -3070,7 +3121,6 @@ private struct SudokuBoardView: View {
         .overlay {
             if viewModel.hintOverlay != nil {
                 HintReasoningArtifactsView(
-                    connections: viewModel.hintVisualConnections(),
                     badges: viewModel.hintVisualBadges()
                 )
                 .allowsHitTesting(false)
@@ -3574,7 +3624,7 @@ private struct HintWalkthroughView: View {
             }
         }
         .frame(width: metrics.hintPanelWidth)
-        .frame(maxHeight: metrics.hintPanelMaxHeight)
+        .fixedSize(horizontal: false, vertical: true)
         .background(PremiumPalette.surface)
         .clipShape(RoundedRectangle(cornerRadius: metrics.hintCornerRadius, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: metrics.hintCornerRadius, style: .continuous).stroke(.white.opacity(0.70), lineWidth: 1))
@@ -3585,35 +3635,34 @@ private struct HintWalkthroughView: View {
         metrics.hintPanelWidth > 580
     }
 
+    private var usesCompactDockLayout: Bool {
+        !metrics.isTabletCanvas && !usesWideDockLayout
+    }
+
     private var stackedBody: some View {
-        VStack(alignment: .leading, spacing: metrics.isTabletCanvas ? 12 : 10) {
-            HStack(alignment: .top, spacing: 14) {
+        VStack(alignment: .leading, spacing: usesCompactDockLayout ? 8 : 10) {
+            HStack(alignment: .top, spacing: usesCompactDockLayout ? 10 : 14) {
                 titleBlock
 
                 Spacer(minLength: 10)
 
                 closeButton
             }
-            .padding(.top, max(14, metrics.hintContentTopPadding * 0.58))
+            .padding(.top, max(12, metrics.hintContentTopPadding * 0.58))
             .padding(.horizontal, metrics.hintControlHorizontalPadding)
 
-            progressDots
-            .padding(.horizontal, metrics.hintControlHorizontalPadding)
-
-            ScrollView(.vertical, showsIndicators: true) {
-                VStack(alignment: .leading, spacing: metrics.isTabletCanvas ? 10 : 8) {
-                    explanationBlock()
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
+            if !usesCompactDockLayout {
+                progressDots
+                .padding(.horizontal, metrics.hintControlHorizontalPadding)
             }
-            .frame(maxHeight: metrics.hintMessageMaxHeight)
-            .clipped()
+
+            explanationBlock(includeRule: true)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, metrics.hintControlHorizontalPadding)
 
             navigationControls
             .padding(.horizontal, metrics.hintControlHorizontalPadding)
-            .padding(.bottom, max(14, metrics.hintContentTopPadding * 0.58))
+            .padding(.bottom, max(10, metrics.hintContentTopPadding * 0.50))
         }
     }
 
@@ -3622,12 +3671,8 @@ private struct HintWalkthroughView: View {
             VStack(alignment: .leading, spacing: 10) {
                 titleBlock
                 progressDots
-                ScrollView(.vertical, showsIndicators: true) {
-                    explanationBlock()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .frame(maxHeight: metrics.hintMessageMaxHeight)
-                .clipped()
+                explanationBlock(includeRule: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -3650,23 +3695,40 @@ private struct HintWalkthroughView: View {
     }
 
     private var titleBlock: some View {
-        VStack(alignment: .leading, spacing: 7) {
-            HStack(spacing: 8) {
-                Image(systemName: hintIconName)
-                    .font(.system(size: max(13, metrics.hintMessageSize * 0.76), weight: .bold))
+        Group {
+            if usesCompactDockLayout {
+                VStack(alignment: .leading, spacing: 3) {
+                    Text(title)
+                        .font(.system(size: metrics.hintTitleSize, weight: .bold, design: .rounded))
+                        .foregroundStyle(PremiumPalette.ink)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.78)
+                        .fixedSize(horizontal: false, vertical: true)
 
-                Text(stepLabel)
-                    .font(.system(size: max(11, metrics.hintMessageSize * 0.64), weight: .heavy, design: .rounded))
-                    .textCase(.uppercase)
+                    Text(stepLabel)
+                        .font(.system(size: max(11, metrics.hintMessageSize * 0.64), weight: .heavy, design: .rounded))
+                        .foregroundStyle(PremiumPalette.hintAccent)
+                }
+            } else {
+                VStack(alignment: .leading, spacing: 7) {
+                    HStack(spacing: 8) {
+                        Image(systemName: hintIconName)
+                            .font(.system(size: max(13, metrics.hintMessageSize * 0.76), weight: .bold))
+
+                        Text(stepLabel)
+                            .font(.system(size: max(11, metrics.hintMessageSize * 0.64), weight: .heavy, design: .rounded))
+                            .textCase(.uppercase)
+                    }
+                    .foregroundStyle(PremiumPalette.hintAccent)
+
+                    Text(title)
+                        .font(.system(size: metrics.hintTitleSize, weight: .bold, design: .rounded))
+                        .foregroundStyle(PremiumPalette.ink)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.78)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
             }
-            .foregroundStyle(PremiumPalette.hintAccent)
-
-            Text(title)
-                .font(.system(size: metrics.hintTitleSize, weight: .bold, design: .rounded))
-                .foregroundStyle(PremiumPalette.ink)
-                .lineLimit(metrics.isTabletCanvas || usesWideDockLayout ? 2 : 1)
-                .minimumScaleFactor(0.78)
-                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
@@ -3676,7 +3738,7 @@ private struct HintWalkthroughView: View {
         } label: {
             Image(systemName: "xmark")
                 .font(.system(size: max(15, metrics.hintTitleSize * 0.52), weight: .semibold))
-                .frame(width: max(36, metrics.hintNavButtonSize * 0.58), height: max(36, metrics.hintNavButtonSize * 0.58))
+                .frame(width: max(34, metrics.hintNavButtonSize * 0.56), height: max(34, metrics.hintNavButtonSize * 0.56))
                 .background(PremiumPalette.ink.opacity(0.055))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         }
@@ -3695,8 +3757,8 @@ private struct HintWalkthroughView: View {
         }
     }
 
-    private func explanationBlock() -> some View {
-        VStack(alignment: .leading, spacing: metrics.isTabletCanvas ? 10 : 8) {
+    private func explanationBlock(includeRule: Bool) -> some View {
+        VStack(alignment: .leading, spacing: metrics.isTabletCanvas ? 10 : 7) {
             Text(phaseTitle)
                 .font(.system(size: max(13, metrics.hintMessageSize * 0.72), weight: .bold, design: .rounded))
                 .foregroundStyle(PremiumPalette.ink)
@@ -3709,7 +3771,9 @@ private struct HintWalkthroughView: View {
                 .minimumScaleFactor(0.80)
                 .fixedSize(horizontal: false, vertical: true)
 
-            techniqueRuleCard
+            if includeRule {
+                techniqueRuleCard
+            }
 
             if metrics.isTabletCanvas || usesWideDockLayout {
                 visualGuide
@@ -3720,33 +3784,90 @@ private struct HintWalkthroughView: View {
     private var techniqueRuleCard: some View {
         Group {
             if hint.step < hint.maxStep {
-                VStack(alignment: .leading, spacing: 6) {
-                    HStack(spacing: 7) {
-                        Image(systemName: "checklist")
-                            .font(.system(size: max(10, metrics.hintMessageSize * 0.62), weight: .bold))
-
-                        Text(techniqueFamilyLabel)
-                            .font(.system(size: max(10, metrics.hintMessageSize * 0.62), weight: .heavy, design: .rounded))
-                            .textCase(.uppercase)
-                    }
-                    .foregroundStyle(PremiumPalette.hintAccent)
-
+                if usesCompactDockLayout {
                     Text(techniqueRule)
-                        .font(.system(size: max(12, metrics.hintMessageSize * 0.72), weight: .semibold, design: .rounded))
-                        .foregroundStyle(PremiumPalette.ink.opacity(0.86))
+                        .font(.system(size: max(12, metrics.hintMessageSize * 0.78), weight: .bold, design: .rounded))
+                        .foregroundStyle(PremiumPalette.hintAccent)
                         .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)
+                } else {
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 7) {
+                            Image(systemName: "checklist")
+                                .font(.system(size: max(10, metrics.hintMessageSize * 0.62), weight: .bold))
+
+                            Text(techniqueFamilyLabel)
+                                .font(.system(size: max(10, metrics.hintMessageSize * 0.62), weight: .heavy, design: .rounded))
+                                .textCase(.uppercase)
+                        }
+                        .foregroundStyle(PremiumPalette.hintAccent)
+
+                        Text(techniqueRule)
+                            .font(.system(size: max(12, metrics.hintMessageSize * 0.72), weight: .semibold, design: .rounded))
+                            .foregroundStyle(PremiumPalette.ink.opacity(0.86))
+                            .lineSpacing(2)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 9)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(PremiumPalette.hintTrace.opacity(0.55))
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
-                .padding(.horizontal, 10)
-                .padding(.vertical, 9)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(PremiumPalette.hintTrace.opacity(0.55))
-                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
         }
     }
 
+    @ViewBuilder
     private var navigationControls: some View {
+        if usesCompactDockLayout {
+            compactNavigationControls
+        } else {
+            standardNavigationControls
+        }
+    }
+
+    private var compactNavigationControls: some View {
+        HStack(spacing: 10) {
+            Button {
+                viewModel.previousHintStep()
+            } label: {
+                Text(L10n.text("Back"))
+                    .font(.system(size: 14, weight: .bold, design: .rounded))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: max(38, metrics.hintNavButtonSize * 0.92))
+                    .background(PremiumPalette.surface)
+                    .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous).stroke(PremiumPalette.hairline, lineWidth: 1))
+                    .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(PremiumPalette.ink)
+            .opacity(hint.step > 0 ? 1 : 0.45)
+            .disabled(hint.step == 0)
+
+            Button {
+                viewModel.nextHintStep()
+            } label: {
+                HStack(spacing: 7) {
+                    Text(primaryButtonTitle)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.76)
+
+                    Image(systemName: hint.step < hint.maxStep ? "arrow.right" : "checkmark")
+                        .font(.system(size: 13, weight: .bold))
+                }
+                .font(.system(size: 14, weight: .bold, design: .rounded))
+                .frame(maxWidth: .infinity)
+                .frame(height: max(38, metrics.hintNavButtonSize * 0.92))
+                .background(PremiumPalette.hintAccent)
+                .foregroundStyle(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    private var standardNavigationControls: some View {
         HStack(spacing: max(12, metrics.hintNavButtonSize * 0.22)) {
             Button {
                 viewModel.previousHintStep()
@@ -4544,7 +4665,6 @@ private struct HintRegionFrame: View {
 }
 
 private struct HintReasoningArtifactsView: View {
-    let connections: [HintVisualConnection]
     let badges: [HintVisualBadge]
 
     var body: some View {
@@ -4552,38 +4672,6 @@ private struct HintReasoningArtifactsView: View {
             let cell = proxy.size.width / 9
 
             ZStack {
-                ForEach(connections) { connection in
-                    let start = center(for: connection.from, cell: cell)
-                    let end = center(for: connection.to, cell: cell)
-
-                    Path { path in
-                        path.move(to: start)
-                        path.addLine(to: end)
-                    }
-                    .stroke(connectionColor(connection.kind), style: strokeStyle(connection.kind, cell: cell))
-                    .shadow(color: connectionColor(connection.kind).opacity(0.22), radius: 2, y: 1)
-
-                    if connection.kind == .elimination {
-                        Circle()
-                            .fill(PremiumPalette.error.opacity(0.86))
-                            .frame(width: max(8, cell * 0.14), height: max(8, cell * 0.14))
-                            .overlay(Circle().stroke(PremiumPalette.surface.opacity(0.92), lineWidth: max(1, cell * 0.025)))
-                            .position(end)
-                    } else {
-                        Circle()
-                            .fill(connectionColor(connection.kind).opacity(0.82))
-                            .frame(width: max(7, cell * 0.11), height: max(7, cell * 0.11))
-                            .overlay(Circle().stroke(PremiumPalette.surface.opacity(0.85), lineWidth: max(1, cell * 0.02)))
-                            .position(start)
-
-                        Circle()
-                            .fill(connectionColor(connection.kind).opacity(0.82))
-                            .frame(width: max(7, cell * 0.11), height: max(7, cell * 0.11))
-                            .overlay(Circle().stroke(PremiumPalette.surface.opacity(0.85), lineWidth: max(1, cell * 0.02)))
-                            .position(end)
-                    }
-                }
-
                 ForEach(badges) { badge in
                     HintReasoningBadge(badge: badge, cell: cell)
                         .position(badgePosition(for: badge.index, cell: cell))
@@ -4605,32 +4693,6 @@ private struct HintReasoningArtifactsView: View {
         return CGPoint(x: center.x, y: center.y - cell * 0.32)
     }
 
-    private func connectionColor(_ kind: HintVisualConnection.Kind) -> Color {
-        switch kind {
-        case .framework:
-            return PremiumPalette.hintFocusBlue.opacity(0.82)
-        case .strongLink:
-            return PremiumPalette.hintEvidenceRing.opacity(0.96)
-        case .weakLink:
-            return PremiumPalette.hintEvidenceAxisRing.opacity(0.98)
-        case .elimination:
-            return PremiumPalette.error.opacity(0.76)
-        }
-    }
-
-    private func strokeStyle(_ kind: HintVisualConnection.Kind, cell: CGFloat) -> StrokeStyle {
-        let width = max(2.4, cell * 0.045)
-        switch kind {
-        case .framework:
-            return StrokeStyle(lineWidth: width, lineCap: .round, lineJoin: .round)
-        case .strongLink:
-            return StrokeStyle(lineWidth: width, lineCap: .round, lineJoin: .round)
-        case .weakLink:
-            return StrokeStyle(lineWidth: max(2, width * 0.82), lineCap: .round, lineJoin: .round, dash: [cell * 0.10, cell * 0.08])
-        case .elimination:
-            return StrokeStyle(lineWidth: max(2, width * 0.72), lineCap: .round, lineJoin: .round, dash: [cell * 0.06, cell * 0.07])
-        }
-    }
 }
 
 private struct HintReasoningBadge: View {
