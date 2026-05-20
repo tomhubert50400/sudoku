@@ -11,7 +11,12 @@ final class GameViewModel: ObservableObject {
     @Published var hintOverlay: HintOverlay?
     @Published var completionBurst: CompletionBurst?
     @Published var isAutoSolving = false
+    @Published private(set) var usedPencilInputThisGame = false
     @Published private var rejectedNote: RejectedNote?
+    @Published private var handwritingIssue: HandwritingIssue?
+
+    private static let handwritingInvalidCandidateOverrideConfidence = 0.97
+    private static let handwritingInvalidCandidateOverrideMargin = 0.70
 
     private let store: GameStore
     private let statsStore: PlayerStatsStore
@@ -99,9 +104,11 @@ final class GameViewModel: ObservableObject {
 
         resumeTimerIfNeeded(in: &savedGame)
         game = savedGame
+        usedPencilInputThisGame = false
         hintOverlay = nil
         completionBurst = nil
         rejectedNote = nil
+        handwritingIssue = nil
         undoStack.removeAll()
         persist()
     }
@@ -110,9 +117,11 @@ final class GameViewModel: ObservableObject {
         cancelAutoSolve()
         saveCurrentGameBeforeLeaving()
         game = nil
+        usedPencilInputThisGame = false
         hintOverlay = nil
         completionBurst = nil
         rejectedNote = nil
+        handwritingIssue = nil
         undoStack.removeAll()
     }
 
@@ -135,9 +144,11 @@ final class GameViewModel: ObservableObject {
             newGame.selectedIndex = firstPlayableCell(in: newGame)
             resetOptions(in: &newGame)
             game = newGame
+            usedPencilInputThisGame = false
             hintOverlay = nil
             completionBurst = nil
             rejectedNote = nil
+            handwritingIssue = nil
             undoStack.removeAll()
             persist()
             isGenerating = false
@@ -171,6 +182,7 @@ final class GameViewModel: ObservableObject {
         if hintOverlay != nil { return }
         hintOverlay = nil
         rejectedNote = nil
+        handwritingIssue = nil
         game?.selectedIndex = index
         persist()
     }
@@ -194,6 +206,7 @@ final class GameViewModel: ObservableObject {
             pushUndo(game)
             hintOverlay = nil
             rejectedNote = nil
+            handwritingIssue = nil
             game.notes[index] ^= digit.sudokuMask
         } else {
             guard game.values[index] != digit else { return }
@@ -205,6 +218,7 @@ final class GameViewModel: ObservableObject {
             pushUndo(game)
             hintOverlay = nil
             rejectedNote = nil
+            handwritingIssue = nil
             game.values[index] = digit
             if isCorrectPlacement {
                 playSelectionHaptic()
@@ -236,6 +250,7 @@ final class GameViewModel: ObservableObject {
         pushUndo(game)
         hintOverlay = nil
         rejectedNote = nil
+        handwritingIssue = nil
         let hadError = hasError(index, in: game)
         game.values[index] = 0
         if game.fastPencil {
@@ -277,6 +292,17 @@ final class GameViewModel: ObservableObject {
             return false
         }
 
+        return applyHandwritingRecognition(digit, confidence: 1, margin: 1, at: index)
+    }
+
+    @discardableResult
+    func applyHandwritingRecognition(_ digit: Int, confidence: Double, margin: Double, at index: Int) -> Bool {
+        guard canAcceptHandwriting(at: index),
+              (1...9).contains(digit),
+              shouldAcceptHandwritingRecognition(digit, confidence: confidence, margin: margin, at: index) else {
+            return false
+        }
+
         selectCell(index)
         input(digit)
         return true
@@ -288,11 +314,56 @@ final class GameViewModel: ObservableObject {
         eraseSelected()
     }
 
+    func markPencilInputUsed() {
+        guard game != nil else { return }
+        usedPencilInputThisGame = true
+    }
+
+    func handwritingIssueMessage(at index: Int) -> String? {
+        guard let handwritingIssue, handwritingIssue.index == index else { return nil }
+        return L10n.text("Pas compris")
+    }
+
+    func showHandwritingNotRecognized(at index: Int) {
+        guard canAcceptHandwriting(at: index) else { return }
+        let issue = HandwritingIssue(index: index)
+        playHandwritingIssueHaptic()
+
+        withAnimation(.easeInOut(duration: 0.12)) {
+            handwritingIssue = issue
+        }
+
+        Task {
+            try? await Task.sleep(nanoseconds: 800_000_000)
+            guard handwritingIssue == issue else { return }
+            withAnimation(.easeOut(duration: 0.18)) {
+                handwritingIssue = nil
+            }
+        }
+    }
+
+    private func shouldAcceptHandwritingRecognition(_ digit: Int, confidence: Double, margin: Double, at index: Int) -> Bool {
+        guard let game,
+              game.values.indices.contains(index),
+              !game.notesMode,
+              game.values[index] == 0 else {
+            return true
+        }
+
+        let candidateValues = noteCandidateValues(in: game)
+        let candidateMask = SudokuGenerator.candidateMask(in: candidateValues, at: index)
+        guard candidateMask & digit.sudokuMask == 0 else { return true }
+
+        return confidence >= Self.handwritingInvalidCandidateOverrideConfidence
+            && margin >= Self.handwritingInvalidCandidateOverrideMargin
+    }
+
     func togglePause() {
         guard !isAutoSolving else { return }
         guard var game, game.completedAt == nil else { return }
         hintOverlay = nil
         rejectedNote = nil
+        handwritingIssue = nil
 
         if game.isPaused {
             game.isPaused = false
@@ -1654,6 +1725,11 @@ final class GameViewModel: ObservableObject {
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
     }
 
+    private func playHandwritingIssueHaptic() {
+        guard settings.hapticsEnabled else { return }
+        UIImpactFeedbackGenerator(style: .soft).impactOccurred(intensity: 0.65)
+    }
+
     private func playErrorHaptic() {
         guard settings.hapticsEnabled else { return }
         UINotificationFeedbackGenerator().notificationOccurred(.error)
@@ -1901,6 +1977,11 @@ private struct RejectedNote: Equatable {
     let id = UUID()
     let index: Int
     let digit: Int
+}
+
+private struct HandwritingIssue: Equatable {
+    let id = UUID()
+    let index: Int
 }
 
 struct CompletionBurst: Identifiable, Equatable {

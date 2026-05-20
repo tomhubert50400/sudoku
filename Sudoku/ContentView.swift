@@ -1,4 +1,5 @@
 import StoreKit
+import PencilKit
 import SwiftUI
 import UIKit
 
@@ -902,13 +903,25 @@ private struct SettingsView: View {
     @ObservedObject var settings: AppSettings
     @ObservedObject var viewModel: GameViewModel
     @ObservedObject var unlimitedHintsStore: UnlimitedHintsStore
+    @ObservedObject private var handwritingProfile = PencilHandwritingProfileStore.shared
     let onClose: () -> Void
+    @State private var isPencilCalibrationPresented = false
 
     var body: some View {
         GeometryReader { proxy in
             let metrics = OverlayMetrics(size: proxy.size, safeAreaInsets: proxy.safeAreaInsets)
 
-            VStack(spacing: 0) {
+            if isPencilCalibrationPresented {
+                PencilCalibrationView(
+                    profileStore: handwritingProfile,
+                    metrics: metrics,
+                    onClose: {
+                        isPencilCalibrationPresented = false
+                    }
+                )
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+            } else {
+                VStack(spacing: 0) {
                 HStack(spacing: metrics.settingsHeaderSpacing) {
                     Button(action: onClose) {
                         Image(systemName: "chevron.left")
@@ -961,6 +974,35 @@ private struct SettingsView: View {
                                     metrics: metrics,
                                     isOn: $settings.hapticsEnabled
                                 )
+
+                                Button {
+                                    isPencilCalibrationPresented = true
+                                } label: {
+                                    SettingsActionRow(
+                                        title: L10n.text("Ecriture Pencil"),
+                                        subtitle: handwritingCalibrationSubtitle,
+                                        systemImage: "pencil.tip",
+                                        tint: handwritingProfile.isCalibrated ? PremiumPalette.success : PremiumPalette.accent,
+                                        metrics: metrics
+                                    )
+                                }
+                                .buttonStyle(.plain)
+
+                                Button {
+                                    Task {
+                                        _ = await unlimitedHintsStore.purchase()
+                                    }
+                                } label: {
+                                    SettingsActionRow(
+                                        title: unlimitedHintsPurchaseTitle,
+                                        subtitle: unlimitedHintsPurchaseSubtitle,
+                                        systemImage: "infinity.circle",
+                                        tint: unlimitedHintsStore.isUnlocked ? PremiumPalette.success : PremiumPalette.accent,
+                                        metrics: metrics
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                                .disabled(unlimitedHintsStore.isUnlocked || unlimitedHintsStore.isLoading || unlimitedHintsStore.isPurchasing)
                             }
                         }
 
@@ -1050,7 +1092,18 @@ private struct SettingsView: View {
             .frame(width: metrics.settingsWidth)
             .frame(maxHeight: .infinity)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
+    }
+
+    private var handwritingCalibrationSubtitle: String {
+        if handwritingProfile.isCalibrated {
+            return L10n.format("Profil local actif: %d exemples.", handwritingProfile.totalSamples)
+        }
+        if handwritingProfile.totalSamples > 0 {
+            return L10n.format("Calibration en cours: %d/%d exemples.", handwritingProfile.totalSamples, PencilHandwritingProfileStore.requiredTotalSamples)
+        }
+        return L10n.text("Apprend ta facon d'ecrire les chiffres au Pencil.")
     }
 
     private var restorePurchasesSubtitle: String {
@@ -1060,6 +1113,292 @@ private struct SettingsView: View {
             L10n.text("Restauration en cours...")
         } else {
             unlimitedHintsStore.lastErrorMessage ?? L10n.text("Restaure l'achat des hints illimites.")
+        }
+    }
+
+    private var unlimitedHintsPurchaseTitle: String {
+        unlimitedHintsStore.isUnlocked
+            ? L10n.text("Hints illimites actifs.")
+            : L10n.text("Debloquer les hints illimites")
+    }
+
+    private var unlimitedHintsPurchaseSubtitle: String {
+        if unlimitedHintsStore.isUnlocked {
+            return L10n.text("Les hints illimites sont debloques a vie.")
+        }
+        if unlimitedHintsStore.isLoading {
+            return L10n.text("Chargement de l'achat...")
+        }
+        if unlimitedHintsStore.isPurchasing {
+            return L10n.text("Achat en cours...")
+        }
+        if let message = unlimitedHintsStore.lastErrorMessage {
+            return message
+        }
+        return L10n.format("Debloque les hints illimites a vie pour %@.", unlimitedHintsStore.displayPrice)
+    }
+}
+
+private struct PencilCalibrationView: View {
+    @ObservedObject var profileStore: PencilHandwritingProfileStore
+    let metrics: OverlayMetrics
+    let onClose: () -> Void
+
+    @State private var drawing = PKDrawing()
+    @State private var statusText: String?
+
+    var body: some View {
+        VStack(spacing: 0) {
+            header
+
+            ScrollView(.vertical) {
+                VStack(spacing: metrics.settingsSectionSpacing) {
+                    progressBlock
+
+                    if let digit = profileStore.nextCalibrationDigit {
+                        writingBlock(for: digit)
+                    } else {
+                        completeBlock
+                    }
+
+                    sampleGrid
+                }
+                .padding(.horizontal, metrics.overlayHorizontalPadding)
+                .padding(.bottom, metrics.settingsBottomPadding)
+            }
+            .scrollIndicators(.hidden)
+        }
+        .frame(width: metrics.settingsWidth)
+        .frame(maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private var header: some View {
+        HStack(spacing: metrics.settingsHeaderSpacing) {
+            Button(action: onClose) {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: metrics.settingsIconFontSize, weight: .semibold))
+                    .frame(width: metrics.settingsActionSize, height: metrics.settingsActionSize)
+            }
+            .buttonStyle(IconButtonStyle())
+            .accessibilityLabel(L10n.text("Retour"))
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(L10n.text("Ecriture Pencil"))
+                    .font(.system(size: metrics.settingsTitleSize, weight: .bold, design: .rounded))
+                    .foregroundStyle(PremiumPalette.ink)
+
+                Text(L10n.text("Profil local de reconnaissance"))
+                    .font(.system(size: metrics.settingsSubtitleSize, weight: .semibold, design: .rounded))
+                    .foregroundStyle(PremiumPalette.muted)
+            }
+
+            Spacer()
+        }
+        .padding(.horizontal, metrics.overlayHorizontalPadding)
+        .padding(.top, metrics.settingsTopPadding)
+        .padding(.bottom, metrics.settingsHeaderBottomPadding)
+    }
+
+    private var progressBlock: some View {
+        VStack(alignment: .leading, spacing: max(10, metrics.settingsRowSpacing * 0.75)) {
+            HStack {
+                Text(L10n.format("%d/%d exemples", profileStore.totalSamples, PencilHandwritingProfileStore.requiredTotalSamples))
+                    .font(.system(size: metrics.settingsSubtitleSize, weight: .bold, design: .rounded))
+                    .foregroundStyle(PremiumPalette.ink)
+                    .monospacedDigit()
+
+                Spacer()
+
+                if profileStore.isCalibrated {
+                    Label(L10n.text("Actif"), systemImage: "checkmark.circle.fill")
+                        .font(.system(size: metrics.settingsSubtitleSize, weight: .bold, design: .rounded))
+                        .foregroundStyle(PremiumPalette.success)
+                }
+            }
+
+            GeometryReader { proxy in
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .fill(PremiumPalette.hairline.opacity(0.6))
+                    Capsule()
+                        .fill(profileStore.isCalibrated ? PremiumPalette.success : PremiumPalette.accent)
+                        .frame(width: proxy.size.width * calibrationProgress)
+                }
+            }
+            .frame(height: max(8, metrics.settingsSubtitleSize * 0.55))
+
+            Text(L10n.text("Les exemples restent sur cet iPad et servent seulement a mieux lire tes chiffres."))
+                .font(.system(size: metrics.settingsSubtitleSize, weight: .medium, design: .rounded))
+                .foregroundStyle(PremiumPalette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(max(14, metrics.settingsRowHorizontalPadding))
+        .background(PremiumPalette.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).stroke(PremiumPalette.hairline))
+    }
+
+    private func writingBlock(for digit: Int) -> some View {
+        VStack(spacing: max(12, metrics.settingsRowSpacing)) {
+            Text("\(digit)")
+                .font(.system(size: max(52, metrics.settingsTitleSize * 2.1), weight: .heavy, design: .rounded))
+                .foregroundStyle(PremiumPalette.accent)
+                .monospacedDigit()
+                .frame(maxWidth: .infinity)
+
+            PencilCalibrationCanvas(drawing: $drawing)
+                .frame(height: calibrationCanvasHeight)
+                .background(PremiumPalette.board)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).stroke(PremiumPalette.lineStrong.opacity(0.5), lineWidth: 1.4))
+
+            if let statusText {
+                Text(statusText)
+                    .font(.system(size: metrics.settingsSubtitleSize, weight: .bold, design: .rounded))
+                    .foregroundStyle(PremiumPalette.muted)
+                    .transition(.opacity)
+            }
+
+            HStack(spacing: max(10, metrics.settingsRowSpacing)) {
+                Button {
+                    drawing = PKDrawing()
+                    statusText = nil
+                } label: {
+                    Label(L10n.text("Effacer"), systemImage: "delete.left")
+                }
+                .buttonStyle(SecondaryButtonStyle(height: metrics.sheetRowHeight, fontSize: metrics.sheetRowTitleSize))
+
+                Button {
+                    saveCurrentSample(for: digit)
+                } label: {
+                    Label(L10n.text("Enregistrer"), systemImage: "checkmark")
+                }
+                .buttonStyle(PrimaryButtonStyle(height: metrics.sheetRowHeight, fontSize: metrics.sheetRowTitleSize))
+            }
+        }
+        .padding(max(14, metrics.settingsRowHorizontalPadding))
+        .background(PremiumPalette.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).stroke(PremiumPalette.hairline))
+    }
+
+    private var completeBlock: some View {
+        VStack(spacing: max(12, metrics.settingsRowSpacing)) {
+            Image(systemName: "pencil.and.scribble")
+                .font(.system(size: max(36, metrics.settingsTitleSize * 1.4), weight: .semibold))
+                .foregroundStyle(PremiumPalette.success)
+
+            Text(L10n.text("Profil pret"))
+                .font(.system(size: metrics.settingsTitleSize, weight: .bold, design: .rounded))
+                .foregroundStyle(PremiumPalette.ink)
+
+            Text(L10n.text("La reconnaissance Pencil utilise maintenant tes exemples en plus du modele general."))
+                .font(.system(size: metrics.settingsSubtitleSize, weight: .medium, design: .rounded))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(PremiumPalette.muted)
+                .fixedSize(horizontal: false, vertical: true)
+
+            Button {
+                profileStore.reset()
+                drawing = PKDrawing()
+                statusText = nil
+            } label: {
+                Label(L10n.text("Recommencer"), systemImage: "arrow.counterclockwise")
+            }
+            .buttonStyle(SecondaryButtonStyle(height: metrics.sheetRowHeight, fontSize: metrics.sheetRowTitleSize))
+        }
+        .padding(max(18, metrics.settingsRowHorizontalPadding))
+        .frame(maxWidth: .infinity)
+        .background(PremiumPalette.surface)
+        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).stroke(PremiumPalette.hairline))
+    }
+
+    private var sampleGrid: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3), spacing: 8) {
+            ForEach(1...9, id: \.self) { digit in
+                let count = profileStore.sampleCount(for: digit)
+                HStack {
+                    Text("\(digit)")
+                        .font(.system(size: metrics.sheetRowTitleSize, weight: .heavy, design: .rounded))
+                        .foregroundStyle(PremiumPalette.ink)
+                    Spacer()
+                    Text("\(min(count, PencilHandwritingProfileStore.samplesPerDigit))/\(PencilHandwritingProfileStore.samplesPerDigit)")
+                        .font(.system(size: metrics.settingsSubtitleSize, weight: .bold, design: .rounded))
+                        .foregroundStyle(count >= PencilHandwritingProfileStore.samplesPerDigit ? PremiumPalette.success : PremiumPalette.muted)
+                        .monospacedDigit()
+                }
+                .padding(.horizontal, 12)
+                .frame(height: metrics.sheetRowHeight * 0.82)
+                .background(PremiumPalette.surface)
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 8, style: .continuous).stroke(PremiumPalette.hairline))
+            }
+        }
+    }
+
+    private var calibrationProgress: CGFloat {
+        CGFloat(min(profileStore.totalSamples, PencilHandwritingProfileStore.requiredTotalSamples)) / CGFloat(PencilHandwritingProfileStore.requiredTotalSamples)
+    }
+
+    private var calibrationCanvasHeight: CGFloat {
+        min(max(150, metrics.settingsWidth * 0.42), 260)
+    }
+
+    private func saveCurrentSample(for digit: Int) {
+        guard !drawing.strokes.isEmpty,
+              let image = drawing.mnistInputImage(),
+              profileStore.addSample(digit: digit, image: image) else {
+            withAnimation(.easeInOut(duration: 0.12)) {
+                statusText = L10n.text("Pas compris")
+            }
+            return
+        }
+
+        drawing = PKDrawing()
+        withAnimation(.easeInOut(duration: 0.12)) {
+            statusText = profileStore.isCalibrated
+                ? L10n.text("Profil pret")
+                : L10n.text("Exemple enregistre")
+        }
+    }
+}
+
+private struct PencilCalibrationCanvas: UIViewRepresentable {
+    @Binding var drawing: PKDrawing
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(drawing: $drawing)
+    }
+
+    func makeUIView(context: Context) -> PKCanvasView {
+        let canvasView = PKCanvasView(frame: .zero)
+        canvasView.backgroundColor = .clear
+        canvasView.isOpaque = false
+        canvasView.delegate = context.coordinator
+        canvasView.drawingPolicy = .pencilOnly
+        canvasView.isScrollEnabled = false
+        canvasView.tool = PKInkingTool(.pen, color: .label, width: 7)
+        return canvasView
+    }
+
+    func updateUIView(_ uiView: PKCanvasView, context: Context) {
+        if uiView.drawing != drawing {
+            uiView.drawing = drawing
+        }
+        context.coordinator.drawing = $drawing
+    }
+
+    final class Coordinator: NSObject, PKCanvasViewDelegate {
+        var drawing: Binding<PKDrawing>
+
+        init(drawing: Binding<PKDrawing>) {
+            self.drawing = drawing
+        }
+
+        func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
+            drawing.wrappedValue = canvasView.drawing
         }
     }
 }
@@ -1660,9 +1999,13 @@ private struct GameView: View {
     @ObservedObject var viewModel: GameViewModel
     @ObservedObject var settings: AppSettings
     @ObservedObject var unlimitedHintsStore: UnlimitedHintsStore
+    @ObservedObject private var handwritingProfile = PencilHandwritingProfileStore.shared
     @AppStorage("review-thanks-shown-v1") private var hasShownReviewThanks = false
     @AppStorage("review-request-attempted-v1") private var hasAttemptedReviewRequest = false
+    @AppStorage("pencil-calibration-prompt-dismissed-v1") private var hasDismissedPencilCalibrationPrompt = false
     @State private var isReviewThanksPresented = false
+    @State private var isPencilCalibrationPromptPresented = false
+    @State private var isPencilCalibrationPresented = false
     #if DEBUG
     @State private var hintCatalogIndex = HintCatalogFixtureFactory.catalogIndexFromLaunchArguments()
     #endif
@@ -1695,9 +2038,25 @@ private struct GameView: View {
                     )
                     .transition(.opacity.combined(with: .scale(scale: 0.98)))
                     .onAppear {
+                        presentPencilCalibrationPromptIfNeeded()
                         presentReviewThanksIfNeeded(for: stats)
                     }
                     .zIndex(4)
+                }
+
+                if isPencilCalibrationPromptPresented {
+                    PencilDetectedPromptView(
+                        onLater: {
+                            hasDismissedPencilCalibrationPrompt = true
+                            isPencilCalibrationPromptPresented = false
+                        },
+                        onCalibrate: {
+                            isPencilCalibrationPromptPresented = false
+                            isPencilCalibrationPresented = true
+                        }
+                    )
+                    .transition(.opacity.combined(with: .scale(scale: 0.98)))
+                    .zIndex(5)
                 }
 
                 if isReviewThanksPresented {
@@ -1705,7 +2064,23 @@ private struct GameView: View {
                         dismissReviewThanks()
                     }
                     .transition(.opacity.combined(with: .scale(scale: 0.98)))
-                    .zIndex(5)
+                    .zIndex(6)
+                }
+
+                if isPencilCalibrationPresented {
+                    PencilCalibrationView(
+                        profileStore: handwritingProfile,
+                        metrics: OverlayMetrics(size: proxy.size, safeAreaInsets: proxy.safeAreaInsets),
+                        onClose: {
+                            isPencilCalibrationPresented = false
+                            if handwritingProfile.isCalibrated {
+                                hasDismissedPencilCalibrationPrompt = true
+                            }
+                        }
+                    )
+                    .background(PremiumPalette.background)
+                    .transition(.move(edge: .trailing).combined(with: .opacity))
+                    .zIndex(7)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -1713,6 +2088,24 @@ private struct GameView: View {
         .animation(.easeInOut(duration: 0.18), value: viewModel.hintOverlay?.step)
         .animation(.easeInOut(duration: 0.18), value: viewModel.hintOverlay != nil)
         .animation(.easeInOut(duration: 0.20), value: isReviewThanksPresented)
+        .animation(.easeInOut(duration: 0.20), value: isPencilCalibrationPromptPresented)
+        .animation(.spring(response: 0.34, dampingFraction: 0.86), value: isPencilCalibrationPresented)
+        .onChange(of: viewModel.game?.startedAt) { _, _ in
+            isPencilCalibrationPromptPresented = false
+            isPencilCalibrationPresented = false
+        }
+    }
+
+    private func presentPencilCalibrationPromptIfNeeded() {
+        guard viewModel.usedPencilInputThisGame,
+              !handwritingProfile.isCalibrated,
+              !hasDismissedPencilCalibrationPrompt,
+              !isPencilCalibrationPromptPresented,
+              !isPencilCalibrationPresented else {
+            return
+        }
+
+        isPencilCalibrationPromptPresented = true
     }
 
     private func presentReviewThanksIfNeeded(for stats: GameCompletionStats) {
@@ -1970,11 +2363,6 @@ private struct GameView: View {
 
     private func standardGameActions(actionSize: CGFloat) -> some View {
         HStack(spacing: max(10, actionSize * 0.20)) {
-            IconAction(systemName: "arrow.uturn.backward", accessibilityLabel: "Undo", size: actionSize) {
-                viewModel.undo()
-            }
-            .disabled(viewModel.isAutoSolving)
-
             IconAction(systemName: viewModel.isPaused ? "play.fill" : "pause.fill", accessibilityLabel: viewModel.isPaused ? "Reprendre" : "Pause", size: actionSize) {
                 viewModel.togglePause()
             }
@@ -2441,6 +2829,86 @@ private struct EndGameView: View {
     }
 }
 
+private struct PencilDetectedPromptView: View {
+    let onLater: () -> Void
+    let onCalibrate: () -> Void
+    @State private var didAcknowledgeLater = false
+
+    var body: some View {
+        GeometryReader { proxy in
+            let shortSide = min(proxy.size.width, proxy.size.height)
+            let width = min(proxy.size.width - shortSide * 0.10, max(320, shortSide * 0.74))
+            let titleSize = max(24, shortSide * 0.046)
+            let bodySize = max(13, titleSize * 0.48)
+            let buttonHeight = max(50, shortSide * 0.064)
+
+            ZStack {
+                PremiumPalette.ink.opacity(0.18)
+                    .ignoresSafeArea()
+
+                VStack(spacing: max(16, shortSide * 0.022)) {
+                    Image(systemName: "pencil.and.scribble")
+                        .font(.system(size: max(36, titleSize * 1.45), weight: .semibold))
+                        .foregroundStyle(PremiumPalette.accent)
+
+                    VStack(spacing: max(7, shortSide * 0.010)) {
+                        Text(didAcknowledgeLater ? L10n.text("C'est note") : L10n.text("Pencil detecte"))
+                            .font(.system(size: titleSize, weight: .bold, design: .rounded))
+                            .foregroundStyle(PremiumPalette.ink)
+
+                        Text(promptMessage)
+                            .font(.system(size: bodySize, weight: .medium, design: .rounded))
+                            .foregroundStyle(PremiumPalette.muted)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+
+                    VStack(spacing: max(10, buttonHeight * 0.18)) {
+                        if didAcknowledgeLater {
+                            Button {
+                                onLater()
+                            } label: {
+                                Label("OK", systemImage: "checkmark")
+                            }
+                            .buttonStyle(PrimaryButtonStyle(height: buttonHeight, fontSize: max(16, buttonHeight * 0.30)))
+                        } else {
+                            Button {
+                                onCalibrate()
+                            } label: {
+                                Label(L10n.text("Ameliorer la precision"), systemImage: "checkmark.circle")
+                            }
+                            .buttonStyle(PrimaryButtonStyle(height: buttonHeight, fontSize: max(16, buttonHeight * 0.30)))
+
+                            Button {
+                                didAcknowledgeLater = true
+                            } label: {
+                                Label(L10n.text("Non merci"), systemImage: "xmark")
+                            }
+                            .buttonStyle(SecondaryButtonStyle(height: buttonHeight, fontSize: max(16, buttonHeight * 0.30)))
+                        }
+                    }
+                }
+                .padding(max(20, shortSide * 0.040))
+                .frame(width: width)
+                .background(PremiumPalette.surface)
+                .clipShape(RoundedRectangle(cornerRadius: max(16, shortSide * 0.030), style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: max(16, shortSide * 0.030), style: .continuous)
+                        .stroke(PremiumPalette.hairline)
+                )
+                .shadow(color: PremiumPalette.shadow.opacity(1.35), radius: max(22, shortSide * 0.035), y: 16)
+            }
+        }
+    }
+
+    private var promptMessage: String {
+        if didAcknowledgeLater {
+            return L10n.text("Tu pourras calibrer l'ecriture Pencil plus tard dans Reglages si tu veux plus de precision.")
+        }
+        return L10n.text("Pour plus de precision, tu peux apprendre a KuSoDu ta facon d'ecrire les chiffres. Le profil reste local sur cet iPad.")
+    }
+}
+
 private struct EndStatTile: View {
     let title: String
     let value: String
@@ -2654,6 +3122,11 @@ private struct CellView: View {
                 )
                     .frame(width: cellSize, height: cellSize)
             }
+
+            if let handwritingIssueMessage = viewModel.handwritingIssueMessage(at: index) {
+                HandwritingIssueView(message: handwritingIssueMessage, cellSize: cellSize)
+                    .transition(.scale(scale: 0.92).combined(with: .opacity))
+            }
         }
         .frame(width: cellSize, height: cellSize)
         .contentShape(Rectangle())
@@ -2831,6 +3304,31 @@ private struct FocusCellOutline: View {
             topTrailingRadius: index == 8 ? 10 : 0,
             style: .continuous
         )
+    }
+}
+
+private struct HandwritingIssueView: View {
+    let message: String
+    let cellSize: CGFloat
+
+    var body: some View {
+        Text(message)
+            .font(.system(size: max(7, cellSize * 0.16), weight: .bold, design: .rounded))
+            .multilineTextAlignment(.center)
+            .lineLimit(2)
+            .minimumScaleFactor(0.62)
+            .foregroundStyle(PremiumPalette.hintEvidenceAxisInk)
+            .padding(.horizontal, max(2, cellSize * 0.05))
+            .frame(width: cellSize * 0.86, height: cellSize * 0.46)
+            .background(
+                RoundedRectangle(cornerRadius: max(4, cellSize * 0.10), style: .continuous)
+                    .fill(PremiumPalette.hintEvidenceAxis.opacity(0.92))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: max(4, cellSize * 0.10), style: .continuous)
+                    .stroke(PremiumPalette.hintEvidenceAxisRing.opacity(0.9), lineWidth: max(1, cellSize * 0.025))
+            )
+            .allowsHitTesting(false)
     }
 }
 
@@ -3373,7 +3871,7 @@ private struct HintWalkthroughView: View {
         case "Hidden single":
             return L10n.text("Si un chiffre n'a qu'une seule place possible dans une unite, cette place est forcee.")
         case "Locked candidates":
-            return L10n.text("Si tous les \(digit) d'un carre sont alignes, les autres \(digit) de cette ligne ou colonne sortent.")
+            return L10n.format("Si tous les %@ d'un carre sont alignes, les autres %@ de cette ligne ou colonne sortent.", digit, digit)
         case "Naked pair":
             return L10n.text("Deux cases limitees aux deux memes candidats les reservent; les autres cases de l'unite les retirent.")
         case "Naked triple":
@@ -3395,9 +3893,9 @@ private struct HintWalkthroughView: View {
         case "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish":
             return L10n.text("Le fish est presque ferme; la nageoire limite les eliminations aux cases qui la voient.")
         case "Skyscraper":
-            return L10n.text("Deux liens forts decales prouvent qu'au moins une extremite libre sera \(digit).")
+            return L10n.format("Deux liens forts decales prouvent qu'au moins une extremite libre sera %@.", digit)
         case "2-String Kite":
-            return L10n.text("Un lien fort en ligne et un lien fort en colonne se croisent par un carre; une extremite sera \(digit).")
+            return L10n.format("Un lien fort en ligne et un lien fort en colonne se croisent par un carre; une extremite sera %@.", digit)
         case "XY-Wing":
             return L10n.text("Le pivot a deux choix; chaque choix force une aile, et une des ailes portera le candidat elimine.")
         case "XYZ-Wing":
@@ -3696,10 +4194,10 @@ private struct HintWalkthroughView: View {
         let redCells = hint.eliminations.count > 1 ? L10n.text("cases rouges") : L10n.text("case rouge")
 
         return [
-            L10n.text("Commence par \(source). On cherche uniquement ou le \(digit) peut encore entrer dans ce carre."),
-            L10n.text("Les cases violettes sont toutes les places possibles pour \(digit) dans ce carre. Il n'y en a pas ailleurs dans ce carre."),
-            L10n.text("Ces places possibles sont toutes sur la \(axis). Donc, peu importe laquelle sera vraie, le \(digit) de ce carre sera sur cette \(axisKind)."),
-            L10n.text("Les \(redCells) sont sur la meme \(axis), mais hors du carre de depart. Elles ne peuvent pas aussi contenir le \(digit)."),
+            L10n.format("Commence par %@. On cherche uniquement ou le %@ peut encore entrer dans ce carre.", source, digit),
+            L10n.format("Les cases violettes sont toutes les places possibles pour %@ dans ce carre. Il n'y en a pas ailleurs dans ce carre.", digit),
+            L10n.format("Ces places possibles sont toutes sur %@. Donc, peu importe laquelle sera vraie, le %@ de ce carre sera sur cette %@.", axis, digit, axisKind),
+            L10n.format("Les %@ sont sur la meme %@, mais hors du carre de depart. Elles ne peuvent pas aussi contenir le %@.", redCells, axis, digit),
             eliminationActionMessage
         ]
     }
@@ -3727,11 +4225,11 @@ private struct HintWalkthroughView: View {
     private var fishSteps: [String] {
         let digit = hintedDigitText
         return [
-            L10n.text("Ici on ignore tous les chiffres sauf le candidat \(digit)."),
-            L10n.text("Les cases violettes sont les seules positions utiles de \(digit) dans les lignes ou colonnes de base."),
+            L10n.format("Ici on ignore tous les chiffres sauf le candidat %@.", digit),
+            L10n.format("Les cases violettes sont les seules positions utiles de %@ dans les lignes ou colonnes de base.", digit),
             L10n.text("Ces positions tombent dans le meme nombre de colonnes ou lignes de couverture: le filet est ferme."),
-            L10n.text("Le \(digit) doit donc etre place dans ces zones de couverture par les cases violettes."),
-            L10n.text("Toute autre note \(digit) dans une zone de couverture volerait une place au filet."),
+            L10n.format("Le %@ doit donc etre place dans ces zones de couverture par les cases violettes.", digit),
+            L10n.format("Toute autre note %@ dans une zone de couverture volerait une place au filet.", digit),
             eliminationActionMessage
         ]
     }
@@ -3739,11 +4237,11 @@ private struct HintWalkthroughView: View {
     private var finnedFishSteps: [String] {
         let digit = hintedDigitText
         return [
-            L10n.text("On lit un fish sur le candidat \(digit), mais il n'est pas parfaitement ferme."),
+            L10n.format("On lit un fish sur le candidat %@, mais il n'est pas parfaitement ferme.", digit),
             L10n.text("Les cases violettes forment le corps du fish. La case en plus est la nageoire."),
-            L10n.text("Si la nageoire est fausse, le fish classique se ferme et retire \(digit) dans sa zone de couverture."),
-            L10n.text("Si la nageoire est vraie, toute case qui voit cette nageoire ne peut pas etre \(digit)."),
-            L10n.text("Donc seules les cases rouges qui voient la nageoire et la zone du fish peuvent perdre \(digit)."),
+            L10n.format("Si la nageoire est fausse, le fish classique se ferme et retire %@ dans sa zone de couverture.", digit),
+            L10n.format("Si la nageoire est vraie, toute case qui voit cette nageoire ne peut pas etre %@.", digit),
+            L10n.format("Donc seules les cases rouges qui voient la nageoire et la zone du fish peuvent perdre %@.", digit),
             eliminationActionMessage
         ]
     }
@@ -3751,11 +4249,11 @@ private struct HintWalkthroughView: View {
     private var singleDigitPatternSteps: [String] {
         let digit = hintedDigitText
         return [
-            L10n.text("On suit un seul candidat: \(digit). Les cases violettes sont les points de depart du motif."),
-            L10n.text("Un lien fort veut dire: dans cette unite, si un bout n'est pas \(digit), l'autre doit l'etre."),
-            L10n.text("Le motif relie deux liens forts. Il force au moins une extremite importante a etre \(digit)."),
-            L10n.text("Une case rouge voit ces extremites. Elle ne peut pas etre \(digit), sinon elle interdirait toutes les issues du motif."),
-            L10n.text("Ce n'est pas une pose: c'est une suppression sure du candidat \(digit)."),
+            L10n.format("On suit un seul candidat: %@. Les cases violettes sont les points de depart du motif.", digit),
+            L10n.format("Un lien fort veut dire: dans cette unite, si un bout n'est pas %@, l'autre doit l'etre.", digit),
+            L10n.format("Le motif relie deux liens forts. Il force au moins une extremite importante a etre %@.", digit),
+            L10n.format("Une case rouge voit ces extremites. Elle ne peut pas etre %@, sinon elle interdirait toutes les issues du motif.", digit),
+            L10n.format("Ce n'est pas une pose: c'est une suppression sure du candidat %@.", digit),
             eliminationActionMessage
         ]
     }
@@ -3765,9 +4263,9 @@ private struct HintWalkthroughView: View {
         return [
             L10n.text("Lis d'abord le pivot, puis les deux ailes. Chaque case du motif a peu de candidats."),
             L10n.text("Le pivot a deux choix. Chaque choix force une aile differente."),
-            L10n.text("Dans les deux scenarios du pivot, une des ailes finit par prendre le candidat \(digit)."),
-            L10n.text("Une case rouge voit les deux ailes. Elle sera donc en conflit avec l'aile qui prendra \(digit)."),
-            L10n.text("Comme les deux scenarios retirent \(digit) de la case rouge, la suppression est logique."),
+            L10n.format("Dans les deux scenarios du pivot, une des ailes finit par prendre le candidat %@.", digit),
+            L10n.format("Une case rouge voit les deux ailes. Elle sera donc en conflit avec l'aile qui prendra %@.", digit),
+            L10n.format("Comme les deux scenarios retirent %@ de la case rouge, la suppression est logique.", digit),
             eliminationActionMessage
         ]
     }
@@ -3776,7 +4274,7 @@ private struct HintWalkthroughView: View {
         let digit = hintedDigitText
         return [
             L10n.text("Repere deux cases violettes avec les memes deux candidats: ce sont les ailes."),
-            L10n.text("Le lien fort bleu porte sur \(digit). Il force au moins un des deux appuis du motif."),
+            L10n.format("Le lien fort bleu porte sur %@. Il force au moins un des deux appuis du motif.", digit),
             L10n.text("Quand un appui est force, il force aussi l'autre candidat dans une des ailes."),
             L10n.text("Les cases rouges voient les deux ailes. Quelle que soit l'aile forcee, elles perdent ce candidat."),
             L10n.text("Le W-Wing prouve donc une suppression par deux issues, pas par intuition."),
@@ -3787,11 +4285,11 @@ private struct HintWalkthroughView: View {
     private var xChainSteps: [String] {
         let digit = hintedDigitText
         return [
-            L10n.text("On suit seulement le candidat \(digit), jamais les autres chiffres."),
-            L10n.text("Les liens alternent fort/faible. Un lien fort garantit qu'un des deux bouts doit etre \(digit)."),
+            L10n.format("On suit seulement le candidat %@, jamais les autres chiffres.", digit),
+            L10n.format("Les liens alternent fort/faible. Un lien fort garantit qu'un des deux bouts doit etre %@.", digit),
             L10n.text("En suivant toute la chaine, les deux bouts ne peuvent pas etre faux ensemble."),
-            L10n.text("Une case rouge qui voit les deux bouts ne peut pas garder \(digit), car elle rendrait les deux bouts faux."),
-            L10n.text("On retire donc \(digit) uniquement des cases qui voient les deux extremites."),
+            L10n.format("Une case rouge qui voit les deux bouts ne peut pas garder %@, car elle rendrait les deux bouts faux.", digit),
+            L10n.format("On retire donc %@ uniquement des cases qui voient les deux extremites.", digit),
             eliminationActionMessage
         ]
     }
@@ -3801,9 +4299,9 @@ private struct HintWalkthroughView: View {
         return [
             L10n.text("Lis la chaine comme une suite de cases a deux candidats."),
             L10n.text("Dans chaque case, si un candidat est faux, l'autre devient vrai: c'est l'effet domino."),
-            L10n.text("En partant d'un bout avec \(digit) faux, la chaine force le dernier bout a etre \(digit)."),
-            L10n.text("Une case rouge voit les deux bouts. Si elle gardait \(digit), elle interdirait les deux bouts."),
-            L10n.text("La chaine prouve pourtant qu'au moins un bout doit etre \(digit). La note rouge sort."),
+            L10n.format("En partant d'un bout avec %@ faux, la chaine force le dernier bout a etre %@.", digit, digit),
+            L10n.format("Une case rouge voit les deux bouts. Si elle gardait %@, elle interdirait les deux bouts.", digit),
+            L10n.format("La chaine prouve pourtant qu'au moins un bout doit etre %@. La note rouge sort.", digit),
             eliminationActionMessage
         ]
     }
@@ -3814,7 +4312,7 @@ private struct HintWalkthroughView: View {
             L10n.text("Une AIC est une chaine alternee: lien fort, lien faible, lien fort, et ainsi de suite."),
             L10n.text("Un lien fort dit qu'au moins un cote est vrai. Un lien faible dit que les deux cotes ne peuvent pas etre vrais ensemble."),
             L10n.text("Cette alternance propage une contrainte fiable d'un bout de la chaine a l'autre."),
-            L10n.text("La case rouge voit les deux bouts utiles. Si elle gardait \(digit), elle casserait toutes les issues de la chaine."),
+            L10n.format("La case rouge voit les deux bouts utiles. Si elle gardait %@, elle casserait toutes les issues de la chaine.", digit),
             L10n.text("On retire seulement la note incompatible avec les deux extremites de l'AIC."),
             eliminationActionMessage
         ]
@@ -3823,10 +4321,10 @@ private struct HintWalkthroughView: View {
     private var simpleColorsSteps: [String] {
         let digit = hintedDigitText
         return [
-            L10n.text("On colorie les positions possibles du candidat \(digit) en deux camps opposes."),
+            L10n.format("On colorie les positions possibles du candidat %@ en deux camps opposes.", digit),
             L10n.text("Deux cases liees fortement ont des couleurs differentes: si une couleur est vraie, l'autre est fausse."),
             L10n.text("Le reseau colore cree soit un conflit dans une couleur, soit une case qui voit les deux couleurs."),
-            L10n.text("Dans les deux cas, la case rouge ne peut pas garder \(digit)."),
+            L10n.format("Dans les deux cas, la case rouge ne peut pas garder %@.", digit),
             L10n.text("On applique seulement la suppression prouvee par les couleurs visibles."),
             eliminationActionMessage
         ]
@@ -3866,13 +4364,13 @@ private struct HintWalkthroughView: View {
         guard let digit = hint.digit else {
             return hint.explanation
         }
-        return L10n.text("Action: pose \(digit) dans la case cible. C'est maintenant le seul placement justifie par le motif affiche.")
+        return L10n.format("Action: pose %d dans la case cible. C'est maintenant le seul placement justifie par le motif affiche.", digit)
     }
 
     private var eliminationActionMessage: String {
         let digits = Set(hint.eliminations.map(\.digit)).sorted().map(String.init).joined(separator: ", ")
         let cells = hint.eliminations.count > 1 ? L10n.text("cases rouges") : L10n.text("case rouge")
-        return L10n.text("Action: retire \(digits) des \(cells). On ne pose pas de chiffre; on nettoie seulement les notes impossibles.")
+        return L10n.format("Action: retire %@ des %@. On ne pose pas de chiffre; on nettoie seulement les notes impossibles.", digits, cells)
     }
 
     private var hintedDigit: Int? {
@@ -3897,11 +4395,11 @@ private struct HintWalkthroughView: View {
 
         if kind == L10n.text("ligne") {
             let row = hint.keyIndices.map { $0 / 9 }.min() ?? 0
-            return L10n.text("ligne \(row + 1)")
+            return L10n.format("ligne %d", row + 1)
         }
 
         let column = hint.keyIndices.map { $0 % 9 }.min() ?? 0
-        return L10n.text("colonne \(column + 1)")
+        return L10n.format("colonne %d", column + 1)
     }
 
     private var lockedAxisKind: String? {
@@ -3941,7 +4439,7 @@ private struct HintWalkthroughView: View {
             return L10n.text("le carre central")
         }
 
-        return L10n.text("le carre \(vertical) \(horizontal)")
+        return L10n.format("le carre %@ %@", vertical, horizontal)
     }
 
     private var techniqueReasonString: String {

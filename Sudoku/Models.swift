@@ -1,4 +1,6 @@
 import Foundation
+import CoreGraphics
+import UIKit
 
 enum Difficulty: String, CaseIterable, Codable, Identifiable {
     case easy
@@ -511,6 +513,144 @@ final class AppSettings: ObservableObject {
         }
 
         return snapshot
+    }
+}
+
+struct PencilHandwritingSample: Codable, Equatable {
+    var digit: Int
+    var vector: [Float]
+}
+
+private struct PencilHandwritingProfileSnapshot: Codable {
+    var samples: [PencilHandwritingSample]
+
+    static let empty = PencilHandwritingProfileSnapshot(samples: [])
+}
+
+@MainActor
+final class PencilHandwritingProfileStore: ObservableObject {
+    static let shared = PencilHandwritingProfileStore()
+    static let samplesPerDigit = 2
+    static let requiredTotalSamples = 9 * samplesPerDigit
+
+    @Published private(set) var samples: [PencilHandwritingSample]
+
+    private let key = "pencil-handwriting-profile-v1"
+    private let encoder = JSONEncoder()
+    private let decoder = JSONDecoder()
+
+    private init() {
+        samples = Self.loadSnapshot(key: key, decoder: decoder).samples
+    }
+
+    var totalSamples: Int {
+        samples.count
+    }
+
+    var isCalibrated: Bool {
+        (1...9).allSatisfy { sampleCount(for: $0) >= Self.samplesPerDigit }
+    }
+
+    func sampleCount(for digit: Int) -> Int {
+        samples.filter { $0.digit == digit }.count
+    }
+
+    var nextCalibrationDigit: Int? {
+        (1...9).first { sampleCount(for: $0) < Self.samplesPerDigit }
+    }
+
+    func addSample(digit: Int, image: CGImage) -> Bool {
+        guard (1...9).contains(digit),
+              let vector = image.handwritingFeatureVector() else {
+            return false
+        }
+
+        samples.append(PencilHandwritingSample(digit: digit, vector: vector))
+        trimOverflowSamples(for: digit)
+        save()
+        return true
+    }
+
+    func reset() {
+        samples = []
+        save()
+    }
+
+    func personalizedScores(for image: CGImage) -> [Int: Double] {
+        guard isCalibrated,
+              let vector = image.handwritingFeatureVector() else {
+            return [:]
+        }
+
+        var scores: [Int: Double] = [:]
+        for digit in 1...9 {
+            let digitSamples = samples.filter { $0.digit == digit }
+            guard !digitSamples.isEmpty else { continue }
+
+            let bestDistance = digitSamples
+                .map { Self.rootMeanSquaredDistance(vector, $0.vector) }
+                .min() ?? 1
+            scores[digit] = max(0, min(1, 1 - Double(bestDistance) / 0.62))
+        }
+        return scores
+    }
+
+    private func trimOverflowSamples(for digit: Int) {
+        let maxSamplesPerDigit = 5
+        let digitSamples = samples.enumerated().filter { $0.element.digit == digit }
+        guard digitSamples.count > maxSamplesPerDigit else { return }
+
+        let overflow = digitSamples.count - maxSamplesPerDigit
+        let indicesToRemove = Set(digitSamples.prefix(overflow).map(\.offset))
+        samples = samples.enumerated()
+            .filter { !indicesToRemove.contains($0.offset) }
+            .map(\.element)
+    }
+
+    private func save() {
+        let snapshot = PencilHandwritingProfileSnapshot(samples: samples)
+        guard let data = try? encoder.encode(snapshot) else { return }
+        UserDefaults.standard.set(data, forKey: key)
+    }
+
+    private static func loadSnapshot(key: String, decoder: JSONDecoder) -> PencilHandwritingProfileSnapshot {
+        guard let data = UserDefaults.standard.data(forKey: key),
+              let snapshot = try? decoder.decode(PencilHandwritingProfileSnapshot.self, from: data) else {
+            return .empty
+        }
+        return snapshot
+    }
+
+    private static func rootMeanSquaredDistance(_ lhs: [Float], _ rhs: [Float]) -> Float {
+        guard lhs.count == rhs.count, !lhs.isEmpty else { return 1 }
+        let sum = zip(lhs, rhs).reduce(Float(0)) { partialResult, pair in
+            let delta = pair.0 - pair.1
+            return partialResult + delta * delta
+        }
+        return sqrt(sum / Float(lhs.count))
+    }
+}
+
+extension CGImage {
+    func handwritingFeatureVector() -> [Float]? {
+        let side = 28
+        var pixels = [UInt8](repeating: 0, count: side * side)
+        guard let colorSpace = CGColorSpace(name: CGColorSpace.linearGray),
+              let context = CGContext(
+                data: &pixels,
+                width: side,
+                height: side,
+                bitsPerComponent: 8,
+                bytesPerRow: side,
+                space: colorSpace,
+                bitmapInfo: CGImageAlphaInfo.none.rawValue
+              ) else {
+            return nil
+        }
+
+        context.interpolationQuality = .high
+        context.draw(self, in: CGRect(x: 0, y: 0, width: side, height: side))
+        return pixels.map { Float($0) / 255 }
     }
 }
 

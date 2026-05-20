@@ -19,6 +19,19 @@
 - Secondary category proposal: `Puzzle`
 - Age rating expectation: `4+`, assuming no external links beyond support/privacy and no user-generated content.
 
+## In-App Purchase / Google Play Product: Unlimited Hints
+
+Use these localized values for the non-consumable product `com.tomhubert.Sudoku.unlimitedHints`, including the Google Play product page if we reuse the same product copy there.
+
+| Locale | Product name | Description |
+| --- | --- | --- |
+| English | `Unlimited hints` | `Unlock unlimited hints for life in KuSoDu.` |
+| French | `Hints illimités` | `Débloquez les hints illimités à vie dans KuSoDu.` |
+| Spanish | `Pistas ilimitadas` | `Desbloquea pistas ilimitadas de por vida en KuSoDu.` |
+| Korean | `무제한 힌트` | `KuSoDu에서 평생 무제한 힌트를 잠금 해제하세요.` |
+| Japanese | `無制限ヒント` | `KuSoDuで無制限ヒントを永久にアンロック。` |
+| Simplified Chinese | `无限提示` | `在 KuSoDu 中终身解锁无限提示。` |
+
 ## App Name
 
 Chosen direction:

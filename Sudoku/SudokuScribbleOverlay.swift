@@ -40,6 +40,7 @@ struct SudokuScribbleOverlay: UIViewRepresentable {
 
         func canvasViewDrawingDidChange(_ canvasView: PKCanvasView) {
             guard !isClearingDrawing else { return }
+            viewModel.markPencilInputUsed()
             scheduleRecognition()
         }
 
@@ -51,6 +52,9 @@ struct SudokuScribbleOverlay: UIViewRepresentable {
 
             let point = recognizer.location(in: overlayView)
             guard let index = overlayView.cellIndex(at: point) else { return }
+            if recognizer.allowedTouchTypes.contains(UITouch.TouchType.pencil.asNumber) {
+                viewModel.markPencilInputUsed()
+            }
             viewModel.selectCell(index)
             overlayView.setActiveCell(index)
         }
@@ -87,21 +91,29 @@ struct SudokuScribbleOverlay: UIViewRepresentable {
             }
 
             guard let image = overlayView.recognitionImageForActiveCell() else {
+                viewModel.showHandwritingNotRecognized(at: targetIndex)
                 clearDrawing()
                 return
             }
 
-            guard let digit = Self.recognizedDigit(in: image) else {
+            guard let recognition = Self.recognizedDigit(in: image) else {
+                viewModel.showHandwritingNotRecognized(at: targetIndex)
                 clearDrawing()
                 return
             }
 
-            if viewModel.applyHandwritingInput("\(digit)", at: targetIndex) {
-                clearDrawing()
+            if !viewModel.applyHandwritingRecognition(
+                recognition.digit,
+                confidence: recognition.confidence,
+                margin: recognition.margin,
+                at: targetIndex
+            ) {
+                viewModel.showHandwritingNotRecognized(at: targetIndex)
             }
+            clearDrawing()
         }
 
-        private static func recognizedDigit(in cgImage: CGImage) -> Int? {
+        private static func recognizedDigit(in cgImage: CGImage) -> DigitRecognition? {
             guard let classifier = digitClassifier,
                   let input = try? MNISTClassifierInput(imageWith: cgImage),
                   let output = try? classifier.prediction(input: input) else {
@@ -119,7 +131,33 @@ struct SudokuScribbleOverlay: UIViewRepresentable {
                 return nil
             }
 
-            return Int(best.key)
+            let baseScores = Dictionary(uniqueKeysWithValues: ranked.compactMap { label, probability -> (Int, Double)? in
+                let digit = Int(label)
+                guard (1...9).contains(digit) else { return nil }
+                return (digit, probability)
+            })
+            let profileScores = PencilHandwritingProfileStore.shared.personalizedScores(for: cgImage)
+            let combinedScores = (1...9).map { digit -> (digit: Int, score: Double) in
+                let modelScore = baseScores[digit] ?? 0
+                guard let profileScore = profileScores[digit] else {
+                    return (digit, modelScore)
+                }
+                return (digit, modelScore * 0.70 + profileScore * 0.30)
+            }
+            .sorted { $0.score > $1.score }
+
+            guard let combinedBest = combinedScores.first,
+                  let combinedRunnerUp = combinedScores.dropFirst().first,
+                  combinedBest.score >= 0.58,
+                  combinedBest.score - combinedRunnerUp.score >= 0.12 else {
+                return nil
+            }
+
+            return DigitRecognition(
+                digit: combinedBest.digit,
+                confidence: combinedBest.score,
+                margin: combinedBest.score - combinedRunnerUp.score
+            )
         }
 
         private static let digitClassifier: MNISTClassifier? = {
@@ -127,6 +165,12 @@ struct SudokuScribbleOverlay: UIViewRepresentable {
             configuration.computeUnits = .all
             return try? MNISTClassifier(configuration: configuration)
         }()
+
+        private struct DigitRecognition {
+            let digit: Int
+            let confidence: Double
+            let margin: Double
+        }
     }
 }
 
@@ -181,7 +225,11 @@ private extension UIView {
     }
 }
 
-private extension PKDrawing {
+extension PKDrawing {
+    func mnistInputImage() -> CGImage? {
+        mnistInputImage(from: bounds.insetBy(dx: -10, dy: -10))
+    }
+
     func mnistInputImage(from rect: CGRect) -> CGImage? {
         let cropRect = bounds
             .insetBy(dx: -6, dy: -6)
