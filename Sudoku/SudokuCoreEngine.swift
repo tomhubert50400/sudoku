@@ -10,6 +10,10 @@ enum SudokuCoreEngine {
         SudokuCoreBridge.shared.hint(in: grid, notes: notes)
     }
 
+    static func solve(_ grid: [Int]) -> [Int]? {
+        SudokuCoreBridge.shared.solve(grid)
+    }
+
     #if DEBUG
     static func placementHintForTesting(title: String, index: Int, digit: Int, grid: [Int]) -> SudokuGenerator.Hint {
         SudokuCoreBridge.placementHint(title: title, index: index, digit: digit, grid: grid)
@@ -96,6 +100,24 @@ private final class SudokuCoreBridge {
             score: score,
             techniques: Array(Set(techniques)).sorted()
         )
+    }
+
+    func solve(_ grid: [Int]) -> [Int]? {
+        lock.lock()
+        defer { lock.unlock() }
+
+        guard grid.count == 81,
+              let boardJSON = encodeBoard(grid),
+              let solveJSON = call("sudokuCoreSolve", arguments: [boardJSON]),
+              let solveResult = try? decoder.decode(CoreSolvingResult.self, from: Data(solveJSON.utf8)),
+              solveResult.solved,
+              solveResult.error == nil,
+              let solution = solveResult.board?.map({ $0 ?? 0 }),
+              solution.allSatisfy({ (1...9).contains($0) }) else {
+            return nil
+        }
+
+        return solution
     }
 
     func hint(in grid: [Int], notes currentNotes: [Int]?) -> SudokuGenerator.Hint? {

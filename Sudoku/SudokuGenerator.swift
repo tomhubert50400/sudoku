@@ -8,6 +8,10 @@ struct SudokuGenerator {
         var score: Int
         var techniques: Set<String>
         var solved: Bool
+
+        var difficultyProfile: DifficultyProfile {
+            DifficultyProfile(techniques: techniques)
+        }
     }
 
     struct Hint {
@@ -39,7 +43,7 @@ struct SudokuGenerator {
 
         if let puzzle = SudokuCoreEngine.generate(difficulty: difficulty),
            let validatedPuzzle = puzzleWithHumanAssessment(puzzle, difficulty: difficulty),
-           !excludedFingerprints.contains(validatedPuzzle.fingerprint) {
+           !validatedPuzzle.isExcluded(by: excludedFingerprints) {
             return validatedPuzzle
         }
 
@@ -53,7 +57,7 @@ struct SudokuGenerator {
             let puzzleGrid = carvePuzzle(from: solution, difficulty: difficulty, deadline: deadline)
             let assessment = assess(grid: puzzleGrid)
             let clueCount = puzzleGrid.filter { $0 != 0 }.count
-            let distance = distanceFromTarget(assessment.score, difficulty.scoreRange) + distanceFromTarget(clueCount, difficulty.clueRange) * 18
+            let distance = assessment.difficultyProfile.distance(from: difficulty) * 500 + distanceFromTarget(clueCount, difficulty.clueRange) * 18
             let puzzle = SudokuPuzzle(
                 givens: puzzleGrid,
                 solution: solution,
@@ -61,9 +65,9 @@ struct SudokuGenerator {
                 score: assessment.score,
                 techniques: assessment.techniques.sorted()
             )
-            let isFreshPuzzle = !excludedFingerprints.contains(puzzle.fingerprint)
+            let isFreshPuzzle = !puzzle.isExcluded(by: excludedFingerprints)
 
-            if isFreshPuzzle && isAcceptable(assessment, clueCount: clueCount, for: difficulty) {
+            if isFreshPuzzle && matchesDifficulty(assessment, clueCount: clueCount, for: difficulty) {
                 return puzzle
             }
 
@@ -80,60 +84,64 @@ struct SudokuGenerator {
         return fallbackPuzzle(difficulty: difficulty, excluding: excludedFingerprints)
     }
 
+    static func generateMatching(difficulty: Difficulty, excluding excludedFingerprints: Set<String> = [], maxAttempts: Int) -> SudokuPuzzle {
+        var excluded = excludedFingerprints
+        var bestPuzzle: SudokuPuzzle?
+        var bestDistance = Int.max
+
+        for _ in 0..<max(1, maxAttempts) {
+            let puzzle = generate(difficulty: difficulty, excluding: excluded)
+            let assessment = humanSolvingAssessment(for: puzzle.givens)
+            let clueCount = puzzle.givens.filter { $0 != 0 }.count
+            let distance = assessment.difficultyProfile.distance(from: difficulty) * 500 + distanceFromTarget(clueCount, difficulty.clueRange) * 18
+
+            if matchesDifficulty(assessment, clueCount: clueCount, for: difficulty) {
+                return SudokuPuzzle(
+                    givens: puzzle.givens,
+                    solution: puzzle.solution,
+                    difficulty: difficulty,
+                    score: assessment.score,
+                    techniques: assessment.techniques.sorted()
+                )
+            }
+
+            if assessment.solved, distance < bestDistance {
+                bestDistance = distance
+                bestPuzzle = puzzle
+            }
+
+            excluded.insert(puzzle.fingerprint)
+            excluded.insert(puzzle.canonicalFingerprint)
+        }
+
+        return bestPuzzle ?? generate(difficulty: difficulty, excluding: excludedFingerprints)
+    }
+
     private static func distanceFromTarget(_ score: Int, _ range: ClosedRange<Int>) -> Int {
         if range.contains(score) { return 0 }
         if score < range.lowerBound { return range.lowerBound - score }
         return score - range.upperBound
     }
 
-    private static func isAcceptable(_ assessment: Assessment, clueCount: Int, for difficulty: Difficulty) -> Bool {
+    static func matchesDifficulty(_ assessment: Assessment, clueCount: Int, for difficulty: Difficulty) -> Bool {
         guard assessment.solved else { return false }
-        guard difficulty.scoreRange.contains(assessment.score) else { return false }
         guard difficulty.clueRange.contains(clueCount) else { return false }
-
-        let advanced = [
-            "Locked candidates",
-            "Naked pair",
-            "Hidden pair",
-            "Naked triple",
-            "Hidden triple",
-            "Naked quadruple",
-            "Hidden quadruple",
-            "X-Wing",
-            "Swordfish",
-            "Skyscraper",
-            "2-String Kite",
-            "XY-Wing",
-            "XYZ-Wing",
-            "W-Wing",
-            "Simple Colors",
-            "XY-Chain",
-            "Jellyfish",
-            "Finned X-Wing",
-            "Finned Swordfish",
-            "Finned Jellyfish",
-            "Unique Rectangle Type 1",
-            "BUG+1",
-            "X-Chain",
-            "AIC"
-        ]
-        switch difficulty {
-        case .easy, .medium, .hard:
-            return true
-        case .expert:
-            return !assessment.techniques.isDisjoint(with: advanced)
-        case .impossible:
-            return !assessment.techniques.isDisjoint(with: advanced)
-        }
+        return assessment.difficultyProfile.matches(difficulty)
     }
 
     static func humanSolvingAssessment(for grid: [Int]) -> Assessment {
         assess(grid: grid)
     }
 
+    static func solvedGrid(for grid: [Int]) -> [Int]? {
+        solveOne(grid)
+    }
+
     private static func puzzleWithHumanAssessment(_ puzzle: SudokuPuzzle, difficulty: Difficulty) -> SudokuPuzzle? {
         let assessment = humanSolvingAssessment(for: puzzle.givens)
+        let clueCount = puzzle.givens.filter { $0 != 0 }.count
         guard assessment.solved else { return nil }
+        guard matchesDifficulty(assessment, clueCount: clueCount, for: difficulty) else { return nil }
 
         return SudokuPuzzle(
             givens: puzzle.givens,
@@ -1669,7 +1677,7 @@ struct SudokuGenerator {
             index: target,
             digit: digit,
             title: "BUG+1",
-            explanation: L10n.format("hint.bug_plus_one.explanation", cellName(target), digit),
+            explanation: L10n.format("hint.bug_plus_one.explanation", cellName(target), cellName(target), digit),
             highlightedIndices: Set(containingUnits.flatMap { $0 }),
             keyIndices: [target],
             blockedIndices: Set(containingUnits.flatMap { $0 }).subtracting([target]),
@@ -2383,13 +2391,13 @@ struct SudokuGenerator {
         ]
         let assessment = assess(grid: givens)
         let puzzle = SudokuPuzzle(givens: givens, solution: solution, difficulty: difficulty, score: assessment.score, techniques: assessment.techniques.sorted())
-        guard excludedFingerprints.contains(puzzle.fingerprint) else {
+        guard puzzle.isExcluded(by: excludedFingerprints) else {
             return puzzle
         }
 
         for _ in 0..<60 {
             let transformed = transformedPuzzle(puzzle)
-            if !excludedFingerprints.contains(transformed.fingerprint),
+            if !transformed.isExcluded(by: excludedFingerprints),
                isValidSolution(transformed.solution, givens: transformed.givens) {
                 return transformed
             }
@@ -2441,10 +2449,10 @@ private extension Difficulty {
     var generationAttempts: Int {
         switch self {
         case .easy: 4
-        case .medium: 5
-        case .hard: 9
-        case .expert: 22
-        case .impossible: 24
+        case .medium: 18
+        case .hard: 28
+        case .expert: 36
+        case .impossible: 42
         }
     }
 
@@ -2461,10 +2469,10 @@ private extension Difficulty {
     var timeBudget: TimeInterval {
         switch self {
         case .easy: 1.6
-        case .medium: 2.0
-        case .hard: 3.0
-        case .expert: 8.0
-        case .impossible: 8.0
+        case .medium: 6.0
+        case .hard: 10.0
+        case .expert: 12.0
+        case .impossible: 14.0
         }
     }
 }

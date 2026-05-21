@@ -83,11 +83,12 @@ struct ContentView: View {
                 break
             }
         }
-        #if DEBUG
         .onAppear {
+            viewModel.prewarmPuzzlePools()
+            #if DEBUG
             viewModel.installCodexUITestFixtureIfRequested()
+            #endif
         }
-        #endif
     }
 
 }
@@ -423,7 +424,6 @@ private struct HomeView: View {
     let onStats: () -> Void
     @State private var isDifficultyMenuPresented = false
     @State private var isAbandonWarningPresented = false
-
     var body: some View {
         ZStack(alignment: .bottom) {
             GeometryReader { proxy in
@@ -530,6 +530,7 @@ private struct HomeView: View {
             HStack(alignment: .center, spacing: metrics.sideBySideSpacing) {
                 VStack(alignment: .center, spacing: metrics.sectionSpacing) {
                     header(metrics: metrics)
+
                     actions(metrics: metrics)
 
                     if viewModel.isGenerating {

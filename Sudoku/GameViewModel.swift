@@ -20,13 +20,20 @@ final class GameViewModel: ObservableObject {
 
     private let store: GameStore
     private let statsStore: PlayerStatsStore
+    private let puzzlePoolStore: PuzzlePoolStore
     private let settings: AppSettings
     private var undoStack: [GameState] = []
     private var autoSolveTask: Task<Void, Never>?
 
-    init(store: GameStore = .shared, settings: AppSettings? = nil, statsStore: PlayerStatsStore = .shared) {
+    init(
+        store: GameStore = .shared,
+        settings: AppSettings? = nil,
+        statsStore: PlayerStatsStore = .shared,
+        puzzlePoolStore: PuzzlePoolStore = .shared
+    ) {
         self.store = store
         self.statsStore = statsStore
+        self.puzzlePoolStore = puzzlePoolStore
         let resolvedSettings = settings ?? .shared
         self.settings = resolvedSettings
         selectedDifficulty = resolvedSettings.defaultDifficulty
@@ -132,33 +139,36 @@ final class GameViewModel: ObservableObject {
         let difficulty = selectedDifficulty
         settings.defaultDifficulty = difficulty
         let excludedFingerprints = statsStore.completedPuzzleFingerprints()
+
+        if let puzzle = puzzlePoolStore.takePuzzle(for: difficulty, excluding: excludedFingerprints) {
+            startGame(with: puzzle)
+            prewarmPuzzlePools()
+            return
+        }
+
         isGenerating = true
         generationMessage = L10n.text("Creation du puzzle...")
 
         Task {
             let puzzle = await Task.detached(priority: .userInitiated) {
-                SudokuGenerator.generate(difficulty: difficulty, excluding: excludedFingerprints)
+                SudokuGenerator.generateMatching(
+                    difficulty: difficulty,
+                    excluding: excludedFingerprints,
+                    maxAttempts: difficulty.directGenerationAttempts
+                )
             }.value
 
-            var newGame = GameState.newGame(from: puzzle)
-            newGame.selectedIndex = firstPlayableCell(in: newGame)
-            resetOptions(in: &newGame)
-            game = newGame
-            usedPencilInputThisGame = false
-            hintOverlay = nil
-            completionBurst = nil
-            rejectedNote = nil
-            handwritingIssue = nil
-            undoStack.removeAll()
-            persist()
+            startGame(with: puzzle)
             isGenerating = false
             generationMessage = ""
+            prewarmPuzzlePools()
         }
     }
 
     func setSelectedDifficulty(_ difficulty: Difficulty) {
         selectedDifficulty = difficulty
         settings.defaultDifficulty = difficulty
+        prewarmPuzzlePools()
     }
 
     func clearSavedGame() {
@@ -174,6 +184,40 @@ final class GameViewModel: ObservableObject {
     func newGame(afterCompletionWith difficulty: Difficulty) {
         selectedDifficulty = difficulty
         newGame()
+    }
+
+    func prewarmPuzzlePools() {
+        var excluded = statsStore.completedPuzzleFingerprints()
+        if let puzzle = game?.puzzle {
+            excluded.insert(puzzle.fingerprint)
+            excluded.insert(puzzle.canonicalFingerprint)
+        }
+        let preferredDifficulty = selectedDifficulty
+        let difficulties = [preferredDifficulty] + Difficulty.allCases.filter { $0 != preferredDifficulty }.shuffled()
+
+        Task.detached(priority: .utility) { [puzzlePoolStore] in
+            for difficulty in Difficulty.allCases.shuffled() {
+                await puzzlePoolStore.refill(difficulty: difficulty, targetCount: 3, excluding: excluded)
+            }
+
+            for difficulty in difficulties {
+                await puzzlePoolStore.refill(difficulty: difficulty, excluding: excluded)
+            }
+        }
+    }
+
+    private func startGame(with puzzle: SudokuPuzzle) {
+        var newGame = GameState.newGame(from: puzzle)
+        newGame.selectedIndex = firstPlayableCell(in: newGame)
+        resetOptions(in: &newGame)
+        game = newGame
+        usedPencilInputThisGame = false
+        hintOverlay = nil
+        completionBurst = nil
+        rejectedNote = nil
+        handwritingIssue = nil
+        undoStack.removeAll()
+        persist()
     }
 
     func selectCell(_ index: Int) {
@@ -391,11 +435,13 @@ final class GameViewModel: ObservableObject {
     }
 
     func resumeAfterAppBecameActive() {
-        guard var game else { return }
-        resumeTimerIfNeeded(in: &game)
-        game.updatedAt = Date()
-        self.game = game
-        persist()
+        if var game {
+            resumeTimerIfNeeded(in: &game)
+            game.updatedAt = Date()
+            self.game = game
+            persist()
+        }
+        prewarmPuzzlePools()
     }
 
     func elapsedSeconds(at date: Date = Date()) -> TimeInterval {
@@ -938,6 +984,54 @@ final class GameViewModel: ObservableObject {
         }
 
         return badges
+    }
+
+    func hintVisualConnections() -> [HintVisualConnection] {
+        guard let hintOverlay, hintOverlay.hasAction else {
+            return []
+        }
+
+        let keys = hintOverlay.keyIndices.sorted()
+        var connections: [HintVisualConnection] = []
+
+        if ["X-Wing", "Swordfish", "Jellyfish", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish"].contains(hintOverlay.title),
+           hintOverlay.step >= 2 {
+            connections.append(contentsOf: adjacentConnections(for: keys, kind: .framework))
+        } else if ["XY-Wing", "XYZ-Wing"].contains(hintOverlay.title),
+                  hintOverlay.step >= 1,
+                  let pivot = wingPivot(from: keys) {
+            connections.append(contentsOf: keys.filter { $0 != pivot }.map {
+                HintVisualConnection(from: pivot, to: $0, kind: .strongLink)
+            })
+        } else if hintOverlay.title == "W-Wing", hintOverlay.step >= 1 {
+            let path = preferredVisualPath(keys: keys, preferredPath: hintOverlay.visualPathIndices)
+            connections.append(contentsOf: adjacentConnections(for: path, kind: .strongLink))
+        } else if ["XY-Chain", "X-Chain", "AIC", "Simple Colors", "Skyscraper", "2-String Kite"].contains(hintOverlay.title),
+                  hintOverlay.step >= 1 {
+            let path = preferredVisualPath(keys: keys, preferredPath: hintOverlay.visualPathIndices)
+            connections.append(contentsOf: adjacentConnections(for: path, kind: .strongLink))
+        }
+
+        if hintOverlay.step >= hintOverlay.eliminationRevealStep, let source = keys.first {
+            connections.append(contentsOf: hintOverlay.eliminations.map {
+                HintVisualConnection(from: source, to: $0.index, kind: .elimination)
+            })
+        }
+
+        return connections
+    }
+
+    private func preferredVisualPath(keys: [Int], preferredPath: [Int]) -> [Int] {
+        let keySet = Set(keys)
+        let path = preferredPath.filter { keySet.contains($0) }
+        return path.isEmpty ? keys : path
+    }
+
+    private func adjacentConnections(for indices: [Int], kind: HintVisualConnection.Kind) -> [HintVisualConnection] {
+        guard indices.count >= 2 else { return [] }
+        return zip(indices, indices.dropFirst()).map {
+            HintVisualConnection(from: $0.0, to: $0.1, kind: kind)
+        }
     }
 
     private func wingPivot(from keys: [Int]) -> Int? {
@@ -1827,6 +1921,16 @@ struct CompletionWaveCell: Hashable {
     let distance: Int
 }
 
+private extension Difficulty {
+    var directGenerationAttempts: Int {
+        switch self {
+        case .easy: return 1
+        case .medium, .hard: return 4
+        case .expert, .impossible: return 3
+        }
+    }
+}
+
 private struct CompletedUnit: Hashable {
     let kind: CompletedUnitKind
     let ordinal: Int
@@ -1976,6 +2080,30 @@ struct HintVisualBadge: Hashable, Identifiable {
 
     var id: String {
         "\(index)-\(label)-\(kind.idText)"
+    }
+}
+
+struct HintVisualConnection: Hashable, Identifiable {
+    enum Kind: Hashable {
+        case framework
+        case strongLink
+        case elimination
+
+        var idText: String {
+            switch self {
+            case .framework: return "framework"
+            case .strongLink: return "strongLink"
+            case .elimination: return "elimination"
+            }
+        }
+    }
+
+    let from: Int
+    let to: Int
+    let kind: Kind
+
+    var id: String {
+        "\(from)-\(to)-\(kind.idText)"
     }
 }
 

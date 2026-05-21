@@ -1,6 +1,8 @@
 import Foundation
 import CoreGraphics
+#if canImport(UIKit)
 import UIKit
+#endif
 
 enum Difficulty: String, CaseIterable, Codable, Identifiable {
     case easy
@@ -24,9 +26,9 @@ enum Difficulty: String, CaseIterable, Codable, Identifiable {
     var clueRange: ClosedRange<Int> {
         switch self {
         case .easy: 38...45
-        case .medium: 32...37
-        case .hard: 28...31
-        case .expert: 24...27
+        case .medium: 24...37
+        case .hard: 26...29
+        case .expert: 26...30
         case .impossible: 26...30
         }
     }
@@ -50,6 +52,137 @@ enum Difficulty: String, CaseIterable, Codable, Identifiable {
         case .impossible: 4
         }
     }
+
+    var techniqueLevelRange: ClosedRange<Int> {
+        switch self {
+        case .easy: 1...2
+        case .medium: 3...5
+        case .hard: 6...11
+        case .expert: 12...13
+        case .impossible: 14...15
+        }
+    }
+
+    var requiresPeakTechnique: Int? {
+        switch self {
+        case .impossible: 15
+        case .easy, .medium, .hard, .expert: nil
+        }
+    }
+}
+
+enum TechniqueDifficulty {
+    static func level(for title: String) -> Int? {
+        levels[title]
+    }
+
+    private static let levels: [String: Int] = [
+        "Full house": 1,
+        "Naked single": 1,
+        "Hidden single": 2,
+        "Locked candidates": 3,
+        "Naked pair": 4,
+        "Hidden pair": 5,
+        "Naked triple": 6,
+        "Hidden triple": 7,
+        "Naked quadruple": 8,
+        "Hidden quadruple": 8,
+        "X-Wing": 9,
+        "Swordfish": 10,
+        "Skyscraper": 10,
+        "2-String Kite": 10,
+        "XY-Wing": 11,
+        "XYZ-Wing": 11,
+        "W-Wing": 12,
+        "Simple Colors": 12,
+        "Jellyfish": 12,
+        "Finned X-Wing": 13,
+        "Unique Rectangle Type 1": 13,
+        "Finned Swordfish": 14,
+        "BUG+1": 14,
+        "X-Chain": 14,
+        "XY-Chain": 15,
+        "Finned Jellyfish": 15,
+        "AIC": 15
+    ]
+}
+
+struct DifficultyProfile: Equatable {
+    var techniques: Set<String>
+    var levelsByTechnique: [String: Int]
+    var unknownTechniques: Set<String>
+    var usesSearch: Bool
+
+    init(techniques: Set<String>) {
+        self.techniques = techniques
+        self.usesSearch = techniques.contains("Search")
+
+        var levelsByTechnique: [String: Int] = [:]
+        var unknownTechniques = Set<String>()
+
+        for technique in techniques where technique != "Search" {
+            if let level = TechniqueDifficulty.level(for: technique) {
+                levelsByTechnique[technique] = level
+            } else {
+                unknownTechniques.insert(technique)
+            }
+        }
+
+        self.levelsByTechnique = levelsByTechnique
+        self.unknownTechniques = unknownTechniques
+    }
+
+    var hardestTechniqueLevel: Int {
+        levelsByTechnique.values.max() ?? 0
+    }
+
+    func targetTechniqueCount(for difficulty: Difficulty) -> Int {
+        let range = difficulty.techniqueLevelRange
+        return levelsByTechnique.values.filter { range.contains($0) }.count
+    }
+
+    func containsTechnique(level: Int) -> Bool {
+        levelsByTechnique.values.contains(level)
+    }
+
+    func matches(_ difficulty: Difficulty) -> Bool {
+        guard !usesSearch, unknownTechniques.isEmpty else { return false }
+        guard hardestTechniqueLevel <= difficulty.techniqueLevelRange.upperBound else { return false }
+        guard (1...3).contains(targetTechniqueCount(for: difficulty)) else { return false }
+
+        if let required = difficulty.requiresPeakTechnique {
+            guard containsTechnique(level: required) else { return false }
+        }
+
+        return true
+    }
+
+    func distance(from difficulty: Difficulty) -> Int {
+        var distance = 0
+        let range = difficulty.techniqueLevelRange
+
+        if usesSearch { distance += 20 }
+        distance += unknownTechniques.count * 8
+
+        if hardestTechniqueLevel < range.lowerBound {
+            distance += range.lowerBound - hardestTechniqueLevel
+        } else if hardestTechniqueLevel > range.upperBound {
+            distance += hardestTechniqueLevel - range.upperBound
+        }
+
+        let targetCount = targetTechniqueCount(for: difficulty)
+        if targetCount < 1 {
+            distance += 1 - targetCount
+        } else if targetCount > 3 {
+            distance += targetCount - 3
+        }
+
+        if let required = difficulty.requiresPeakTechnique, !containsTechnique(level: required) {
+            distance += 1
+        }
+
+        return distance
+    }
 }
 
 struct SudokuPuzzle: Codable, Equatable {
@@ -61,6 +194,96 @@ struct SudokuPuzzle: Codable, Equatable {
 
     var fingerprint: String {
         givens.map(String.init).joined()
+    }
+
+    var canonicalFingerprint: String {
+        PuzzleCanonicalizer.canonicalFingerprint(for: givens)
+    }
+
+    func isExcluded(by fingerprints: Set<String>) -> Bool {
+        guard !fingerprints.isEmpty else { return false }
+        return fingerprints.contains(fingerprint) || fingerprints.contains(canonicalFingerprint)
+    }
+}
+
+enum PuzzleCanonicalizer {
+    private static let lock = NSLock()
+    private static var cache: [String: String] = [:]
+
+    static func canonicalFingerprint(for grid: [Int]) -> String {
+        let exact = grid.map(String.init).joined()
+        guard grid.count == 81 else { return exact }
+
+        lock.lock()
+        if let cached = cache[exact] {
+            lock.unlock()
+            return cached
+        }
+        lock.unlock()
+
+        let canonical = structuralFingerprint(for: grid)
+
+        lock.lock()
+        cache[exact] = canonical
+        lock.unlock()
+
+        return canonical
+    }
+
+    private static func structuralFingerprint(for grid: [Int]) -> String {
+        var colors: [String] = []
+        var links: [[Int]] = []
+
+        func addNode(_ color: String) -> Int {
+            colors.append(color)
+            links.append([])
+            return colors.count - 1
+        }
+
+        func connect(_ first: Int, _ second: Int) {
+            links[first].append(second)
+            links[second].append(first)
+        }
+
+        let rows = (0..<9).map { _ in addNode("line") }
+        let columns = (0..<9).map { _ in addNode("line") }
+        let boxes = (0..<9).map { _ in addNode("box") }
+        let digits = (0..<9).map { _ in addNode("digit") }
+        var clueCount = 0
+
+        for index in grid.indices {
+            let value = grid[index]
+            guard (1...9).contains(value) else { continue }
+
+            clueCount += 1
+            let row = index / 9
+            let column = index % 9
+            let box = (row / 3) * 3 + column / 3
+            let clue = addNode("clue")
+            connect(clue, rows[row])
+            connect(clue, columns[column])
+            connect(clue, boxes[box])
+            connect(clue, digits[value - 1])
+        }
+
+        for _ in 0..<8 {
+            let descriptions = colors.indices.map { index in
+                let neighborColors = links[index].map { colors[$0] }.sorted().joined(separator: ",")
+                return "\(colors[index])(\(neighborColors))"
+            }
+
+            let uniqueDescriptions = Array(Set(descriptions)).sorted()
+            let ids = Dictionary(uniqueKeysWithValues: uniqueDescriptions.enumerated().map { index, description in
+                (description, String(index, radix: 36))
+            })
+            colors = descriptions.map { ids[$0] ?? $0 }
+        }
+
+        let histogram = Dictionary(grouping: colors, by: { $0 })
+            .map { color, nodes in "\(color):\(nodes.count)" }
+            .sorted()
+            .joined(separator: "|")
+        return "wl8:\(clueCount):\(histogram)"
     }
 }
 

@@ -4,7 +4,15 @@ enum PuzzleBank {
     private static let decoder = JSONDecoder()
 
     static func puzzle(for difficulty: Difficulty, excluding excludedFingerprints: Set<String> = []) -> SudokuPuzzle? {
+        puzzles(for: difficulty, limit: 1, excluding: excludedFingerprints).first
+    }
+
+    static func puzzles(for difficulty: Difficulty, limit: Int, excluding excludedFingerprints: Set<String> = []) -> [SudokuPuzzle] {
+        guard limit > 0 else { return [] }
+
         let entries = loadEntries().filter { $0.difficulty == difficulty }.shuffled()
+        var puzzles: [SudokuPuzzle] = []
+        var fingerprints = excludedFingerprints
 
         for entry in entries {
             guard let givens = parseGrid(entry.givens),
@@ -18,27 +26,28 @@ enum PuzzleBank {
                     continue
                 }
 
-                let assessment = SudokuGenerator.humanSolvingAssessment(for: transformed.givens)
-                guard assessment.solved else {
-                    continue
-                }
-
                 let puzzle = SudokuPuzzle(
                     givens: transformed.givens,
                     solution: transformed.solution,
                     difficulty: entry.difficulty,
-                    score: assessment.score,
-                    techniques: assessment.techniques.sorted()
+                    score: entry.score,
+                    techniques: entry.techniques
                 )
-                guard !excludedFingerprints.contains(puzzle.fingerprint) else {
+                guard !puzzle.isExcluded(by: fingerprints) else {
                     continue
                 }
 
-                return puzzle
+                puzzles.append(puzzle)
+                fingerprints.insert(puzzle.fingerprint)
+                fingerprints.insert(puzzle.canonicalFingerprint)
+
+                if puzzles.count >= limit {
+                    return puzzles
+                }
             }
         }
 
-        return nil
+        return puzzles
     }
 
     private static func loadEntries() -> [PuzzleBankEntry] {

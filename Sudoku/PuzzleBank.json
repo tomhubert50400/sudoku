@@ -1,90 +1,3718 @@
 [
   {
-    "id": "easy-1",
-    "difficulty": "easy",
-    "givens": "362049015047018026058260000080900007700056030500874000209000000400005700805021400",
-    "solution": "362749815947518326158263974681932547794156238523874169239487651416395782875621493",
-    "score": 200,
-    "techniques": ["Full house", "Hidden single"]
+    "difficulty" : "easy",
+    "givens" : "040207013600030000013058020090805062058346790130709080020180570000070009760502030",
+    "id" : "easy-generated-1",
+    "score" : 236,
+    "solution" : "845267913672931854913458627497815362258346791136729485329184576581673249764592138",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "easy-2",
-    "difficulty": "easy",
-    "givens": "003106002080030000009527068800090156270060800096014000327040010900050400100673080",
-    "solution": "753186942682439571419527368834792156271365894596814723327948615968251437145673289",
-    "score": 200,
-    "techniques": ["Full house", "Hidden single"]
+    "difficulty" : "easy",
+    "givens" : "752800001040006870600400000037640080810935067090087350000008002079200030400009716",
+    "id" : "easy-generated-2",
+    "score" : 252,
+    "solution" : "752893641941526873683471925537642189814935267296187354365718492179264538428359716",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "easy-3",
-    "difficulty": "easy",
-    "givens": "400000208007002130023005000080600003000970800706508904090051320050087601300269405",
-    "solution": "419736258567842139823195746982614573145973862736528914698451327254387691371269485",
-    "score": 209,
-    "techniques": ["Full house", "Hidden single"]
+    "difficulty" : "easy",
+    "givens" : "040705063020900701073061004150098607087000150409150032600420370204006010790503020",
+    "id" : "easy-generated-3",
+    "score" : 212,
+    "solution" : "941785263526934781873261594152398647387642159469157832615429378234876915798513426",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "medium-1",
-    "difficulty": "medium",
-    "givens": "540600370700830050300000209067080003000000090135900040000076004003020000070450000",
-    "solution": "548692371729831456316745289967284513284513697135967842851376924493128765672459138",
-    "score": 267,
-    "techniques": ["Full house", "Hidden single", "Naked single"]
+    "difficulty" : "easy",
+    "givens" : "306800072050071000100240900465198300070000010009734658004027001000410090790005203",
+    "id" : "easy-generated-4",
+    "score" : 248,
+    "solution" : "346859172952371864187246935465198327873562419219734658634927581528413796791685243",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "medium-2",
-    "difficulty": "medium",
-    "givens": "459700308020080090006000002760100000300900800008002071000060104040309000000204050",
-    "solution": "459726318127483596836591742764158239312947865598632471973865124245319687681274953",
-    "score": 262,
-    "techniques": ["Full house", "Hidden single", "Naked single"]
+    "difficulty" : "easy",
+    "givens" : "006300004142500863073002050409070130280060049015020607020700490738009216600001300",
+    "id" : "easy-generated-5",
+    "score" : 220,
+    "solution" : "956318724142597863873642951469875132287163549315924687521736498738459216694281375",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "medium-3",
-    "difficulty": "medium",
-    "givens": "040612070803007060007004920200080000019005080600000257480000006000000030000006700",
-    "solution": "945612873823957461167834925254783619719265384638149257482371596576498132391526748",
-    "score": 279,
-    "techniques": ["Full house", "Hidden single", "Naked single"]
+    "difficulty" : "easy",
+    "givens" : "967038204080020703000000000800241657600307002472956001000000000504070060306190478",
+    "id" : "easy-generated-6",
+    "score" : 244,
+    "solution" : "967538214185624793243719586839241657651387942472956831798463125514872369326195478",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "hard-1",
-    "difficulty": "hard",
-    "givens": "000000207000500900800300450670400031000063500000800000300900000004002000008701000",
-    "solution": "593146287246578913817329456672495831189263574435817629321984765754632198968751342",
-    "score": 376,
-    "techniques": ["Full house", "Hidden single", "Naked single", "Naked pair"]
+    "difficulty" : "easy",
+    "givens" : "000270805175008009003001764094305082006187900380402570648700200500800497907024000",
+    "id" : "easy-generated-7",
+    "score" : 208,
+    "solution" : "469273815175648329823951764794365182256187943381492576648739251532816497917524638",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "hard-2",
-    "difficulty": "hard",
-    "givens": "010065900009000000050000030030400000000700210000100809072500000000009062008003001",
-    "solution": "317265984489317625256984137831492756964758213725136849672541398143879562598623471",
-    "score": 383,
-    "techniques": ["Full house", "Hidden single", "Naked single", "Naked pair"]
+    "difficulty" : "easy",
+    "givens" : "000004006008921047472683001213060090000402000040030628100395874930718500700200000",
+    "id" : "easy-generated-8",
+    "score" : 232,
+    "solution" : "391574286658921347472683951213867495869452713547139628126395874934718562785246139",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
   },
   {
-    "id": "hard-3",
-    "difficulty": "hard",
-    "givens": "002009000063087000500000420004010005800900002090000000000000004300006090645700800",
-    "solution": "182459736463287159579361428234618975851973642796524381917835264328146597645792813",
-    "score": 351,
-    "techniques": ["Full house", "Hidden single", "Naked single", "Naked pair"]
+    "difficulty" : "medium",
+    "givens" : "000270300000081020007000080030000069294000538580000040070000900060420000003097000",
+    "id" : "medium-generated-1",
+    "score" : 828,
+    "solution" : "618274395945381726327659481731548269294716538586932147872163954169425873453897612",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
   },
   {
-    "id": "expert-qqwing-1",
-    "difficulty": "expert",
-    "givens": "000000000008004010004070000800300069007100004095000000400510703070800900500006080",
-    "solution": "712983645938654217654271398841327569267195834395468172486519723173842956529736481",
-    "score": 1200,
-    "techniques": ["Full house", "Hidden single", "Naked single", "Naked pair", "Locked candidates"]
+    "difficulty" : "medium",
+    "givens" : "008000060350000274000201008000065012000802000510470000100508000847000053030000800",
+    "id" : "medium-generated-2",
+    "score" : 798,
+    "solution" : "298347165351689274476251398783965412964812537512473689129538746847126953635794821",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
   },
   {
-    "id": "impossible-human-1",
-    "difficulty": "impossible",
-    "givens": "000009000000037006304060018010000732200010004493000060160070403800450000000600000",
-    "solution": "586149327921837546374265918618594732257316894493728165165972483832451679749683251",
-    "score": 4960,
-    "techniques": ["Full house", "Hidden single", "Locked candidates", "Naked pair", "Naked single", "W-Wing", "X-Wing", "XY-Chain", "XY-Wing"]
+    "difficulty" : "medium",
+    "givens" : "010450209000000705600900080080790000001060500000081030070006002103000000508029070",
+    "id" : "medium-generated-3",
+    "score" : 764,
+    "solution" : "817453269239618745645972381382795614791364528456281937974836152123547896568129473",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000760000304105206060380400750000900030000020009000035007013040602508307000027000",
+    "id" : "medium-generated-4",
+    "score" : 516,
+    "solution" : "821764593374195286965382471758231964136459728249876135587913642692548317413627859",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000600900000197050000000024080000403640235081701000060390000000050362000002008000",
+    "id" : "medium-generated-5",
+    "score" : 620,
+    "solution" : "513624978824197356976853124285716493649235781731489265398571642457362819162948537",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000009006006480500100035200080542007067000350500763080002310005004056100600200000",
+    "id" : "medium-generated-6",
+    "score" : 500,
+    "solution" : "453129876926487531178635249389542617267891354541763982892314765734956128615278493",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "009200000520001060001000007070805609000090000903104020400000900030600075000007100",
+    "id" : "medium-generated-7",
+    "score" : 844,
+    "solution" : "769283514524971863381456297172835649846792351953164728417528936238619475695347182",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "005300812800410300000000000050930004109000503300064090000000000004089001937002600",
+    "id" : "medium-generated-8",
+    "score" : 648,
+    "solution" : "495376812826415379713298456658931724149827563372564198281653947564789231937142685",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "040380000000026030000000190083600000005432600000008720027000000050710000000063040",
+    "id" : "hard-generated-1",
+    "score" : 1492,
+    "solution" : "641389275579126834832547196283671459795432618164958723427895361356714982918263547",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Naked triple"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000000000000003096160080040019320704000070000708061520050040017640100000000000000",
+    "id" : "hard-generated-2",
+    "score" : 1802,
+    "solution" : "395614278874253196162987345519328764426579831738461529953842617647135982281796453",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "900000605005023007083000200100200000000846000000007006006000950200750800501000004",
+    "id" : "hard-generated-3",
+    "score" : 1366,
+    "solution" : "942178635615923487783564219167295348359846172428317596876432951294751863531689724",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Naked triple"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "501060090008340250000000000000005630400627009056800000000000000075084300080050906",
+    "id" : "hard-generated-4",
+    "score" : 2236,
+    "solution" : "531762498968341257742598163897415632413627589256839714329176845675984321184253976",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000030956000000000300280007410800705000040000607001083100056009000000000598020000",
+    "id" : "hard-generated-5",
+    "score" : 2322,
+    "solution" : "782134956941675238365289147413862795859743612627591483174356829236918574598427361",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "020004000700180000851076000040007005900000004200500080000610429000029003000400060",
+    "id" : "hard-generated-6",
+    "score" : 1056,
+    "solution" : "629354178734182596851976342148297635975863214263541987387615429416729853592438761",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "710600450600007008004000000200403560000000000097206004000000900800900005073008046",
+    "id" : "hard-generated-7",
+    "score" : 2366,
+    "solution" : "718692453659347218324185697281473569436859721597216834165734982842961375973528146",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Hidden triple",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "004000716806000350000006000020409803000020000405803060000900000068000104953000600",
+    "id" : "hard-generated-8",
+    "score" : 1072,
+    "solution" : "234598716816742359579316482621459873387621945495873261142967538768235194953184627",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000080570000007600000605098061000089509000106870000350190802000008400000043070000",
+    "id" : "expert-generated-1",
+    "score" : 2608,
+    "solution" : "612389574985247613437615298361524789529738146874196352196852437758463921243971865",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "094100020002005940300200705000000084000030000670000000901003007068500100030001450",
+    "id" : "expert-generated-2",
+    "score" : 1698,
+    "solution" : "594176823712385946386294715123759684849632571675418392951843267468527139237961458",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "009007000002100409503002106000008300000291000005600000204700601108006500000800200",
+    "id" : "expert-generated-3",
+    "score" : 3530,
+    "solution" : "419367825762185439583942176921578364346291758875634912294753681138426597657819243",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "001005800000006090400908230217000005000000000500000672058104003070500000006800400",
+    "id" : "expert-generated-4",
+    "score" : 1662,
+    "solution" : "791325864832746591465918237217689345643257918589431672958164723374592186126873459",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Unique Rectangle Type 1"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000760451000051090000000730042000009100000008800000520067000000080640000521037000",
+    "id" : "expert-generated-5",
+    "score" : 3298,
+    "solution" : "298763451734251896615498732342586179159372648876914523467129385983645217521837964",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "030002000009480250500007010000000490004000800013000000060900005051036900000500070",
+    "id" : "expert-generated-6",
+    "score" : 1824,
+    "solution" : "836152749179483256542697318785261493924375861613849527467928135251736984398514672",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "309601500000050900507000003002000000105392608000000400600000709003010000001407205",
+    "id" : "expert-generated-7",
+    "score" : 1092,
+    "solution" : "329681547418753926567924183792846351145392678836175492654238719273519864981467235",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "009002010100003200000001089456007008000000000700800542670500000004200006080100300",
+    "id" : "expert-generated-8",
+    "score" : 5724,
+    "solution" : "869752413147983265325641789456327198298415637731869542673594821514238976982176354",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Simple Colors",
+      "Swordfish",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "900001080600000075000802004860097040000000000020410036200104000140000008050900007",
+    "id" : "impossible-generated-1",
+    "score" : 4540,
+    "solution" : "974561382682349175531872964863297541415638729729415836297184653146753298358926417",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Chain",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "200000000030000916005801300048002003000030000300400620001205700724000060000000004",
+    "id" : "impossible-generated-2",
+    "score" : 3338,
+    "solution" : "216397458837524916495861372148672593562139847379458621681245739724983165953716284",
+    "techniques" : [
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "060105000030000140207300500752000300000000000009000214004009803096000050000807090",
+    "id" : "impossible-generated-3",
+    "score" : 1506,
+    "solution" : "468175932935286147217394568752641389341928675689753214174569823896432751523817496",
+    "techniques" : [
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000507102000160000600000803003600005700283009900005300408000001000071000102406000",
+    "id" : "impossible-generated-4",
+    "score" : 2618,
+    "solution" : "894537162325168947617924853243619785756283419981745326478352691569871234132496578",
+    "techniques" : [
+      "2-String Kite",
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000060070950072090800040280039007903100930014080004020690083050020000000000",
+    "id" : "impossible-generated-5",
+    "score" : 1390,
+    "solution" : "519846372468372951372591864641285739827963145935714286754128693183659427296437518",
+    "techniques" : [
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000009300000870040004000850003290060040030070020048100032000400070023000005600000",
+    "id" : "impossible-generated-6",
+    "score" : 6204,
+    "solution" : "867459321351872946294361857183297564549136278726548193632715489478923615915684732",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Simple Colors",
+      "Skyscraper",
+      "W-Wing",
+      "X-Chain",
+      "XY-Chain",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000392084010000070830200005090064030150030800007017090000020640981000000000",
+    "id" : "impossible-generated-7",
+    "score" : 6272,
+    "solution" : "758316429392584716146972835271465398864739152935821647417298563523647981689153274",
+    "techniques" : [
+      "2-String Kite",
+      "Finned Swordfish",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "060008200210300760407500000150000400000050000002000017000009601031005029006800070",
+    "id" : "impossible-generated-8",
+    "score" : 2310,
+    "solution" : "369178254215394768487526193153967482874251936692483517528739641731645829946812375",
+    "techniques" : [
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "005960270200700040000012800650289000140605038000143025004890000090007004021056700",
+    "id" : "easy-generated-9",
+    "score" : 276,
+    "solution" : "835964271219738546476512893653289417142675938987143625764891352598327164321456789",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "000002603000006748000030295032068059890070062450920180129050000378600000504200000",
+    "id" : "easy-generated-10",
+    "score" : 256,
+    "solution" : "985742613213596748647831295732168459891475362456923187129354876378619524564287931",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "028307600746005903905604081000200016000040000280001000310902408409800257002406130",
+    "id" : "easy-generated-11",
+    "score" : 236,
+    "solution" : "128397645746185923935624781574239816691548372283761594317952468469813257852476139",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "730402001150078030920000000380740065010080040640053098000000029090320086500806013",
+    "id" : "easy-generated-12",
+    "score" : 252,
+    "solution" : "738462951154978632926135874389741265215689347647253198863514729491327586572896413",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "476003008800061942000000000040298567080000020725146090000000000197530004200800315",
+    "id" : "easy-generated-13",
+    "score" : 260,
+    "solution" : "476923158853761942912485736341298567689357421725146893538614279197532684264879315",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "000000000200004175450001609097263841602418907148795230304100092719300008000000000",
+    "id" : "easy-generated-14",
+    "score" : 224,
+    "solution" : "971526384286934175453871629597263841632418957148795236364187592719352468825649713",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "035100060671908002490500180260301879000060000713209056058003041300804795040005320",
+    "id" : "easy-generated-15",
+    "score" : 204,
+    "solution" : "835172964671948532492536187264351879589467213713289456958723641326814795147695328",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "940005000670281000210940000009108406407569208106704900000017049000396021000400037",
+    "id" : "easy-generated-16",
+    "score" : 236,
+    "solution" : "943675182675281394218943765529138476437569218186724953362817549754396821891452637",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "038194500020008000007302680004086300050413090003270400079601800000500010001839240",
+    "id" : "easy-generated-17",
+    "score" : 252,
+    "solution" : "638194572925768134147352689714986325256413798893275461479621853382547916561839247",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "021056070006247810034809560000934720000070000047685000069508140018763200070490630",
+    "id" : "easy-generated-18",
+    "score" : 204,
+    "solution" : "821356974956247813734819562185934726693172485247685391369528147418763259572491638",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "160090038700620015980014007610009020400000009020400086200980043890073002370040091",
+    "id" : "easy-generated-19",
+    "score" : 244,
+    "solution" : "162795438743628915985314267617859324438261579529437186251986743894173652376542891",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "690003007150007090240908050900026038000485000820390004070802069080600025400500081",
+    "id" : "easy-generated-20",
+    "score" : 252,
+    "solution" : "698153247153247896247968153914726538736485912825391674571832469389614725462579381",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "200009080015706000090300570000091804000020000904830000059004060000908710060200008",
+    "id" : "medium-generated-9",
+    "score" : 682,
+    "solution" : "247519683315786249698342571573691824186425937924837156859174362432968715761253498",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000090000005000007070006130000003601002508400901400000036100020700000900000030000",
+    "id" : "medium-generated-10",
+    "score" : 814,
+    "solution" : "283791546615384297479256138847923651362518479951467382536179824728645913194832765",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "610008072002006100000000000980270010043080750050043029000000000008400200720300081",
+    "id" : "medium-generated-11",
+    "score" : 452,
+    "solution" : "614538972532796148879124563986275314243981756157643829491852637368417295725369481",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000000400060300807140050000700002100005090300006400009000040036209006070004000000",
+    "id" : "medium-generated-12",
+    "score" : 838,
+    "solution" : "358679412962314857147258693793862145425791368816435729581947236239186574674523981",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "300900000712006300054000000003800570000040000047005800000000250005100798000007003",
+    "id" : "medium-generated-13",
+    "score" : 796,
+    "solution" : "386971425712456389954238617693812574528743961147695832471389256235164798869527143",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000639000069005710005007300010900270000000000097008050001400800054800920000592000",
+    "id" : "medium-generated-14",
+    "score" : 516,
+    "solution" : "178639542369245718245187396816954273532761489497328651921476835654813927783592164",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "081007000050008027000009300963001000000000000000300976002700000630900080000800140",
+    "id" : "medium-generated-15",
+    "score" : 772,
+    "solution" : "381627495459138627276459318963271854748596231125384976812743569634915782597862143",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000000000350174090090006003900061300024000650003950008800200060060589034000000000",
+    "id" : "medium-generated-16",
+    "score" : 420,
+    "solution" : "218395476356174892497826513985461327124738659673952148849213765761589234532647981",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "030040581041050000000900000000000807097060350502000000000005000000020160653010090",
+    "id" : "medium-generated-17",
+    "score" : 1000,
+    "solution" : "936247581741856923825931476364592817197468352582173649219685734478329165653714298",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "700000000208004000001039000023000050906050401040000280000160700000800104000000006",
+    "id" : "medium-generated-18",
+    "score" : 878,
+    "solution" : "769581342238674915451239867123748659986352471547916283394165728675823194812497536",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "803005000001300000250170000027040060510000084030010270000081027000004900000600508",
+    "id" : "medium-generated-19",
+    "score" : 478,
+    "solution" : "863425791791368452254179836927843165516297384438516279345981627682754913179632548",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "506200009400075000027090050208300000034020610000009802040050280000980001800002903",
+    "id" : "medium-generated-20",
+    "score" : 588,
+    "solution" : "586231479493675128127498356258316794934827615761549832649153287372984561815762943",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "002904001450802079008000005000000046000010000810000000100000300780301052500206700",
+    "id" : "hard-generated-9",
+    "score" : 962,
+    "solution" : "672954831451832679398167425235789146967415283814623597129578364786341952543296718",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "001005690007436080000000000049700005600040009700009410000000000090678200074300100",
+    "id" : "hard-generated-10",
+    "score" : 1176,
+    "solution" : "431285697927436581586917342349721865618543729752869413263154978195678234874392156",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "100008069030006805000000000001090700490102038007080400000000000802900050710400003",
+    "id" : "hard-generated-11",
+    "score" : 932,
+    "solution" : "125748369934216875678359142381594726496172538257683491563827914842931657719465283",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "860000020030907058000000600000026007980030064700490000007000000420603070090000042",
+    "id" : "hard-generated-12",
+    "score" : 1884,
+    "solution" : "869514723231967458574382619345126897982735164716498235157249386428653971693871542",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "Swordfish",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "504080600190060058000100000080000001067000590200000060000004000730020085009070106",
+    "id" : "hard-generated-13",
+    "score" : 1488,
+    "solution" : "524387619193462758678195342985746231367218594241539867812654973736921485459873126",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000603800007000600800079001700010200000405000004090006100940007008000400002307000",
+    "id" : "hard-generated-14",
+    "score" : 1116,
+    "solution" : "419653872237184695856279341795816234621435789384792156163948527978521463542367918",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000000053000000201000705090200970040084000720010054008020803000901000000850000000",
+    "id" : "hard-generated-15",
+    "score" : 2588,
+    "solution" : "678129453395486271142735896263978145584361729719254368426893517931547682857612934",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "Swordfish"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "580094000000000000903600000057000040301408902040000610000006704000000000000730056",
+    "id" : "hard-generated-16",
+    "score" : 1320,
+    "solution" : "586294137724813569913675428257169843361458972849327615132586794675942381498731256",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "068000479040000000103900000000809703000060000802304000000008901000000060687000320",
+    "id" : "hard-generated-17",
+    "score" : 2248,
+    "solution" : "568132479749586132123947658456829713391765284872314596235678941914253867687491325",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000500800900000432071400650402005000000060000000300105028006940714000006009001000",
+    "id" : "hard-generated-18",
+    "score" : 768,
+    "solution" : "643529817985617432271483659432195768157268394896374125328756941714932586569841273",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000003080480209053309000007004300200000010000003004800500000308230805019040900000",
+    "id" : "hard-generated-19",
+    "score" : 2190,
+    "solution" : "172453986486279153359186427814397265925618734763524891591762348237845619648931572",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "870000004002003017500402000080706900000000000004301080000205009620900100300000075",
+    "id" : "hard-generated-20",
+    "score" : 2862,
+    "solution" : "876159324942863517531472698183746952769528431254391786417235869625987143398614275",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "008001060000368970030000400004790050000050000080014700001000080043986000090100300",
+    "id" : "expert-generated-9",
+    "score" : 4216,
+    "solution" : "978541263412368975635279418124793856367852194589614732251437689743986521896125347",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "006507900028000760000600000109700005000010000800005409000003000054000820002804300",
+    "id" : "expert-generated-10",
+    "score" : 1752,
+    "solution" : "416537982528941763793682154149768235235419678867325419981273546354196827672854391",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "408060970107040000000800000004070302800090005609010400000009000000080709085020604",
+    "id" : "expert-generated-11",
+    "score" : 3966,
+    "solution" : "458162973127943856396857241514678392872394165639215487761439528243586719985721634",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "900000001600002040020409003200900010010050090060001007300807020070200005100000004",
+    "id" : "expert-generated-12",
+    "score" : 6510,
+    "solution" : "948735261637182549521469873253974618714658392869321457395847126476213985182596734",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "Simple Colors",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "007008600003000090406700083070801300000000000008503070890007106050000400001400800",
+    "id" : "expert-generated-13",
+    "score" : 1240,
+    "solution" : "927358641583614792416792583279841365345976218168523974894237156652189437731465829",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "760081000000000000100200840020300906800000005603002010071004008000000000000150029",
+    "id" : "expert-generated-14",
+    "score" : 6388,
+    "solution" : "762481593948573162135269847427315986819746235653892714271934658594628371386157429",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Simple Colors",
+      "Unique Rectangle Type 1",
+      "X-Wing",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "010603008800001460002000300240006000000030000000200081004000700093100006600308090",
+    "id" : "expert-generated-15",
+    "score" : 1830,
+    "solution" : "415693278839721465762485319248516937951837642376249581184962753593174826627358194",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000507300002109405000000809200050000400308006000040003104000000903405600007902000",
+    "id" : "expert-generated-16",
+    "score" : 2452,
+    "solution" : "649587321782139465315624879236751948471398256598246713164873592923415687857962134",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000004002015000006943900600500052901430001005008528400000410700800000000000",
+    "id" : "expert-generated-17",
+    "score" : 2492,
+    "solution" : "139547286864392715275816943987634521652981437341275698528463179413759862796128354",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "004003000007100800090482000010030050075040190060020080000274060003006900000300500",
+    "id" : "expert-generated-18",
+    "score" : 2928,
+    "solution" : "684793215237165849591482637812937456375648192469521783958274361123856974746319528",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "401900700090700060003600840009506000000080000000104500074001900080002070002007406",
+    "id" : "expert-generated-19",
+    "score" : 1636,
+    "solution" : "461928753598743162723615849849536217157289634236174598374861925685492371912357486",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "006902000200500600050301029094000060000030000030000150940703010001005002000608400",
+    "id" : "expert-generated-20",
+    "score" : 5936,
+    "solution" : "316972584279584631458361729194857263582136947637249158945723816861495372723618495",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Naked triple",
+      "Skyscraper",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "460200070000043816000000000045002008070000050800500460000000000189760000050009041",
+    "id" : "impossible-generated-9",
+    "score" : 2198,
+    "solution" : "468251379527943816913876524345612798276498153891537462634125987189764235752389641",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000004020000008605000120900075000003602090108300000470004089000103400000080700000",
+    "id" : "impossible-generated-10",
+    "score" : 7182,
+    "solution" : "896534721421978635537126984975841263642397158318265479754689312163452897289713546",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "200000000089005000074800320003020570060409030092070400021004750000100980000000001",
+    "id" : "impossible-generated-11",
+    "score" : 8606,
+    "solution" : "256713894389245617174896325413628579867459132592371468621984753745132986938567241",
+    "techniques" : [
+      "2-String Kite",
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000605082000023910000000000160002340080040090034100025000000000023460000450709000",
+    "id" : "impossible-generated-12",
+    "score" : 4622,
+    "solution" : "349615782576823914812974536167592348285346197934187625691258473723461859458739261",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Simple Colors",
+      "Skyscraper",
+      "Unique Rectangle Type 1",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000200709010800462000000000000300090230948015040001000000000000791002080508003000",
+    "id" : "impossible-generated-13",
+    "score" : 6262,
+    "solution" : "856214739913857462472639851185376294237948615649521378364185927791462583528793146",
+    "techniques" : [
+      "Finned Swordfish",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "590004007000000000001250000208061030006439200050870104000015400000000000600900013",
+    "id" : "impossible-generated-14",
+    "score" : 1800,
+    "solution" : "593184627482796351761253948248561739176439285359872164837615492914328576625947813",
+    "techniques" : [
+      "Full house",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Swordfish",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "700000000809075000105304700000008900206030401007100000003402109000760205000000004",
+    "id" : "impossible-generated-15",
+    "score" : 1478,
+    "solution" : "732619548849275316165384792314528967286937451957146823673452189498761235521893674",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000600012000100709007000650406005020000000000010900305081000400702009000950006000",
+    "id" : "impossible-generated-16",
+    "score" : 6252,
+    "solution" : "539647812864152739127398654496735128375281946218964375681523497742819563953476281",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "Unique Rectangle Type 1",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "085004030000006000006020100020001800063875410001300050008030900000100000070200340",
+    "id" : "impossible-generated-17",
+    "score" : 7576,
+    "solution" : "285914637314786295796523184527491863963875412841362759458637921632149578179258346",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000006072960000014700100000100350009090601020600082003000003001450000036310700000",
+    "id" : "impossible-generated-18",
+    "score" : 15614,
+    "solution" : "831496572965278314742135698128357469593641827674982153289563741457819236316724985",
+    "techniques" : [
+      "2-String Kite",
+      "Finned Swordfish",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Swordfish",
+      "X-Wing",
+      "XY-Chain",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "010938000009040080036000000070120500000703000003054020000000470080060300000397050",
+    "id" : "impossible-generated-19",
+    "score" : 2308,
+    "solution" : "514938267729546183836271945678129534452783691193654728365812479987465312241397856",
+    "techniques" : [
+      "BUG+1",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000200030069800069004300000008000085103720000600000001300570003790010002000000",
+    "id" : "impossible-generated-20",
+    "score" : 2224,
+    "solution" : "148537269537269841269814357716928435985143726324675198491386572853792614672451983",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "512978000040060000706053000270080630030604070081030042000840107000090080000712396",
+    "id" : "easy-generated-21",
+    "score" : 260,
+    "solution" : "512978463843261759796453218274189635935624871681537942369845127127396584458712396",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "180050036460083009020009010290038000310264057000910028040800090900420081870090042",
+    "id" : "easy-generated-22",
+    "score" : 236,
+    "solution" : "189752436465183279723649815297538164318264957654917328542871693936425781871396542",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "610800093070009000500374086060198000480020017000467020730981004000700050140005079",
+    "id" : "easy-generated-23",
+    "score" : 252,
+    "solution" : "614852793873619542592374186267198435489523617351467928735981264928746351146235879",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "009007361000000000002168047518490703070815090406032185720981400000000000931600800",
+    "id" : "easy-generated-24",
+    "score" : 236,
+    "solution" : "849527361167349258352168947518496723273815694496732185725981436684273519931654872",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "703600900002478105500023600105030000008291500000060802006740008409386200007002409",
+    "id" : "easy-generated-25",
+    "score" : 252,
+    "solution" : "783615924962478135541923687125834796678291543394567812216749358459386271837152469",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "075384100000957020003160050041000860002401900059000240020043500030719000007526310",
+    "id" : "easy-generated-26",
+    "score" : 244,
+    "solution" : "275384196618957423493162758341295867862471935759638241126843579534719682987526314",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "230960857197085640000000000640000189003594700972000034000000000021850376368042015",
+    "id" : "easy-generated-27",
+    "score" : 220,
+    "solution" : "234961857197285643586473291645327189813594762972618534759136428421859376368742915",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "060713520020069840009008030070906350000040000046105090050800400087350060034671080",
+    "id" : "easy-generated-28",
+    "score" : 252,
+    "solution" : "468713529723569841519428736172986354395247618846135297651892473987354162234671985",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "706003580103800402020500306004002815000060000872400900409005030207009108085100609",
+    "id" : "easy-generated-29",
+    "score" : 252,
+    "solution" : "746293581153876492928514376694732815531968724872451963419685237267349158385127649",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "700301920000000000039650817290103578010000090687405031968074150000000000073809002",
+    "id" : "easy-generated-30",
+    "score" : 244,
+    "solution" : "756381924821947365439652817294163578315728496687495231968274153142536789573819642",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "000000000305290600010608507021974300534182976007536240802403010006019403000000000",
+    "id" : "easy-generated-31",
+    "score" : 244,
+    "solution" : "468357192375291684219648537621974358534182976987536241892463715756819423143725869",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "000100003317904568600305029820607005000040000900502014480703001739401682500008000",
+    "id" : "easy-generated-32",
+    "score" : 236,
+    "solution" : "295186743317924568648375129824617395153849276976532814482763951739451682561298437",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "290400008070961000400205060800706010720354096040809002060103005000592030300008041",
+    "id" : "easy-generated-33",
+    "score" : 252,
+    "solution" : "296437158578961423413285769839726514721354896645819372967143285184592637352678941",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "120830004894000607000000000970301268401090703382506019000000000507000382200053046",
+    "id" : "easy-generated-34",
+    "score" : 252,
+    "solution" : "126837594894125637753964821975341268461298753382576419639482175547619382218753946",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "692700500743000921050200000070902864000050000239406050000004080825000413004005279",
+    "id" : "easy-generated-35",
+    "score" : 252,
+    "solution" : "692741538743568921158293746571932864486157392239486157917324685825679413364815279",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "100920300934815602000000000305460108009107400408059706000000000706234519001078003",
+    "id" : "easy-generated-36",
+    "score" : 244,
+    "solution" : "157926384934815672862743951375462198629187435418359726243591867786234519591678243",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "000269705000004126000157980004080691507010208861090300086523000943600000205941000",
+    "id" : "easy-generated-37",
+    "score" : 220,
+    "solution" : "418269735759834126632157984324785691597316248861492357186523479943678512275941863",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "010200056268501700750300018002007634000060000396400800640005082007104569120009040",
+    "id" : "easy-generated-38",
+    "score" : 236,
+    "solution" : "913278456268541793754396218582917634471863925396452871649735182837124569125689347",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "639102008285300907040005030408200069000060000370008401060700090703009684800601752",
+    "id" : "easy-generated-39",
+    "score" : 236,
+    "solution" : "639172548285346917147895236458217369921463875376958421562784193713529684894631752",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "049027000012503040038040900060004790070639050023700010007060320050308460000450180",
+    "id" : "easy-generated-40",
+    "score" : 252,
+    "solution" : "649827531712593846538146972865214793174639258923785614487961325251378469396452187",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "183002009079010083000000000065048031032105640810960520000000000650020390300500816",
+    "id" : "easy-generated-41",
+    "score" : 260,
+    "solution" : "183752469579416283246389175765248931932175648814963527498631752651827394327594816",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "100380000006009408900704502408030200305401807001090603602803004807900100000072006",
+    "id" : "easy-generated-42",
+    "score" : 260,
+    "solution" : "124385769756219438983764512498637251365421897271598643612853974837946125549172386",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "002306040370104900096508213060203087000000000130709020987401650003902074040607800",
+    "id" : "easy-generated-43",
+    "score" : 228,
+    "solution" : "812396745375124968496578213569213487724865391138749526987431652653982174241657839",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "904050200307092804801600900600700000709861302000005006002006508506210703003080601",
+    "id" : "easy-generated-44",
+    "score" : 320,
+    "solution" : "964358217357192864821674935615723489749861352238945176172436598586219743493587621",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "003590700040703280019206450005901370000628000021307600034802510078405020002079800",
+    "id" : "easy-generated-45",
+    "score" : 220,
+    "solution" : "283594761546713289719286453865941372397628145421357698934862517178435926652179834",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "005402017027001960093605024562300408000000000809004736370509140051700680940108500",
+    "id" : "easy-generated-46",
+    "score" : 216,
+    "solution" : "685492317427831965193675824562317498734986251819254736378569142251743689946128573",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "380000050607900241420607080748000602000040000105000894070106029962005108010000067",
+    "id" : "easy-generated-47",
+    "score" : 252,
+    "solution" : "389214756657938241421657983748593612296841375135762894573186429962475138814329567",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "502804093000000000840500102204098510700602009061430207408003061000000000150906304",
+    "id" : "easy-generated-48",
+    "score" : 260,
+    "solution" : "512874693679321845843569172234798516785612439961435287498253761326147958157986324",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "000000000001597040745306900016700239020409080958001460009605172070813600000000000",
+    "id" : "easy-generated-49",
+    "score" : 260,
+    "solution" : "693184725281597346745326918416758239327469581958231467839645172572813694164972853",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "easy",
+    "givens" : "730008041492001836608400007500809400000060000006105002800007605259300174160200089",
+    "id" : "easy-generated-50",
+    "score" : 236,
+    "solution" : "735698241492571836618432957571829463924763518386145792843917625259386174167254389",
+    "techniques" : [
+      "Full house",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "001380000800009000304750000200068400500040009008520006000092307000400002000035900",
+    "id" : "medium-generated-21",
+    "score" : 496,
+    "solution" : "721384695856219734394756218217968453563147829948523176185692347639471582472835961",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "001300560000001009703000200810900006000000000600005042002000704100200000054003600",
+    "id" : "medium-generated-22",
+    "score" : 1032,
+    "solution" : "491328567528761439763459218815942376249637185637185942382516794176294853954873621",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000300000005004307103090200008709002700642001300108900002070108907800400000006000",
+    "id" : "medium-generated-23",
+    "score" : 634,
+    "solution" : "274361589695284317183597246418739652759642831326158974542973168967815423831426795",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "983600010000004000700800900109000030000010000050000102006007005000400000010005764",
+    "id" : "medium-generated-24",
+    "score" : 604,
+    "solution" : "983652417561794823724831956149276538237518649658349172496127385875463291312985764",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "340001027291703004700000000060800410000000000034002090000000001900306542620100089",
+    "id" : "medium-generated-25",
+    "score" : 532,
+    "solution" : "346581927291763854785249136562897413179435268834612795453928671918376542627154389",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "046002700030008500008050190010000000083000210000000030059060300004900060007200450",
+    "id" : "medium-generated-26",
+    "score" : 498,
+    "solution" : "546192783931678542278354196412536978683749215795821634859467321324915867167283459",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "030050062000000400900023081000007090010000020070300000620410008005000000790080030",
+    "id" : "medium-generated-27",
+    "score" : 904,
+    "solution" : "137854962286971453954623781362147895419568327578392146623419578845736219791285634",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "201074090000200400000000000032096054095040320480350910000000000009001000020730105",
+    "id" : "medium-generated-28",
+    "score" : 572,
+    "solution" : "261574893958263471374918562132896754695147328487352916713425689549681237826739145",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "016800070030501600005003080009000540000030000082000700090200800003108050020007960",
+    "id" : "medium-generated-29",
+    "score" : 1072,
+    "solution" : "216849375938571624745623189169782543457936218382415796591264837673198452824357961",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "020308000060000020500200001300600007490507086700002003100009008070000040000405010",
+    "id" : "medium-generated-30",
+    "score" : 692,
+    "solution" : "921358674863174925547296831385641297492537186716982453154729368679813542238465719",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "864000000000007000300000964000020400041090870003070000937000006000100000000000542",
+    "id" : "medium-generated-31",
+    "score" : 636,
+    "solution" : "864953217129467358375218964786321495241695873593874621937542186452186739618739542",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "103000000029030000000084000035009040008000600060400980000970000000050760000000302",
+    "id" : "medium-generated-32",
+    "score" : 812,
+    "solution" : "183592476429736518576184239235869147948317625761425983612973854394258761857641392",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000000000190007080006930710020000000900861003000000040075016800060300072000000000",
+    "id" : "medium-generated-33",
+    "score" : 1274,
+    "solution" : "734158926192647385856932714623574198947861253518293647275416839461389572389725461",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000100049000060100000045067250001900170090082003700051520680000009010000360009000",
+    "id" : "medium-generated-34",
+    "score" : 716,
+    "solution" : "638172549745968123912345867254831976176594382893726451521683794489217635367459218",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000001000305070004020030781800000530030040010091000008476050020100080406000700000",
+    "id" : "medium-generated-35",
+    "score" : 710,
+    "solution" : "768491352315872964924635781842916537637548219591327648476159823159283476283764195",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "003604800470009006601000000024000601000010000106000270000000302300700048009402700",
+    "id" : "medium-generated-36",
+    "score" : 540,
+    "solution" : "293654817478129536651387924524973681987216453136548279745861392362795148819432765",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "809100000000028400005649800000490008108000204600081000001932500002710000000004302",
+    "id" : "medium-generated-37",
+    "score" : 516,
+    "solution" : "849173625716528439235649871523497168178356294694281753461932587382715946957864312",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "900007000076509000200000609010700500000050000004008020409000003000305710000400006",
+    "id" : "medium-generated-38",
+    "score" : 1042,
+    "solution" : "983627145176549832245831679312764598897253461564918327459176283628395714731482956",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "900010035000085020000200080200039006150000073300150009090008000060340000430090008",
+    "id" : "medium-generated-39",
+    "score" : 632,
+    "solution" : "928714635613985427745263981274839156159426873386157249592678314867341592431592768",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "008340200000000000000005843000050126604107905815020000587900000000000000009018600",
+    "id" : "medium-generated-40",
+    "score" : 1216,
+    "solution" : "958346271342781569176295843793854126624137985815629734587963412461572398239418657",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000006038100500060000340019030800097000000000490007050980063000020005001650400000",
+    "id" : "medium-generated-41",
+    "score" : 664,
+    "solution" : "249716538173598264865342719536824197718659342492137856981263475324975681657481923",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000000000028300009500018400457080900030429050009050148004230007600007230000000000",
+    "id" : "medium-generated-42",
+    "score" : 586,
+    "solution" : "146972385728345619593618472457186923831429756269753148984231567615897234372564891",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "000089000708506000016000000087000003130000058400000720000000240000105907000640000",
+    "id" : "medium-generated-43",
+    "score" : 456,
+    "solution" : "354289176728516394916473582287954613139762458465831729671398245843125967592647831",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "700004001300900000060001500008005702000060000502300400005100060000009008100700004",
+    "id" : "medium-generated-44",
+    "score" : 780,
+    "solution" : "789534621351926847264871539638415792947268315512397486875142963423659178196783254",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "030054006000000800890600002000523000280000041000148000300005097006000000400970030",
+    "id" : "medium-generated-45",
+    "score" : 744,
+    "solution" : "132854976567239814894617352641523789283796541759148263328465197976381425415972638",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "700006089500902000090040060000800004050070010400001000060010040000603005310500007",
+    "id" : "medium-generated-46",
+    "score" : 624,
+    "solution" : "734156289586932471291748563129865734653479812478321956965217348847693125312584697",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "500638000060092000090507000600000079239060814870000002000903080000280090000451007",
+    "id" : "medium-generated-47",
+    "score" : 512,
+    "solution" : "527638941468192753391547628615824379239765814874319562152973486743286195986451237",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "200006094089300000100005300308002900000000000004600805007100009000008740460200003",
+    "id" : "medium-generated-48",
+    "score" : 532,
+    "solution" : "273816594589374216146925378318452967652789431794631825827143659931568742465297183",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "002058690081060000000000000800005170700040002025700009000000000000090760063270800",
+    "id" : "medium-generated-49",
+    "score" : 858,
+    "solution" : "432158697581967234679432518894325176716849352325716489157684923248593761963271845",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "medium",
+    "givens" : "020890103480051002000000000000900057750060018830005000000000000300280074207039080",
+    "id" : "medium-generated-50",
+    "score" : 676,
+    "solution" : "526897143483651792971423865162948357759362418834715629698574231315286974247139586",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "500070300100005209300042000000004800803000904009600000000920008608400007001050002",
+    "id" : "hard-generated-21",
+    "score" : 1048,
+    "solution" : "582179346174365289396842175217594863863217954459683721735926418628431597941758632",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "530007006800041090009000000600085001080000060300420008000000300070910005900500017",
+    "id" : "hard-generated-22",
+    "score" : 1158,
+    "solution" : "534297186867341592219658473642785931785139264391426758156872349478913625923564817",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "008700430007803090300000000169000080000040000040000319000000007010207600073004800",
+    "id" : "hard-generated-23",
+    "score" : 1420,
+    "solution" : "628719435457823196391456278169372584835941762742568319286135947914287653573694821",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "030540001700900030090003048000004002040000010100300000320400090080009004400076050",
+    "id" : "hard-generated-24",
+    "score" : 1838,
+    "solution" : "638542971754981236291763548975814362843625719162397485326458197587139624419276853",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "028053000000000000657900000000610002210030049700024000000007514000000000000540970",
+    "id" : "hard-generated-25",
+    "score" : 3682,
+    "solution" : "128453697439276185657981423843619752216735849795824361982367514574198236361542978",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000310800347890010000000000790060004100000006800020039000000000060058321008036000",
+    "id" : "hard-generated-26",
+    "score" : 896,
+    "solution" : "625314897347895612981672453792163584134589276856427139573241968469758321218936745",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000600004300400207604370500200100700000090000006003005007036108805004006100007000",
+    "id" : "hard-generated-27",
+    "score" : 2380,
+    "solution" : "572681934381459267694372581259168743438795612716243895947536128825914376163827459",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "010500024345800900200000005000200060000010000090005000800000002001009458950003070",
+    "id" : "hard-generated-28",
+    "score" : 3138,
+    "solution" : "619537824345862917287194635173248569528916743496375281864751392731629458952483176",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "201004009800005140400300020010403000000000000000102080040001007057600002100700806",
+    "id" : "hard-generated-29",
+    "score" : 968,
+    "solution" : "231864579876295143495317628712483965584976231369152784648521397957638412123749856",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "053004070000000000800935200085000091006080700490000830001672009000000000060300150",
+    "id" : "hard-generated-30",
+    "score" : 1616,
+    "solution" : "653124978129867543847935216785243691316589724492716835531672489978451362264398157",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "006097104200040839000000000003000090420000085050000300000000000569080003802930500",
+    "id" : "hard-generated-31",
+    "score" : 1574,
+    "solution" : "386297154275146839194853726613578492427319685958462371731625948569784213842931567",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "002008006800200400300140008000017904000000000603450000100082009005001003900700200",
+    "id" : "hard-generated-32",
+    "score" : 1334,
+    "solution" : "542978316817263495369145728258317964491826537673459182134582679725691843986734251",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "009008000730600000600400502810000340000000000065000018203009004000004037000700200",
+    "id" : "hard-generated-33",
+    "score" : 1196,
+    "solution" : "529178463734625189681493572812967345347581926965342718273819654196254837458736291",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "010073080374800600000000000590000300400030009006000045000000000009001476020740030",
+    "id" : "hard-generated-34",
+    "score" : 1388,
+    "solution" : "915673284374852691268419753592184367487536129136297845743968512859321476621745938",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000000000004006009103904008050400086800000002640001070300209704500800200000000000",
+    "id" : "hard-generated-35",
+    "score" : 2644,
+    "solution" : "965128437284736519173954628751492386839675142642381975318269754597843261426517893",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000000000058701000602080390705000040104050203020000701076010508000506930000000000",
+    "id" : "hard-generated-36",
+    "score" : 800,
+    "solution" : "947263815358791462612485397735128649164957283829634751476319528281576934593842176",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "108070005050000000002095100809410000300000008000089701007160500000000040600050807",
+    "id" : "hard-generated-37",
+    "score" : 2020,
+    "solution" : "148372965956841372732695184879413256315726498264589731497168523581237649623954817",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "002060000060983000070005300006070250090000080018020600004600090000451020000090400",
+    "id" : "hard-generated-38",
+    "score" : 988,
+    "solution" : "532764918461983572879215364346178259295346187718529643124637895983451726657892431",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "420003000301200407050008000200005040000040000080300009000500030509006208000900076",
+    "id" : "hard-generated-39",
+    "score" : 1200,
+    "solution" : "428173695361259487957468123273695841195847362684321759716582934549736218832914576",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "060203070000000400000040056190730080500090007070084029830010000005000000020508010",
+    "id" : "hard-generated-40",
+    "score" : 1852,
+    "solution" : "469253871753861492281947356192735684548692137376184529837419265915326748624578913",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "300750800000000000205006403008403210000000000031205900104500709000000000009061002",
+    "id" : "hard-generated-41",
+    "score" : 2334,
+    "solution" : "346759821817324695295186473568493217972618534431275986184532769623947158759861342",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000000010040780000790064008800340000400807002000029001600170084000096070070000000",
+    "id" : "hard-generated-42",
+    "score" : 1632,
+    "solution" : "586932417243781659791564328812345796469817532357629841625173984138496275974258163",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "098600000603870420000000000400750000709080105000093004000000000061047302000002640",
+    "id" : "hard-generated-43",
+    "score" : 1116,
+    "solution" : "298614573613875429574329816436751298729486135185293764342168957961547382857932641",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000104060020080005300900080410500000500809003000007049090008007800050090050401000",
+    "id" : "hard-generated-44",
+    "score" : 3508,
+    "solution" : "985174362724386915361925784419532876576849123238617549193268457842753691657491238",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "208509000000070620000000000003980401000701000107023800000000000069050000000408709",
+    "id" : "hard-generated-45",
+    "score" : 1528,
+    "solution" : "238569147591874623476132958623985471985741236147623895714396582869257314352418769",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "100005008040108000070020010050419002000000000200863050010040030000306040900200005",
+    "id" : "hard-generated-46",
+    "score" : 2028,
+    "solution" : "163975428542138967879624513356419782481752396297863154618547239725396841934281675",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Swordfish",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "150003600000000000002800004019480070000102000070036520900001700000000000001200093",
+    "id" : "hard-generated-47",
+    "score" : 1076,
+    "solution" : "154723689896514237732869154219485376563172948478936521985341762327698415641257893",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "000000000697005000050600100070108300401070209002904080006009020000200946000000000",
+    "id" : "hard-generated-48",
+    "score" : 1106,
+    "solution" : "813742695697815432254693178579128364481376259362954781146539827735281946928467513",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "082710000009824000000000001020030400007000900003090080700000000000279500000068130",
+    "id" : "hard-generated-49",
+    "score" : 928,
+    "solution" : "582716349319824675476953821928137456657482913143695782765341298831279564294568137",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "hard",
+    "givens" : "020500894090008016000000000080160270000000000039085040000000000810300050542009030",
+    "id" : "hard-generated-50",
+    "score" : 1198,
+    "solution" : "127536894394728516658914723485163279261497385739285641973851462816342957542679138",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000005000209060000510000067100030052020070090790010004340000075000040201000900000",
+    "id" : "expert-generated-21",
+    "score" : 2056,
+    "solution" : "637185429289764513514293867168439752423576198795812634341628975956347281872951346",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "004002983009105207000000000600500090020010050030006008000000000102308400893400500",
+    "id" : "expert-generated-22",
+    "score" : 4872,
+    "solution" : "514672983389145267267839145671584392928713654435926718746251839152398476893467521",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "006504037005730080000000000069000800704903106003000940000000000090057300530102400",
+    "id" : "expert-generated-23",
+    "score" : 2508,
+    "solution" : "986514237245739681371826594169245873754983126823671945412368759698457312537192468",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000005100600803005300001004008096000007000300000150200800500006700609003003200000",
+    "id" : "expert-generated-24",
+    "score" : 2412,
+    "solution" : "489765132612843975375921684248396517157482369936157248891534726724619853563278491",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000610000207030690014203070051000000000940050803890032070304000089000000000",
+    "id" : "expert-generated-25",
+    "score" : 2404,
+    "solution" : "459217368618543297732698514263874951185329746947156823891432675324765189576981432",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Unique Rectangle Type 1",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "500906010720000080901008040002100009000040000400002500080400106070000094090805007",
+    "id" : "expert-generated-26",
+    "score" : 2782,
+    "solution" : "548926713726314985931758642352187469869543271417692538283479156675231894194865327",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "002010076471030020000000000028003004005608700900700850000000000060020547590060200",
+    "id" : "expert-generated-27",
+    "score" : 3042,
+    "solution" : "382519476471836925659274183728153694145698732936742851217485369863921547594367218",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "Swordfish",
+      "W-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "008009004610000000039702081050100209000000000302007010560908470000000096900400100",
+    "id" : "expert-generated-28",
+    "score" : 2166,
+    "solution" : "278519634615384927439762581857143269196825743342697815561938472784251396923476158",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000306140000004700090603024001800307005900860304080003100000016809000000000",
+    "id" : "expert-generated-29",
+    "score" : 2616,
+    "solution" : "728659413396148527514732698673524981841397265952861374285973146437216859169485732",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "030002060890000040700509000370900050400000009020001037000305002040000013050100090",
+    "id" : "expert-generated-30",
+    "score" : 2406,
+    "solution" : "531472968892613745764589321378924156415736289926851437189345672647298513253167894",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "400500270130607500000800006500006001000080000600300002800003000001408067063009005",
+    "id" : "expert-generated-31",
+    "score" : 3820,
+    "solution" : "486591273139627548275834916542976831397182654618345792854763129921458367763219485",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "080052064630001029000000010800020030000807000060010002070000000320400086410260070",
+    "id" : "expert-generated-32",
+    "score" : 5080,
+    "solution" : "187952364634781529295346718851629437942837651763514892576198243329475186418263975",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "Swordfish",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000806000720004026100200507300090213060001409007007130600089000502000000000",
+    "id" : "expert-generated-33",
+    "score" : 1584,
+    "solution" : "312758946856941723974326185248567319795213864631489257427135698189674532563892471",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "590040700000000000047508090750080300000152000002060045010306280000000000008020013",
+    "id" : "expert-generated-34",
+    "score" : 3250,
+    "solution" : "596241738823679451147538692751984326364152879982763145415396287239817564678425913",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "290003041380000005070020000050008000010907030000200010000040050100000027920300068",
+    "id" : "expert-generated-35",
+    "score" : 1314,
+    "solution" : "296583741384671295571429683652138974418967532739254816863742159145896327927315468",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "500003010071002050020000007057201800000050000002908170300000040010300280060700001",
+    "id" : "expert-generated-36",
+    "score" : 3226,
+    "solution" : "546873912971642358823519467657231894198457623432968175385126749714395286269784531",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000480001073021030480800009067000502000270300009048020690390100042000000000",
+    "id" : "expert-generated-37",
+    "score" : 3674,
+    "solution" : "937845126485261973621937485853419267169572834274386519548723691396158742712694358",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "Swordfish",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000002060409300001053800050062000090541030000390020007910400003206010900000000",
+    "id" : "expert-generated-38",
+    "score" : 5662,
+    "solution" : "539187642768429351241653879354762198892541736176398524627915483483276915915834267",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Simple Colors",
+      "Skyscraper",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "006200300300007000908065004000000009007903200600000000400150703000800002003006800",
+    "id" : "expert-generated-39",
+    "score" : 9314,
+    "solution" : "146298375325417698978365124234671589857943216619582437482159763761834952593726841",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Simple Colors",
+      "W-Wing",
+      "X-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000001648073006250080003000016700010002210000900090067400380194600000000000",
+    "id" : "expert-generated-40",
+    "score" : 3008,
+    "solution" : "835971264921648573476253189543729816769815342218436957192567438387194625654382791",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000020064500900087006400730805200000060000006903087009400810008009670070000000",
+    "id" : "expert-generated-41",
+    "score" : 2922,
+    "solution" : "953184726164572938287396451731845269892761543546923187629437815318259674475618392",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing",
+      "X-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "030050010000940056200007080300700040000000000080005001010400007750012000040070030",
+    "id" : "expert-generated-42",
+    "score" : 2002,
+    "solution" : "634258719178943256295167483329781645561394872487625391816439527753812964942576138",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000800070350092020010037000080005500926003400030000830060070790043010004000000",
+    "id" : "expert-generated-43",
+    "score" : 3070,
+    "solution" : "346792851178354692925618437213487965587926143469135728831569274792843516654271389",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Unique Rectangle Type 1",
+      "W-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000004206800002080079048500906920000058603009740470050300009304500000000000",
+    "id" : "expert-generated-44",
+    "score" : 1078,
+    "solution" : "581497263794236815362185479148572936927643158653819742476958321219364587835721694",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Naked single",
+      "W-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000840710040050900032700000060004580008000400094200070000008690003090050089027000",
+    "id" : "expert-generated-45",
+    "score" : 1032,
+    "solution" : "956842713847153926132769845361974582728315469594286371215438697473691258689527134",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "Unique Rectangle Type 1"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "309600102000000000207490600600300009002000500700001004001029305000000000908006701",
+    "id" : "expert-generated-46",
+    "score" : 1900,
+    "solution" : "349685172856172493217493658684357219132948567795261834461729385573814926928536741",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "W-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "067009800105048609000000000030000406009000300406000010000000000508760102003400960",
+    "id" : "expert-generated-47",
+    "score" : 3076,
+    "solution" : "367159824125348679984276531732815496819624357456937218641592783598763142273481965",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "900705000507002308000080004000000905000608000201000000700010000605200103000906002",
+    "id" : "expert-generated-48",
+    "score" : 3848,
+    "solution" : "983745621547162398162389754876421935459638217231597846724813569695274183318956472",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000604000004090130008050000000017590002000800089240000000070300017080600000405000",
+    "id" : "expert-generated-49",
+    "score" : 1978,
+    "solution" : "731624985254798136968153427346817592172539864589246713625971348417382659893465271",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing"
+    ]
+  },
+  {
+    "difficulty" : "expert",
+    "givens" : "000000000000160087150078000501600020400020001070003904000850092830046000000000000",
+    "id" : "expert-generated-50",
+    "score" : 2130,
+    "solution" : "784392516329165487156478239591684723463729851278513964647851392832946175915237648",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "003706082000000000100405970004007001700201009200300700032608004000000000410902600",
+    "id" : "impossible-generated-21",
+    "score" : 4014,
+    "solution" : "943716582675829413128435976394567821756281349281394765532678194869143257417952638",
+    "techniques" : [
+      "2-String Kite",
+      "Finned Swordfish",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "Skyscraper",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "009001820020740930600000000000006040006984700070100000000000003063052070082400600",
+    "id" : "impossible-generated-22",
+    "score" : 4036,
+    "solution" : "739561824521748936648293517295376148316984752874125369457619283963852471182437695",
+    "techniques" : [
+      "Finned Swordfish",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Chain",
+      "XY-Wing",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "060450000000000000059810200104000002038205790700000408001096520000000000000024010",
+    "id" : "impossible-generated-23",
+    "score" : 3286,
+    "solution" : "263459187817362945459817236194678352638245791725931468381796524542183679976524813",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "Swordfish",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "096047085000159000000000000008000047207608501910000600000000000000324000730980450",
+    "id" : "impossible-generated-24",
+    "score" : 2418,
+    "solution" : "196247385823159764574836192368512947247698531915473628489765213651324879732981456",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "780906104000700000050000027900400581000000000531002009460000010000008000207105048",
+    "id" : "impossible-generated-25",
+    "score" : 5690,
+    "solution" : "783926154129754836654381927972463581846519273531872469468297315315648792297135648",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Swordfish",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "005679400604000005200030001403050900000000000001020308900080004100000503007541800",
+    "id" : "impossible-generated-26",
+    "score" : 4352,
+    "solution" : "815679432634812795279435681483157926592368147761924358956783214148296573327541869",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "400305600002004000600809004000000358000000000938000000300508001000600900006401007",
+    "id" : "impossible-generated-27",
+    "score" : 4158,
+    "solution" : "487315629592764813613829574261947358745283196938156742329578461174632985856491237",
+    "techniques" : [
+      "2-String Kite",
+      "AIC",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Simple Colors",
+      "X-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "700090010420170083008000000200703008080000070300405009000000700940017026070040001",
+    "id" : "impossible-generated-28",
+    "score" : 3178,
+    "solution" : "736598412425176983198234657259763148684921375317485269861352794943817526572649831",
+    "techniques" : [
+      "2-String Kite",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000009000032080905609070800107000000800050001000000504001040709908060350000200000",
+    "id" : "impossible-generated-29",
+    "score" : 5836,
+    "solution" : "485329167732186945619475823157634298824957631396812574261543789948761352573298416",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "003019800000050204000000030000080105800205006405060000060000000107090000009320600",
+    "id" : "impossible-generated-30",
+    "score" : 4526,
+    "solution" : "253419867798653214614872539936784125871235496425961783362147958187596342549328671",
+    "techniques" : [
+      "2-String Kite",
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "500000000000800360061300950080603000007080500000502010049008130028009000000000009",
+    "id" : "impossible-generated-31",
+    "score" : 2488,
+    "solution" : "532196478974825361861347952285613794317984526496572813649258137128739645753461289",
+    "techniques" : [
+      "2-String Kite",
+      "AIC",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000000506923000079104002001840100020006098600300301750000685902000000000000",
+    "id" : "impossible-generated-32",
+    "score" : 2708,
+    "solution" : "259413768417586923836279154562391847143827596798645312321754689685932471974168235",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "004150380000000000003028500149000070600070003070000458001230800000000000035094200",
+    "id" : "impossible-generated-33",
+    "score" : 5744,
+    "solution" : "724156389586349721913728546149583672658472193372961458491237865267815934835694217",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing",
+      "X-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000180905060409002001060090702000000000805010090700100804090607013000000000",
+    "id" : "impossible-generated-34",
+    "score" : 7282,
+    "solution" : "627831945183945267459762381361498752942576138875213496736159824294687513518324679",
+    "techniques" : [
+      "2-String Kite",
+      "Finned Swordfish",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "Unique Rectangle Type 1",
+      "W-Wing",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "400807912700201006000006005603000080000000000090000603200900000300102008954308007",
+    "id" : "impossible-generated-35",
+    "score" : 1746,
+    "solution" : "436857912785291436129436875643529781571683249892714653218975364367142598954368127",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "080000000250649078000000025010753009000000000600892010560000000470268051000000080",
+    "id" : "impossible-generated-36",
+    "score" : 3426,
+    "solution" : "387125694251649378946387125812753469795416832634892517568971243473268951129534786",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Naked triple",
+      "X-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000708536000230017009402600090600000008070002106900780035000269801000000000",
+    "id" : "impossible-generated-37",
+    "score" : 5232,
+    "solution" : "146928357798536412235417689482671593619345728573892146961784235354269871827153964",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "Simple Colors",
+      "Unique Rectangle Type 1",
+      "W-Wing",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000006800028900037900700002000604073000030000540207000200003009370002560005800000",
+    "id" : "impossible-generated-38",
+    "score" : 4528,
+    "solution" : "457326891128945637936781452891654273762138945543297186284563719379412568615879324",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000017030000000000057000204400728090008436700060195008903000450000000000020960000",
+    "id" : "impossible-generated-39",
+    "score" : 3888,
+    "solution" : "246517839189243567357689214431728695598436721762195348913872456674351982825964173",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "Skyscraper",
+      "W-Wing",
+      "XY-Chain",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "450000860000000000106800052000206049067000320240903000310002506000000000079000018",
+    "id" : "impossible-generated-40",
+    "score" : 2516,
+    "solution" : "452391867798625134136847952583216749967458321241973685314782596825169473679534218",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked single",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "006080000500300000407021000800009400609853702005400009000170305000006004000090200",
+    "id" : "impossible-generated-41",
+    "score" : 2890,
+    "solution" : "236985147591347628487621593823719456649853712715462839962174385158236974374598261",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000900520401080600095790060102400000003203090046130002060609071004000000000",
+    "id" : "impossible-generated-42",
+    "score" : 6270,
+    "solution" : "542189637976523481381647295798364152465218973213795846134952768659871324827436519",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Skyscraper",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "800509070000000400360004085000010004670000013200090000410900067006000000030605002",
+    "id" : "impossible-generated-43",
+    "score" : 6530,
+    "solution" : "824569371195837426367124985583712694679458213241396758412983567756241839938675142",
+    "techniques" : [
+      "2-String Kite",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "X-Wing",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "050600100407000080200000504069102000000030000000705940603000009070000306002006010",
+    "id" : "impossible-generated-44",
+    "score" : 4594,
+    "solution" : "958624137417593682236817594369142875745938261821765943683451729174289356592376418",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000090000300607000147203007002400000764000003500800601983000504001000080000000",
+    "id" : "impossible-generated-45",
+    "score" : 4058,
+    "solution" : "375628194142395687896147253957832416218764539463519872621983745534271968789456321",
+    "techniques" : [
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "XY-Chain",
+      "XYZ-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000204093000900080507090026374000000000763410090601070003000350401000000000",
+    "id" : "impossible-generated-46",
+    "score" : 6096,
+    "solution" : "518764239274593186936182547195826374482937615763415892641278953827359461359641728",
+    "techniques" : [
+      "Finned X-Wing",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "Skyscraper",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "000000000000305120020900780060000009091803540300000070074008010086201000000000000",
+    "id" : "impossible-generated-47",
+    "score" : 3354,
+    "solution" : "637182954849375126125946783462517839791863542358429671274698315586231497913754268",
+    "techniques" : [
+      "BUG+1",
+      "Full house",
+      "Hidden pair",
+      "Hidden single",
+      "Hidden triple",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "W-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "040700006000000000670084200024190003009807600700042810005470032000000000300001070",
+    "id" : "impossible-generated-48",
+    "score" : 3094,
+    "solution" : "541729386298613547673584291824196753139857624756342819965478132417235968382961475",
+    "techniques" : [
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "Simple Colors",
+      "X-Chain",
+      "XY-Chain",
+      "XY-Wing"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "002007800089500030403209000940700020000000000020005013000403602050002340004100900",
+    "id" : "impossible-generated-49",
+    "score" : 5240,
+    "solution" : "562317894189546237473289156946731528315824769827695413791453682658972341234168975",
+    "techniques" : [
+      "Finned Swordfish",
+      "Finned X-Wing",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "Naked triple",
+      "Simple Colors",
+      "W-Wing",
+      "X-Wing",
+      "XY-Chain"
+    ]
+  },
+  {
+    "difficulty" : "impossible",
+    "givens" : "030000700050000260020640100003420000010050080000081600002095010085000070006000020",
+    "id" : "impossible-generated-50",
+    "score" : 3408,
+    "solution" : "638512749451739268927648153863427591219356487574981632742895316185263974396174825",
+    "techniques" : [
+      "2-String Kite",
+      "AIC",
+      "Full house",
+      "Hidden single",
+      "Locked candidates",
+      "Naked pair",
+      "Naked single",
+      "W-Wing"
+    ]
   }
 ]

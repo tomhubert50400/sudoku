@@ -216,35 +216,88 @@ final class SudokuGeneratorTests: XCTestCase {
         XCTAssertFalse(SudokuGenerator.isValidSolution(solution, givens: givens))
     }
 
+    func testDifficultyProfileClassifiesTechniqueBands() {
+        let easy = SudokuGenerator.Assessment(score: 0, techniques: ["Full house", "Hidden single"], solved: true)
+        let medium = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "Locked candidates", "Naked pair"], solved: true)
+        let hard = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "Naked triple", "X-Wing"], solved: true)
+        let expert = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "Swordfish", "W-Wing"], solved: true)
+        let impossible = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "X-Chain", "AIC"], solved: true)
+
+        XCTAssertTrue(SudokuGenerator.matchesDifficulty(easy, clueCount: 40, for: .easy))
+        XCTAssertTrue(SudokuGenerator.matchesDifficulty(medium, clueCount: 34, for: .medium))
+        XCTAssertTrue(SudokuGenerator.matchesDifficulty(hard, clueCount: 28, for: .hard))
+        XCTAssertTrue(SudokuGenerator.matchesDifficulty(expert, clueCount: 28, for: .expert))
+        XCTAssertTrue(SudokuGenerator.matchesDifficulty(impossible, clueCount: 28, for: .impossible))
+    }
+
+    func testDifficultyProfileRejectsTooEasyTooHardAndSearch() {
+        let tooEasyForMedium = SudokuGenerator.Assessment(score: 0, techniques: ["Full house", "Hidden single"], solved: true)
+        let tooHardForMedium = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "Naked triple"], solved: true)
+        let impossibleWithoutLevel15 = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "X-Chain", "BUG+1"], solved: true)
+        let search = SudokuGenerator.Assessment(score: 0, techniques: ["Hidden single", "Search"], solved: false)
+
+        XCTAssertFalse(SudokuGenerator.matchesDifficulty(tooEasyForMedium, clueCount: 34, for: .medium))
+        XCTAssertFalse(SudokuGenerator.matchesDifficulty(tooHardForMedium, clueCount: 34, for: .medium))
+        XCTAssertFalse(SudokuGenerator.matchesDifficulty(impossibleWithoutLevel15, clueCount: 28, for: .impossible))
+        XCTAssertFalse(SudokuGenerator.matchesDifficulty(search, clueCount: 28, for: .impossible))
+    }
+
+    func testCanonicalFingerprintMatchesEquivalentTransformedGrid() {
+        let puzzle = SudokuPuzzle(
+            givens: [
+                0,0,0,2,6,0,7,0,1,
+                6,8,0,0,7,0,0,9,0,
+                1,9,0,0,0,4,5,0,0,
+                8,2,0,1,0,0,0,4,0,
+                0,0,4,6,0,2,9,0,0,
+                0,5,0,0,0,3,0,2,8,
+                0,0,9,3,0,0,0,7,4,
+                0,4,0,0,5,0,0,3,6,
+                7,0,3,0,1,8,0,0,0
+            ],
+            solution: Array(repeating: 0, count: 81),
+            difficulty: .easy,
+            score: 0,
+            techniques: []
+        )
+        let transformed = SudokuPuzzle(
+            givens: transformedGridForCanonicalTest(puzzle.givens),
+            solution: Array(repeating: 0, count: 81),
+            difficulty: .easy,
+            score: 0,
+            techniques: []
+        )
+
+        XCTAssertNotEqual(puzzle.fingerprint, transformed.fingerprint)
+        XCTAssertEqual(puzzle.canonicalFingerprint, transformed.canonicalFingerprint)
+        XCTAssertTrue(transformed.isExcluded(by: [puzzle.canonicalFingerprint]))
+    }
+
     func testImpossibleGenerationFallsInsideConfiguredContract() {
         let puzzle = SudokuGenerator.generate(difficulty: .impossible)
         let clues = puzzle.givens.filter { $0 != 0 }.count
-        let advancedTechniques = Set([
-            "Locked candidates",
-            "Naked pair",
-            "Hidden pair",
-            "Naked triple",
-            "Hidden triple",
-            "Naked quadruple",
-            "Hidden quadruple",
-            "X-Wing",
-            "Swordfish",
-            "Skyscraper",
-            "2-String Kite",
-            "XY-Wing",
-            "XYZ-Wing",
-            "W-Wing",
-            "Simple Colors",
-            "XY-Chain",
-            "Jellyfish"
-        ])
+        let assessment = SudokuGenerator.humanSolvingAssessment(for: puzzle.givens)
 
-        XCTAssertTrue(Difficulty.impossible.clueRange.contains(clues))
-        XCTAssertTrue(Difficulty.impossible.scoreRange.contains(puzzle.score))
-        XCTAssertFalse(puzzle.techniques.contains("Search"))
-        XCTAssertFalse(Set(puzzle.techniques).isDisjoint(with: advancedTechniques))
+        XCTAssertTrue(SudokuGenerator.matchesDifficulty(assessment, clueCount: clues, for: .impossible))
         XCTAssertEqual(puzzle.givens.count, 81)
         XCTAssertEqual(puzzle.solution.count, 81)
+    }
+
+    private func transformedGridForCanonicalTest(_ grid: [Int]) -> [Int] {
+        let digitMap = [0, 7, 8, 9, 1, 2, 3, 4, 5, 6]
+        let rowOrder = [6, 8, 7, 3, 5, 4, 0, 2, 1]
+        let colOrder = [3, 5, 4, 6, 8, 7, 0, 2, 1]
+        var result = Array(repeating: 0, count: 81)
+
+        for newRow in 0..<9 {
+            for newCol in 0..<9 {
+                let oldIndex = rowOrder[newRow] * 9 + colOrder[newCol]
+                let value = grid[oldIndex]
+                result[newCol * 9 + newRow] = value == 0 ? 0 : digitMap[value]
+            }
+        }
+
+        return result
     }
 }
 
@@ -254,12 +307,14 @@ final class GameViewModelTests: XCTestCase {
         super.setUp()
         GameStore.shared.clear()
         PlayerStatsStore.shared.clear()
+        PuzzlePoolStore.shared.clear()
         AppSettings.shared.reset()
     }
 
     override func tearDown() {
         GameStore.shared.clear()
         PlayerStatsStore.shared.clear()
+        PuzzlePoolStore.shared.clear()
         super.tearDown()
     }
 
@@ -996,12 +1051,14 @@ final class ResponsiveRenderingTests: XCTestCase {
         super.setUp()
         GameStore.shared.clear()
         PlayerStatsStore.shared.clear()
+        PuzzlePoolStore.shared.clear()
         AppSettings.shared.reset()
     }
 
     override func tearDown() {
         GameStore.shared.clear()
         PlayerStatsStore.shared.clear()
+        PuzzlePoolStore.shared.clear()
         super.tearDown()
     }
 
