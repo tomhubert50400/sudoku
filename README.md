@@ -30,6 +30,7 @@ The app works without an account, stores gameplay data locally, and does not inc
 - Five difficulty levels, from beginner-friendly puzzles to expert grids
 - Progressive hints powered by a local logic engine
 - Notes and fast-pencil input
+- Optional Apple Pencil handwriting input with local digit recognition
 - Mistake tracking and remaining-digit counts
 - Pause mode that hides the board and stops the timer
 - End-of-game summary with time, score, mistakes, and hints used
@@ -45,7 +46,8 @@ The app works without an account, stores gameplay data locally, and does not inc
 | --- | --- |
 | Interface | SwiftUI with adaptive phone and tablet layouts |
 | Game state | Dedicated models and view models for puzzle state, scoring, hints, and statistics |
-| Puzzle engine | Local generation, solving, difficulty analysis, and puzzle-bank validation |
+| Puzzle engine | Local generation, solving, difficulty analysis, and an embedded JavaScriptCore engine |
+| Handwriting | PencilKit input with an on-device Core ML digit classifier |
 | Persistence | On-device storage for active games, notes, timer state, and statistics |
 | Purchases | StoreKit entitlement handling for the optional unlimited-hints unlock |
 | Tests | XCTest coverage for generator, solver, difficulty, hint, scoring, and persistence logic |
@@ -54,15 +56,23 @@ The app works without an account, stores gameplay data locally, and does not inc
 
 ```text
 Sudoku/
-├── Models/          # Grid, game, hint, difficulty, score, and statistics models
-├── Services/        # Puzzle generation, solving, persistence, sound, and purchases
-├── ViewModels/      # Game and board presentation state
-├── Views/           # SwiftUI screens and reusable components
-├── Localization/    # Localized app strings
-└── Assets.xcassets/ # App icon, colors, and visual assets
+├── SudokuApp.swift             # SwiftUI entry point
+├── ContentView.swift           # Main screens and reusable views
+├── GameViewModel.swift         # Game orchestration and observable state
+├── Models.swift                # Grid, difficulty, score, hint, and settings models
+├── GameStore.swift             # Persistence, statistics, and puzzle pool
+├── SudokuGenerator.swift       # Generator and Swift solving techniques
+├── SudokuCoreEngine.swift      # JavaScriptCore bridge
+├── SudokuCoreBundle.js         # Embedded solving engine
+├── PuzzleBank.json             # Built-in puzzle bank
+├── UnlimitedHintsStore.swift   # StoreKit purchase handling
+├── SudokuScribbleOverlay.swift # PencilKit and Core ML handwriting input
+├── *.lproj/                    # Six localizations
+└── Assets.xcassets/            # App icon, colors, and visual assets
 
 SudokuTests/         # Unit tests for the core game logic
 Docs/                # App Store, privacy, support, and review documentation
+Tools/               # Hint-catalog and generator utilities
 ```
 
 ## Requirements
