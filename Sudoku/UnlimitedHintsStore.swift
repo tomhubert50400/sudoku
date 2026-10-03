@@ -134,8 +134,10 @@ final class UnlimitedHintsStore: ObservableObject {
                     continue
                 }
 
+                // Verified updates can also be refunds or Family Sharing revocations.
+                // Re-read current entitlements instead of treating every update as a purchase.
+                await self?.refreshPurchasedStatus()
                 await MainActor.run {
-                    self?.isUnlocked = true
                     self?.lastErrorMessage = nil
                 }
                 await transaction.finish()
